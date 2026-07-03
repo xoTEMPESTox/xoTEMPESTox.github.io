@@ -770,8 +770,15 @@ const Portfolio = () => {
     };
   }, [len]);
 
+  const isFirstRenderRef = useRef(true);
+
   // Update browser hash/history when selectedProject changes
   useEffect(() => {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      return;
+    }
+
     if (selectedProject) {
       if (window.location.hash !== `#${selectedProject.id}`) {
         window.location.hash = selectedProject.id;
