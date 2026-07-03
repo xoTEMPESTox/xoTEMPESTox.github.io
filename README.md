@@ -135,6 +135,7 @@ See [`scripts/linkedin-scraper/README.md`](scripts/linkedin-scraper/README.md) f
     - Web3Galaxy -> `pos: 0.76`
     - Chart Raiders -> `pos: 0.92`
   - [ ] **Investigate Auto-Layout**: Design a dynamic timeline offset algorithm using `getBoundingClientRect()` inside a `scroll` listener to eliminate hardcoded `pos` offsets.
+  - [ ] **Card Size Matching**: Match the height/size of all description cards in the journey timeline to be uniform (same as the largest card, e.g., Liferythm description) so they don't look uneven.
 
 - [ ] **Phase 1: Fullscreen Image Gallery (Bulb View)**
   - [ ] **Data Model Update**: Add optional `images: string[]` to project objects in `rawPortfolioData` inside `portfolio.jsx`.
