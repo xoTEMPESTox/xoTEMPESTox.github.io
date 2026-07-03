@@ -2,63 +2,94 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "./HeaderBackground";
 
 const TimelineCard = ({
+  id,
   item,
   isLeft,
-  progressRatio,
-  effectivePos,
-  effectiveThreshold,
+  isActive,
   borderColor,
+  cardHeight = "auto",
 }) => {
   const cardRef = useRef(null);
   const { theme } = useTheme();
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Use the passed "effectivePos" (which handles mobile vs desktop logic)
-  // Use "effectiveThreshold" to determine how long it stays visible
-  const isActive =
-    progressRatio >= effectivePos &&
-    progressRatio <= effectivePos + effectiveThreshold;
+  // Monitor screen resizing to adapt alignments responsively
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleMouseMove = (e) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     cardRef.current.style.setProperty(
       "--mouse-x",
-      `${e.clientX - rect.left}px`,
+      `${e.clientX - rect.left}px`
     );
-    cardRef.current.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+    cardRef.current.style.setProperty(
+      "--mouse-y",
+      `${e.clientY - rect.top}px`
+    );
   };
 
   return (
     <div
-      className="absolute flex flex-row w-full px-4 md:px-0"
+      data-timeline-id={id}
+      className="relative flex flex-row w-full py-8 px-4 md:px-0 z-20"
       style={{
-        top: `${effectivePos * 100}%`,
-        transform: "translateY(-50%)",
-        justifyContent: "center",
+        justifyContent: isMobile
+          ? isLeft
+            ? "flex-end" // Education: card to right, logo is left
+            : "flex-start" // Experience: card to left, logo is right
+          : "center", // Desktop: card is centered
       }}
     >
+      {/* Circle Node Logo - Centered next to its corresponding card */}
+      <div
+        className={`absolute w-16 h-16 rounded-full border-2 transition-all duration-500 flex items-center justify-center bg-black overflow-hidden z-30
+          ${isLeft ? "left-0 -translate-x-1/2" : "right-0 translate-x-1/2"}
+          top-1/2 -translate-y-1/2
+          ${
+            isActive
+              ? isLeft
+                ? "border-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.5)] scale-110 opacity-100"
+                : "border-purple-400 shadow-[0_0_30px_rgba(168,85,247,0.5)] scale-110 opacity-100"
+              : "border-white/10 opacity-0 scale-50 pointer-events-none"
+          }`}
+      >
+        <img
+          src={item.image}
+          alt="logo"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Card Content */}
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}
         className={`relative p-8 md:p-10 rounded-3xl border-2 transition-all duration-700 ease-out transform backdrop-blur-sm m-0 w-[100%] max-w-[85%] 
-      ${
-        isActive
-          ? "opacity-100 translate-y-0 scale-100"
-          : "opacity-0 translate-y-16 scale-95 pointer-events-none"
-      } 
-      ${
-        theme === "dark"
-          ? `bg-black/90 border-white/5 ${borderColor}`
-          : `bg-white/80 border-slate-200 shadow-xl ${borderColor.replace("white/10", "blue-200")}`
-      }`}
+          ${
+            isActive
+              ? "opacity-100 translate-y-0 scale-100"
+              : "opacity-0 translate-y-16 scale-95 pointer-events-none"
+          } 
+          ${
+            theme === "dark"
+              ? `bg-black/90 border-white/5 ${borderColor}`
+              : `bg-white/80 border-slate-200 shadow-xl ${borderColor.replace("white/10", "blue-200")}`
+          }`}
         style={{
+          height: cardHeight,
           backgroundImage:
             theme === "dark"
               ? `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(59, 130, 246, 0.15), transparent 60%)`
               : `radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(59, 130, 246, 0.28), transparent 60%)`,
         }}
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 text-left">
           <h3
             className={`font-bold text-xl md:text-2xl tracking-tight transition-colors ${
               theme === "dark" ? "text-white" : "text-slate-900"
