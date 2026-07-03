@@ -304,13 +304,13 @@ const DetailView = ({ post, onBack, onGalleryImageClick }) => {
       {/* Back Button */}
       <button
         onClick={onBack}
-        className={`flex items-center space-x-2 mb-8 transition-all duration-200 active:scale-95 group ${theme === "dark"
+        className={`flex items-center space-x-3 mb-8 transition-all duration-200 active:scale-95 group text-lg ${theme === "dark"
           ? "text-slate-400 hover:text-slate-100"
           : "text-slate-600 hover:text-slate-900"
           }`}
       >
-        <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-        <span className="font-medium">Back to Blog</span>
+        <ArrowLeft className="w-6 h-6 transition-transform group-hover:-translate-x-1" />
+        <span className="font-medium">Back to Blogs</span>
       </button>
 
       {/* Hero Section */}
