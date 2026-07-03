@@ -152,11 +152,11 @@ See [`scripts/linkedin-scraper/README.md`](scripts/linkedin-scraper/README.md) f
   - [ ] **Visual Grid**: Add a flex/grid section "Architecture & Screenshots" right below the project description in `src/components/DetailedCard.jsx`.
   - [ ] **Thumbnail Interactivity**: Render thumbnails for all image items in the array (falling back to `image_url`). Clicking a thumbnail triggers `onImageOpen({ ...project, image_url: selectedUrl, activeImageIndex: index })` to launch the fullscreen zoom view directly at that specific image index.
 
-- [ ] **Phase 3: Deep Linking & History Sync**
-  - [ ] **Mount Parsing**: Add check in `portfolio.jsx` `useEffect` on load for search params `?project=id` or hash `#id`. If matched, open detail modal.
-  - [ ] **Carousel Snapping**: Set background `activeIndex` to match the data index of the deep-linked project, ensuring the background aligns behind the modal.
-  - [ ] **History Sync**: Add a window `hashchange` event listener in `portfolio.jsx` to dynamically close or transition detail views on browser back/forward navigation.
-  - [ ] **URL Updates**: Set `window.location.hash = project.id` when details open, and use `window.history.pushState` on close to clean the URL without page jumps.
+- [x] **Phase 3: Deep Linking & History Sync**
+  - [x] **Mount Parsing**: Add check in `portfolio.jsx` `useEffect` on load for search params `?project=id` or hash `#id`. If matched, open detail modal.
+  - [x] **Carousel Snapping**: Set background `activeIndex` to match the data index of the deep-linked project, ensuring the background aligns behind the modal.
+  - [x] **History Sync**: Add a window `hashchange` event listener in `portfolio.jsx` to dynamically close or transition detail views on browser back/forward navigation.
+  - [x] **URL Updates**: Set `window.location.hash = project.id` when details open, and use `window.history.pushState` on close to clean the URL without page jumps.
 
 - [ ] **Phase 4: Load More Project List (Blog-style view)**
   - [ ] **Roadmap Entry**: Add a "Load More" button at the bottom of the projects section.
