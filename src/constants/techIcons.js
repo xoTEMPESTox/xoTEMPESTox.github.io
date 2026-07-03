@@ -50,6 +50,18 @@ export const TECH_ICON_MAP = {
     url: "https://api.iconify.design/logos/numpy.svg",
     color: "4DABCF",
   },
+  OpenCV: {
+    url: "https://api.iconify.design/logos/opencv.svg",
+    color: "5C3EE8",
+  },
+  Gymnasium: {
+    url: "https://api.iconify.design/simple-icons/openaigym.svg?color=%230081A5",
+    color: "0081A5",
+  },
+  TensorBoard: {
+    url: "https://api.iconify.design/logos/tensorflow.svg",
+    color: "FF6F00",
+  },
   OpenAI: {
     url: "https://api.iconify.design/simple-icons/openai.svg?color=%2310A37F",
     color: "10A37F",

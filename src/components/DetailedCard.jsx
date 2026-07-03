@@ -360,7 +360,7 @@ const DetailCard = ({ project, onClose }) => {
             >
               Detailed Case Study
             </h3>
-            <div className="markdown-content">
+            <div className="markdown-content" style={{ paddingTop: '0.75rem', paddingBottom: '0.75rem' }}>
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {project.markdown || project.description}
               </ReactMarkdown>
@@ -465,6 +465,18 @@ const DetailCard = ({ project, onClose }) => {
           line-height: 1.625;
           font-size: 15px;
         }
+        .markdown-content h2 {
+          font-size: 17px;
+          font-weight: 700;
+          margin-top: 2rem;
+          margin-bottom: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          color: ${theme === "dark" ? "#ffffff" : "#18181b"};
+        }
+        .markdown-content h2:first-child {
+          margin-top: 0;
+        }
         .markdown-content h3 {
           font-size: 16px;
           font-weight: 700;
@@ -476,6 +488,11 @@ const DetailCard = ({ project, onClose }) => {
         }
         .markdown-content h3:first-child {
           margin-top: 0;
+        }
+        .markdown-content hr {
+          border: none;
+          border-top: 1px solid ${theme === "dark" ? "#27272a" : "#e4e4e7"};
+          margin: 1.75rem 0;
         }
         .markdown-content p {
           margin-bottom: 1rem;
