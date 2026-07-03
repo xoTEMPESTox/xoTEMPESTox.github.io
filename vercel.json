@@ -1,11 +1,6 @@
 {
   "redirects": [
     {
-      "source": "/portfolio",
-      "destination": "https://priyanshusah.com",
-      "permanent": true
-    },
-    {
       "source": "/resume",
       "destination": "https://drive.google.com/file/d/16Sq1ukM2xMSuhGC4ChWXdOuRnrl9q8yQ/view?usp=drive_link",
       "permanent": true
