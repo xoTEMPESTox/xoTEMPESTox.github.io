@@ -157,3 +157,7 @@ See [`scripts/linkedin-scraper/README.md`](scripts/linkedin-scraper/README.md) f
   - [ ] **Carousel Snapping**: Set background `activeIndex` to match the data index of the deep-linked project, ensuring the background aligns behind the modal.
   - [ ] **History Sync**: Add a window `hashchange` event listener in `portfolio.jsx` to dynamically close or transition detail views on browser back/forward navigation.
   - [ ] **URL Updates**: Set `window.location.hash = project.id` when details open, and use `window.history.pushState` on close to clean the URL without page jumps.
+
+- [ ] **Phase 4: Load More Project List (Blog-style view)**
+  - [ ] **Roadmap Entry**: Add a "Load More" button at the bottom of the projects section.
+  - [ ] **Grid UI**: When clicked, expand to display a list or grid UI of all project cards (including legacy projects) styled similarly to the blogs post card list.
