@@ -282,6 +282,26 @@ const legacyPortfolioData = [
       github_link: "https://github.com/xoTEMPESTox/TCET_ACM_SIGAI_KAGGLE_COMP",
       live_link: "https://www.kaggle.com/competitions/acm-sigai-tcet",
     }
+  },
+  {
+    id: "portfolio-website",
+    title: "Portfolio Website",
+    tagline: "Personal portfolio website built with quality and performance in mind",
+    description: "Personal portfolio website built with React, Vite, and Tailwind CSS. Designed to showcase projects, experience, skills, and interactive components like a 3D portfolio carousel.",
+    image_url: "../assets/images/projects/portfolio-website/main.png",
+    tag: "Frontend & Design",
+    highlights: [
+      "Implemented a custom 3D carousel using CSS 3D transforms",
+      "Optimized assets and load times for high performance and clean SEO scores",
+    ],
+    techStack: [
+      { name: "React", slug: "logos/react", color: "61DAFB", iconColor: "" },
+      { name: "Vite", slug: "logos/vite", color: "646CFF", iconColor: "" },
+    ],
+    links: {
+      github_link: "https://github.com/xoTEMPESTox/Portfolio",
+      live_link: "https://priyanshusah.com",
+    }
   }
 ];
 
