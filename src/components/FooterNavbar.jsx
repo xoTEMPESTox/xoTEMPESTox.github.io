@@ -9,7 +9,7 @@ const navItems = [
   { to: "/journey", label: "Journey", icon: "chart-baricon-" },
   { to: "/skills", label: "Skills", icon: "toolsicon-" },
   { to: "/services", label: "Services", icon: "clipboardicon-" },
-  { to: "/portfolio", label: "Portfolio", icon: "briefcaseicon-" },
+  { to: "/projects", label: "Projects", icon: "briefcaseicon-" },
   { to: "/socials", label: "Socials", icon: "linkicon-" },
 ];
 

@@ -221,7 +221,7 @@ const TopFaceContent = ({ item, toggleLight, onViewDetails }) => {
       </div>
 
       <div
-        className="cursor-glow-portfolio-card pointer-events-none"
+        className="cursor-glow-project-card pointer-events-none"
         style={{
           left: `${glowPosition.x}px`,
           top: `${glowPosition.y}px`,

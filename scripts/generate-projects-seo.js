@@ -7,8 +7,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Paths
 const sitemapPath = resolve(__dirname, "../public/sitemap.xml");
 const blogsDataPath = resolve(__dirname, "../public/data/blog_data.json");
-const portfolioDataPath = resolve(__dirname, "../src/data/portfolioData.json");
-const portfolioOutputDir = resolve(__dirname, "../public/portfolio");
+const portfolioDataPath = resolve(__dirname, "../src/data/projectsData.json");
+const projectsOutputDir = resolve(__dirname, "../public/projects");
 
 // Load Data
 const portfolio = JSON.parse(readFileSync(portfolioDataPath, "utf8"));
@@ -17,10 +17,10 @@ if (existsSync(blogsDataPath)) {
   blogs = JSON.parse(readFileSync(blogsDataPath, "utf8"));
 }
 
-// 1. Generate Static HTML Pages for Portfolio Projects
-console.log("Generating pre-rendered static HTML portfolio deep links...");
+// 1. Generate Static HTML Pages for Projects
+console.log("Generating pre-rendered static HTML project deep links...");
 for (const p of portfolio) {
-  const projectDir = join(portfolioOutputDir, p.id);
+  const projectDir = join(projectsOutputDir, p.id);
   if (!existsSync(projectDir)) {
     mkdirSync(projectDir, { recursive: true });
   }
@@ -35,7 +35,7 @@ for (const p of portfolio) {
     const normalized = rawImg.replace(/^\.\.\//, "/").replace(/^\.\//, "/");
     imageUrl = `https://priyanshusah.com${normalized}`;
   }
-  const url = `https://priyanshusah.com/portfolio/${p.id}`;
+  const url = `https://priyanshusah.com/projects/${p.id}`;
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -61,20 +61,20 @@ for (const p of portfolio) {
 
     <!-- Redirect humans to the interactive SPA portfolio with the hashed route -->
     <script>
-      window.location.replace("/portfolio#" + "${p.id}");
+      window.location.replace("/projects#" + "${p.id}");
     </script>
 </head>
 <body>
     <div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;text-align:center;margin-top:20vh;color:#888;">
         <h2>Redirecting to ${p.title}...</h2>
-        <p>If you are not redirected automatically, <a href="/portfolio#${p.id}">click here</a>.</p>
+        <p>If you are not redirected automatically, <a href="/projects#${p.id}">click here</a>.</p>
     </div>
 </body>
 </html>`;
 
   writeFileSync(join(projectDir, "index.html"), html, "utf8");
 }
-console.log(`  ✓ Pre-rendered ${portfolio.length} portfolio project static pages.`);
+console.log(`  ✓ Pre-rendered ${portfolio.length} project static pages.`);
 
 // 2. Generate Consolidated Sitemap
 console.log("Generating unified sitemap.xml...");
@@ -90,7 +90,7 @@ const staticRoutes = [
   { url: "https://priyanshusah.com/github", priority: "0.2" },
   { url: "https://priyanshusah.com/codolio", priority: "0.2" },
   { url: "https://priyanshusah.com/leetcode", priority: "0.2" },
-  { url: "https://priyanshusah.com/portfolio", priority: "0.8" },
+  { url: "https://priyanshusah.com/projects", priority: "0.8" },
   { url: "https://priyanshusah.com/resume", priority: "0.2" },
   { url: "https://priyanshusah.com/resume-ai", priority: "0.2" },
   { url: "https://priyanshusah.com/resume-global", priority: "0.2" },
@@ -113,11 +113,11 @@ for (const p of blogs) {
   newSitemap += `  <url>\n    <loc>https://priyanshusah.com/socials/${p.slug}</loc>\n    <lastmod>${postDate}</lastmod>\n    <priority>0.8</priority>\n  </url>\n`;
 }
 
-// Add Portfolio Projects (Deep Links)
+// Add Projects (Deep Links)
 for (const p of portfolio) {
-  newSitemap += `  <url>\n    <loc>https://priyanshusah.com/portfolio/${p.id}</loc>\n    <priority>0.8</priority>\n  </url>\n`;
+  newSitemap += `  <url>\n    <loc>https://priyanshusah.com/projects/${p.id}</loc>\n    <priority>0.8</priority>\n  </url>\n`;
 }
 
 newSitemap += `</urlset>`;
 writeFileSync(sitemapPath, newSitemap, "utf8");
-console.log(`  ✓ sitemap.xml updated with static routes, ${blogs.length} blog posts, and ${portfolio.length} portfolio project deep links.`);
+console.log(`  ✓ sitemap.xml updated with static routes, ${blogs.length} blog posts, and ${portfolio.length} project deep links.`);

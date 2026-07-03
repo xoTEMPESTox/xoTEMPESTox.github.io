@@ -528,7 +528,7 @@ section {
   /* Center the glow on the cursor position */
 }
 
-.cursor-glow-portfolio-card {
+.cursor-glow-project-card {
   position: absolute;
   width: 8rem;
   height: 8rem;

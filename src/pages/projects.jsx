@@ -28,10 +28,10 @@ const GAP_WIDTH = 64; // 4rem
 const ITEM_WIDTH = CUBE_WIDTH + GAP_WIDTH;
 const AUTO_SLIDE_DELAY = 2500;
 const SWIPE_THRESHOLD = 50;
-import rawPortfolioData from "../data/portfolioData.json";
-import legacyPortfolioData from "../data/legacyPortfolioData.json";
+import rawPortfolioData from "../data/projectsData.json";
+import legacyPortfolioData from "../data/legacyProjectsData.json";
 
-const Portfolio = () => {
+const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(() => {
     if (typeof window !== "undefined") {
       const hash = window.location.hash.replace("#", "");
@@ -275,7 +275,7 @@ const Portfolio = () => {
               }
           `}
           >
-            Portfolio
+            Projects
           </p>
         </div>
       </header>
@@ -386,4 +386,4 @@ const Portfolio = () => {
   );
 };
 
-export default Portfolio;
+export default Projects;

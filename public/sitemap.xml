@@ -45,7 +45,7 @@
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://priyanshusah.com/portfolio</loc>
+    <loc>https://priyanshusah.com/projects</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -221,35 +221,35 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://priyanshusah.com/portfolio/liferythm-ai-doctor</loc>
+    <loc>https://priyanshusah.com/projects/liferythm-ai-doctor</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://priyanshusah.com/portfolio/pokedreamer-rl</loc>
+    <loc>https://priyanshusah.com/projects/pokedreamer-rl</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://priyanshusah.com/portfolio/tv-plus</loc>
+    <loc>https://priyanshusah.com/projects/tv-plus</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://priyanshusah.com/portfolio/creo-sts-chatbot</loc>
+    <loc>https://priyanshusah.com/projects/creo-sts-chatbot</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://priyanshusah.com/portfolio/navdp-robotics</loc>
+    <loc>https://priyanshusah.com/projects/navdp-robotics</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://priyanshusah.com/portfolio/enerzal</loc>
+    <loc>https://priyanshusah.com/projects/enerzal</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://priyanshusah.com/portfolio/eco-chain</loc>
+    <loc>https://priyanshusah.com/projects/eco-chain</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://priyanshusah.com/portfolio/wakebot32</loc>
+    <loc>https://priyanshusah.com/projects/wakebot32</loc>
     <priority>0.8</priority>
   </url>
 </urlset>

@@ -19,7 +19,7 @@ const safeLazy = (importFunc) => {
 const Home = safeLazy(() => import("./pages/home"));
 const About = safeLazy(() => import("./pages/about"));
 const Journey = safeLazy(() => import("./pages/journey"));
-const Portfolio = safeLazy(() => import("./pages/portfolio"));
+const Projects = safeLazy(() => import("./pages/projects"));
 const Services = safeLazy(() => import("./pages/services"));
 const Skills = safeLazy(() => import("./pages/skills"));
 const Socials = safeLazy(() => import("./pages/socials"));
@@ -43,8 +43,8 @@ const appRouter = createBrowserRouter([
         element: <Journey />,
       },
       {
-        path: "/portfolio",
-        element: <Portfolio />,
+        path: "/projects",
+        element: <Projects />,
       },
       {
         path: "/services",
