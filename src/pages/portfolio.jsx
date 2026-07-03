@@ -34,7 +34,7 @@ const rawPortfolioData = [
     title: "Healthcare AI Platform",
     tagline: "End-to-end AI platform for community healthcare and clinical automation",
     description: "End-to-end healthcare AI platform combining Medical LLMs, LangGraph workflows, React Native applications, FastAPI microservices, and Bluetooth-enabled medical device integrations. Designed to streamline community healthcare through patient triage, AI-assisted clinical documentation, intelligent reception, and proactive follow-up workflows.",
-    image_url: "../assets/images/projects/liferythm.png",
+    image_url: "../assets/images/projects/liferythm/main.png",
     tag: "Healthcare AI",
     highlights: [
       "Built AI Receptionist, Clinical Documentation, patient triage, and Follow-Up workflows using Medical LLMs",
@@ -59,7 +59,7 @@ const rawPortfolioData = [
     title: "PokeDreamer",
     tagline: "Dreamer-style world models for model-based reinforcement learning",
     description: "Research project exploring Dreamer-style world models for model-based reinforcement learning. Focused on learning latent environment dynamics, improving long-horizon prediction, and reducing compounding errors during imagination rollouts.",
-    image_url: "../assets/images/projects/pokedreamer.png",
+    image_url: "../assets/images/projects/pokedreamer/main.png",
     tag: "AI Research",
     highlights: [
       "Engineered a discrete native-resolution Recurrent State-Space Model (RSSM)",
@@ -82,7 +82,7 @@ const rawPortfolioData = [
     title: "NavDP Sandbox",
     tagline: "Navigation Diffusion Policy extension for omni-directional robotics",
     description: "Academic research fork extending the official Navigation Diffusion Policy (NavDP) framework. Solves simulation-to-reality gaps through custom omni-directional hardware integration and physics optimization.",
-    image_url: "../assets/images/projects/navdp.png",
+    image_url: "../assets/images/projects/navdp/main.png",
     tag: "Sim-to-Real Robotics",
     highlights: [
       "Integrated a custom LeKiwi 3-wheeled omni-directional robot into the pipeline",
@@ -105,7 +105,7 @@ const rawPortfolioData = [
     title: "Enerzal Enterprise Assistant",
     tagline: "Scalable RAG and tool-calling agent for IT/HR automation",
     description: "Secure, highly-customizable enterprise AI assistant designed to automate repetitive internal queries. Replaces traditional IT/HR support channels with a real-time, document-aware generative interface.",
-    image_url: "../assets/images/projects/project-1.png",
+    image_url: "../assets/images/projects/enerzal/main.png",
     tag: "Enterprise AI",
     highlights: [
       "Architected dynamic Graph-based RAG pipelines handling relationship-based data",
@@ -129,7 +129,7 @@ const rawPortfolioData = [
     title: "TradingViewPlus",
     tagline: "TypeScript browser extension for 300+ active traders",
     description: "A major open-source enhancement suite for the TradingView ecosystem, actively used by 300+ traders. Contributing major feature releases, adapter-based support for TradingView-powered platforms, architectural improvements, and ongoing maintenance as a project maintainer.",
-    image_url: "../assets/images/projects/project-6.jpg",
+    image_url: "../assets/images/projects/tv-plus/main.jpg",
     tag: "Open Source",
     highlights: [
       "Contributed 20+ pull requests and resolved 30+ GitHub issues",
@@ -152,7 +152,7 @@ const rawPortfolioData = [
     title: "STS Chatbot",
     tagline: "Speech-to-speech AI architecture for real-time reasoning",
     description: "An end-to-end speech-to-speech (STS) conversational agent built to handle complex, real-time audio interactions with an emphasis on low-latency inference and high concurrency.",
-    image_url: "../assets/images/projects/creo.jpg",
+    image_url: "../assets/images/projects/creo/main.jpg",
     tag: "Voice AI",
     highlights: [
       "Led end-to-end engineering of natural language processing and agentic AI reasoning loops",
@@ -176,7 +176,7 @@ const rawPortfolioData = [
     title: "Eco Chain",
     tagline: "Full-stack Web3 marketplace for carbon credit tokenization",
     description: "A decentralized full-stack application (DApp) structured to bring transparency and automated trading to environmental assets. Designed specifically to reduce double-counting in carbon markets.",
-    image_url: "../assets/images/projects/project-2.png",
+    image_url: "../assets/images/projects/eco-chain/main.png",
     tag: "Web3 Ecosystem",
     highlights: [
       "Programmed Ethereum smart contracts via Solidity for secure ERC-20 tokenization",
@@ -200,7 +200,7 @@ const rawPortfolioData = [
     title: "WakeBot32",
     tagline: "Low-power IoT automation tool with secure remote access",
     description: "A practical, lightweight C++ hardware application utilizing an ESP32 microcontroller. Circumvents the need for heavy local servers by acting as a dedicated, secure bridge for remote PC wake commands.",
-    image_url: "../assets/images/projects/project-5.jpg",
+    image_url: "../assets/images/projects/wakebot32/main.jpg",
     tag: "IoT & Hardware",
     highlights: [
       "Engineered robust, low-power ESP32 hardware memory interactions using C++",
