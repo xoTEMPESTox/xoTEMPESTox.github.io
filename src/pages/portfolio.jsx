@@ -239,6 +239,7 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
   const startScale = useRef(1);
   const idleTimeoutRef = useRef(null);
   const wheelTimeoutRef = useRef(null);
+  const touchStartXRef = useRef(null);
 
   // Constants
   const minScale = 0.5;
@@ -267,6 +268,17 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
 
   useEffect(() => {
     resetIdleTimer();
+
+    const handleKeyDown = (e) => {
+      if (scale > 1) return; // Only switch if not zoomed
+      if (e.key === "ArrowLeft") {
+        switchPhoto(currentPhotoIndex - 1);
+      } else if (e.key === "ArrowRight") {
+        switchPhoto(currentPhotoIndex + 1);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
     return () => {
       if (idleTimeoutRef.current) {
         clearTimeout(idleTimeoutRef.current);
@@ -274,8 +286,9 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
       if (wheelTimeoutRef.current) {
         clearTimeout(wheelTimeoutRef.current);
       }
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [resetIdleTimer, currentPhotoIndex]);
+  }, [resetIdleTimer, currentPhotoIndex, scale, photos.length]);
 
   const updateScale = (newScale) => {
     let targetScale = newScale;
@@ -365,13 +378,18 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
       );
       startPinchDist.current = dist;
       startScale.current = scale;
-    } else if (e.touches.length === 1 && scale > 1) {
-      // Pan Start
-      setIsDragging(true);
-      startPos.current = {
-        x: e.touches[0].clientX - position.x,
-        y: e.touches[0].clientY - position.y,
-      };
+    } else if (e.touches.length === 1) {
+      if (scale > 1) {
+        // Pan Start
+        setIsDragging(true);
+        startPos.current = {
+          x: e.touches[0].clientX - position.x,
+          y: e.touches[0].clientY - position.y,
+        };
+      } else {
+        // Track start X for swipe gestures at scale === 1
+        touchStartXRef.current = e.touches[0].clientX;
+      }
     }
   };
 
@@ -392,7 +410,20 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
     }
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e) => {
+    // Swipe detection when scale is 1
+    if (scale === 1.0 && touchStartXRef.current !== null && e.changedTouches && e.changedTouches.length > 0) {
+      const deltaX = e.changedTouches[0].clientX - touchStartXRef.current;
+      const SWIPE_THRESHOLD = 50; // px
+      if (deltaX > SWIPE_THRESHOLD) {
+        // Swipe Right -> Previous photo
+        switchPhoto(currentPhotoIndex - 1);
+      } else if (deltaX < -SWIPE_THRESHOLD) {
+        // Swipe Left -> Next photo
+        switchPhoto(currentPhotoIndex + 1);
+      }
+    }
+    touchStartXRef.current = null;
     handleRelease();
   };
 

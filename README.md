@@ -137,15 +137,15 @@ See [`scripts/linkedin-scraper/README.md`](scripts/linkedin-scraper/README.md) f
   - [ ] **Investigate Auto-Layout**: Design a dynamic timeline offset algorithm using `getBoundingClientRect()` inside a `scroll` listener to eliminate hardcoded `pos` offsets.
   - [ ] **Card Size Matching**: Match the height/size of all description cards in the journey timeline to be uniform (same as the largest card, e.g., Liferythm description) so they don't look uneven.
 
-- [ ] **Phase 1: Fullscreen Image Gallery (Bulb View)**
-  - [ ] **Data Model Update**: Add optional `images: string[]` to project objects in `rawPortfolioData` inside `portfolio.jsx`.
-  - [ ] **Carousel Navigation**:
+- [x] **Phase 1: Fullscreen Image Gallery (Bulb View)**
+  - [x] **Data Model Update**: Add optional `images: string[]` to project objects in `rawPortfolioData` inside `portfolio.jsx`.
+  - [x] **Carousel Navigation**:
     - Add `currentIndex` state inside `FullscreenZoomableImage`, initialized with `image.activeImageIndex || 0`.
     - Render absolute absolute-positioned side chevron buttons (using `ChevronLeft` and `ChevronRight` from `lucide-react`) when `images.length > 1`.
     - Render dot pagination indicators below the image caption.
-  - [ ] **Keyboard Support**: Set up a `keydown` handler listening for `ArrowLeft` / `ArrowRight` inside `FullscreenZoomableImage`.
-  - [ ] **State Cleanup**: Ensure `scale` resets to `1` and `position` resets to `{x:0, y:0}` on index swap.
-  - [ ] **Swipe Gestures**: Track `clientX` delta in `onTouchStart`/`onTouchEnd` for swipe direction, triggering navigation if zoomed scale is `1` and distance > `50px`.
+  - [x] **Keyboard Support**: Set up a `keydown` handler listening for `ArrowLeft` / `ArrowRight` inside `FullscreenZoomableImage`.
+  - [x] **State Cleanup**: Ensure `scale` resets to `1` and `position` resets to `{x:0, y:0}` on index swap.
+  - [x] **Swipe Gestures**: Track `clientX` delta in `onTouchStart`/`onTouchEnd` for swipe direction, triggering navigation if zoomed scale is `1` and distance > `50px`.
 
 - [ ] **Phase 2: Project Detail Card Gallery**
   - [ ] **Prop Integration**: Pass `onImageOpen` (bound to `setFullscreenImage`) to `DetailCard` component.
