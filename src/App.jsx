@@ -177,6 +177,35 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Preload all dynamic route chunks in the background once the loading screen is dismissed
+  useEffect(() => {
+    if (!loading) {
+      const preloadChunks = () => {
+        const chunks = [
+          () => import("./pages/home"),
+          () => import("./pages/about"),
+          () => import("./pages/journey"),
+          () => import("./pages/portfolio"),
+          () => import("./pages/services"),
+          () => import("./pages/skills"),
+          () => import("./pages/socials"),
+          () => import("./pages/mail"),
+        ];
+
+        // Use requestIdleCallback if available, otherwise setTimeout
+        const scheduler = window.requestIdleCallback || ((cb) => setTimeout(cb, 1500));
+
+        scheduler(() => {
+          chunks.forEach((preload) => {
+            preload().catch(() => {}); // Catch failures silently during preloading
+          });
+        });
+      };
+
+      preloadChunks();
+    }
+  }, [loading]);
+
   // Logic for the height
   const getMinHeight = () => {
     if (socials) return "calc(100vh - 16rem)";
