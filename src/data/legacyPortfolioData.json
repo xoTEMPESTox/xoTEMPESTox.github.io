@@ -2,13 +2,15 @@
   {
     "id": "supplyzal",
     "title": "Supplyzal",
-    "tagline": "Blockchain-based supply tracking with verified sustainability",
-    "description": "Blockchain-based supply tracking with verified sustainability.",
+    "tagline": "Blockchain-based supply chain traceability and sustainability verification",
+    "description": "Full-stack blockchain application exploring transparent product provenance through Ethereum smart contracts and decentralized verification. Built to demonstrate immutable supply chain tracking, sustainability claims, and product lifecycle visibility using Web3 technologies.",
     "image_url": "../assets/images/projects/supplyzal/main.png",
     "tag": "Web3 & Logistics",
     "highlights": [
-      "Designed and deployed smart contracts for tracking product history on-chain",
-      "Created a web dashboard to verify product origin and sustainability claims"
+      "Designed Ethereum smart contracts for immutable product provenance and supply chain verification.",
+      "Built a React-based dashboard for visualizing product history and sustainability metadata.",
+      "Integrated blockchain transactions into a user-friendly workflow bridging Web2 and Web3 interactions.",
+      "Explored decentralized verification models for transparent logistics and sustainability reporting."
     ],
     "techStack": [
       { "name": "Solidity", "slug": "skill-icons/solidity", "color": "888888", "iconColor": "" },
@@ -22,13 +24,15 @@
   {
     "id": "ledgerplay",
     "title": "LedgerPlay",
-    "tagline": "ERC20 based Staking Logic with Web socket based Multiplayer",
-    "description": "ERC20 based Staking Logic with Web socket based Multiplayer.",
+    "tagline": "Real-time multiplayer gaming with blockchain-backed staking",
+    "description": "Experimental multiplayer platform combining WebSockets with Ethereum smart contracts to explore decentralized game wagering, real-time synchronization, and trustless reward distribution.",
     "image_url": "../assets/images/projects/ledgerplay/main.png",
     "tag": "WebSockets & DeFi",
     "highlights": [
-      "Implemented ERC20-based token staking smart contracts for multiplayer game wagering",
-      "Built a real-time web socket server to handle multiplayer game sessions"
+      "Implemented ERC-20 smart contracts supporting decentralized staking and reward settlement.",
+      "Built a low-latency WebSocket backend for synchronizing multiplayer game sessions.",
+      "Integrated blockchain transaction flows with real-time gameplay mechanics.",
+      "Explored hybrid Web2/Web3 architectures balancing responsiveness with decentralized trust."
     ],
     "techStack": [
       { "name": "Node.js", "slug": "logos/nodejs-icon", "color": "339933", "iconColor": "" },
@@ -43,13 +47,15 @@
   {
     "id": "kaggle-comp",
     "title": "ML Kaggle Competition",
-    "tagline": "Hosted a Kaggle Competition under TCET ACM SIG AI 2025",
-    "description": "Hosted a Kaggle Competition under TCET ACM SIG AI 2025.",
+    "tagline": "Designed and organized a machine learning competition for ACM SIG AI",
+    "description": "Co-organized a machine learning competition under ACM SIG AI TCET, designing evaluation datasets, competition infrastructure, and participant resources while helping introduce students to practical machine learning workflows.",
     "image_url": "../assets/images/projects/kaggle-comp/main.png",
     "tag": "Machine Learning",
     "highlights": [
-      "Co-organized and hosted a machine learning competition for 100+ participants",
-      "Designed clean evaluation datasets and competition baselines"
+      "Co-organized an ML competition involving 100+ student participants.",
+      "Prepared evaluation datasets, competition baselines, and submission workflows.",
+      "Supported participants through mentoring, technical guidance, and competition management.",
+      "Promoted hands-on machine learning experimentation through community initiatives."
     ],
     "techStack": [
       { "name": "Kaggle", "slug": "logos/kaggle", "color": "20BEFF", "iconColor": "" },
@@ -63,13 +69,15 @@
   {
     "id": "portfolio-website",
     "title": "Portfolio Website",
-    "tagline": "Personal portfolio website built with quality and performance in mind",
-    "description": "Personal portfolio website built with React, Vite, and Tailwind CSS. Designed to showcase projects, experience, skills, and interactive components like a 3D portfolio carousel.",
+    "tagline": "Interactive engineering portfolio showcasing production AI systems",
+    "description": "Personal engineering portfolio built with React, Vite, and Tailwind CSS to document production AI systems, research projects, open-source contributions, and detailed technical case studies. Designed with performance, accessibility, and long-form engineering documentation in mind.",
     "image_url": "../assets/images/projects/portfolio-website/main.png",
     "tag": "Frontend & Design",
     "highlights": [
-      "Implemented a custom 3D carousel using CSS 3D transforms",
-      "Optimized assets and load times for high performance and clean SEO scores"
+      "Built a responsive portfolio emphasizing technical case studies over traditional project galleries.",
+      "Implemented reusable React components, smooth animations, and a custom 3D project carousel.",
+      "Optimized asset loading, SEO, accessibility, and performance across desktop and mobile devices.",
+      "Designed the site to serve as the canonical showcase for production AI engineering work."
     ],
     "techStack": [
       { "name": "React", "slug": "logos/react", "color": "61DAFB", "iconColor": "" },
