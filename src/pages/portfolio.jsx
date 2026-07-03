@@ -221,6 +221,70 @@ const rawPortfolioData = [
   }
 ];
 
+const legacyPortfolioData = [
+  {
+    id: "supplyzal",
+    title: "Supplyzal",
+    tagline: "Blockchain-based supply tracking with verified sustainability",
+    description: "Blockchain-based supply tracking with verified sustainability.",
+    image_url: "../assets/images/projects/supplyzal/main.png",
+    tag: "Web3 & Logistics",
+    highlights: [
+      "Designed and deployed smart contracts for tracking product history on-chain",
+      "Created a web dashboard to verify product origin and sustainability claims",
+    ],
+    techStack: [
+      { name: "Solidity", slug: "skill-icons/solidity", color: "888888", iconColor: "" },
+      { name: "React", slug: "logos/react", color: "61DAFB", iconColor: "" },
+    ],
+    links: {
+      github_link: "https://github.com/xoTEMPESTox/Supplyzal",
+      live_link: "https://www.youtube.com/watch?v=CEGqZsqdnN8",
+    }
+  },
+  {
+    id: "ledgerplay",
+    title: "LedgerPlay",
+    tagline: "ERC20 based Staking Logic with Web socket based Multiplayer",
+    description: "ERC20 based Staking Logic with Web socket based Multiplayer.",
+    image_url: "../assets/images/projects/ledgerplay/main.png",
+    tag: "WebSockets & DeFi",
+    highlights: [
+      "Implemented ERC20-based token staking smart contracts for multiplayer game wagering",
+      "Built a real-time web socket server to handle multiplayer game sessions",
+    ],
+    techStack: [
+      { name: "Node.js", slug: "logos/nodejs-icon", color: "339933", iconColor: "" },
+      { name: "WebSockets", slug: "logos/websocket", color: "888888", iconColor: "" },
+      { name: "Ethereum", slug: "logos/ethereum", color: "888888", iconColor: "" },
+    ],
+    links: {
+      github_link: "https://github.com/xoTEMPESTox/LedgerPlay",
+      live_link: "https://www.youtube.com/watch?v=w-SHifenCqE",
+    }
+  },
+  {
+    id: "kaggle-comp",
+    title: "ML Kaggle Competition",
+    tagline: "Hosted a Kaggle Competition under TCET ACM SIG AI 2025",
+    description: "Hosted a Kaggle Competition under TCET ACM SIG AI 2025.",
+    image_url: "../assets/images/projects/kaggle-comp/main.png",
+    tag: "Machine Learning",
+    highlights: [
+      "Co-organized and hosted a machine learning competition for 100+ participants",
+      "Designed clean evaluation datasets and competition baselines",
+    ],
+    techStack: [
+      { name: "Kaggle", slug: "logos/kaggle", color: "20BEFF", iconColor: "" },
+      { name: "Python", slug: "logos/python", color: "3776AB", iconColor: "" },
+    ],
+    links: {
+      github_link: "https://github.com/xoTEMPESTox/TCET_ACM_SIGAI_KAGGLE_COMP",
+      live_link: "https://www.kaggle.com/competitions/acm-sigai-tcet",
+    }
+  }
+];
+
 /**
  * Enhanced Fullscreen Image Modal
  * Features: Pinch-to-zoom, Drag-to-pan, Wheel-to-zoom
@@ -629,10 +693,79 @@ const Portfolio = () => {
     }, AUTO_SLIDE_DELAY);
   }, [stopAutoSlide]);
 
+  const activeIndexRef = useRef(activeIndex);
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
   useEffect(() => {
     startAutoSlide();
     return stopAutoSlide;
   }, [startAutoSlide, stopAutoSlide]);
+
+  // Handle initial hash check on mount and browser back/forward navigation
+  useEffect(() => {
+    const handleHashCheck = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (!hash) {
+        setSelectedProject(null);
+        return;
+      }
+
+      // Check rawPortfolioData first (active projects)
+      let matchedProject = rawPortfolioData.find((p) => p.id === hash);
+      let isActiveProject = true;
+
+      // If not found in active, check legacyPortfolioData
+      if (!matchedProject) {
+        matchedProject = legacyPortfolioData.find((p) => p.id === hash);
+        isActiveProject = false;
+      }
+
+      if (matchedProject) {
+        setSelectedProject(matchedProject);
+
+        // Snap active carousel index if it's an active project in the carousel
+        if (isActiveProject) {
+          const matchedIndex = rawPortfolioData.findIndex((p) => p.id === hash);
+          if (matchedIndex !== -1) {
+            const currentActiveIndex = activeIndexRef.current;
+            const currentVirtualBase = Math.floor(currentActiveIndex / len) * len;
+            const targetActiveIndex = currentVirtualBase + matchedIndex;
+            setActiveIndex(targetActiveIndex);
+          }
+        }
+      } else {
+        setSelectedProject(null);
+      }
+    };
+
+    // Check on mount
+    handleHashCheck();
+
+    // Listen for history/hash changes
+    window.addEventListener("hashchange", handleHashCheck);
+    return () => {
+      window.removeEventListener("hashchange", handleHashCheck);
+    };
+  }, [len]);
+
+  // Update browser hash/history when selectedProject changes
+  useEffect(() => {
+    if (selectedProject) {
+      if (window.location.hash !== `#${selectedProject.id}`) {
+        window.location.hash = selectedProject.id;
+      }
+    } else {
+      if (window.location.hash) {
+        window.history.pushState(
+          "",
+          document.title,
+          window.location.pathname + window.location.search
+        );
+      }
+    }
+  }, [selectedProject]);
 
   // We no longer need separate handleTransitionEnd for snapping
   // But we might want to ensure 'isTransitioning' is set back to true if it was false for dragging
