@@ -550,7 +550,7 @@ function App() {
               pointerEvents: "none", // so loader still reacts normally
             }}
           >
-            <HeaderBackground />
+            <HeaderBackground loading={loading} />
           </div>
 
           {/* 2. Loader overlays everything until animation completes */}
@@ -566,6 +566,9 @@ function App() {
               <SvgLoaderLeftToRight
                 onFinish={() => {
                   setFadeOut(true);
+                  if (typeof window !== "undefined") {
+                    sessionStorage.setItem("hasLoadedBefore", "true");
+                  }
                   // handleAudioPlay();
                 }}
               />

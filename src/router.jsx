@@ -6,16 +6,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "./App";
-import Home from "./pages/home";
-import About from "./pages/about";
-import Journey from "./pages/journey";
-import Portfolio from "./pages/portfolio";
-import Services from "./pages/services";
-import Skills from "./pages/skills";
-import Socials from "./pages/socials";
-import ExternalRedirect from "./components/ExternalRedirect";
-import MailPage from "./pages/mail";
-
 
 const appRouter = createBrowserRouter([
   {
@@ -24,35 +14,35 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        lazy: () => import("./pages/home").then(m => ({ Component: m.default })),
       },
       {
         path: "/about",
-        element: <About />,
+        lazy: () => import("./pages/about").then(m => ({ Component: m.default })),
       },
       {
         path: "/journey",
-        element: <Journey />,
+        lazy: () => import("./pages/journey").then(m => ({ Component: m.default })),
       },
       {
         path: "/portfolio",
-        element: <Portfolio />,
+        lazy: () => import("./pages/portfolio").then(m => ({ Component: m.default })),
       },
       {
         path: "/services",
-        element: <Services />,
+        lazy: () => import("./pages/services").then(m => ({ Component: m.default })),
       },
       {
         path: "/skills",
-        element: <Skills />,
+        lazy: () => import("./pages/skills").then(m => ({ Component: m.default })),
       },
       {
         path: "/socials",
-        element: <Socials />,
+        lazy: () => import("./pages/socials").then(m => ({ Component: m.default })),
       },
       {
         path: "/mail",
-        element: <MailPage />,
+        lazy: () => import("./pages/mail").then(m => ({ Component: m.default })),
       },
       {
         path: "*",
