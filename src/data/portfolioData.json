@@ -87,75 +87,6 @@
     }
   },
   {
-    "id": "navdp-robotics",
-    "title": "NavDP Sandbox",
-    "tagline": "Navigation Diffusion Policy extension for omni-directional robotics",
-    "description": "Academic research fork extending the official Navigation Diffusion Policy (NavDP) framework. Solves simulation-to-reality gaps through custom omni-directional hardware integration and physics optimization.",
-    "image_url": "../assets/images/projects/navdp/main.png",
-    "images": [
-      "../assets/images/projects/navdp/main.png"
-    ],
-    "markdown": "### Sim-to-Real Navigation Diffusion Policies\nDeploys diffusion policies trained in simulation environments onto physical three-wheeled LeKiwi omni-directional robots.\n\n### Core Engineering Accomplishments\n* **USD Collision Geometry fixes**: Programmatically repaired collision meshes in Nvidia Isaac Sim.\n* **Actuator Dynamics Tuning**: Tuning gain schedules to resolve simulation explosions and NaN losses.\n* **Multi-View Telemetry**: Built real-time rendering tools for BEV tracking and path evaluation.",
-    "tag": "Sim-to-Real Robotics",
-    "highlights": [
-      "Integrated a custom LeKiwi 3-wheeled omni-directional robot into the pipeline",
-      "Programmatically re-engineered and fixed broken USD collision geometries",
-      "Resolved NaN simulation explosions via actuator gain and physics tuning",
-      "Developed custom multi-perspective tools (BEV/3rd-Person) for path evaluation"
-    ],
-    "techStack": [
-      {
-        "name": "Python"
-      },
-      {
-        "name": "Robotics"
-      },
-      {
-        "name": "Simulation"
-      }
-    ],
-    "links": {
-      "github_link": "https://github.com/xoTEMPESTox/NavDP",
-      "live_link": "https://navdp.priyanshusah.com/"
-    }
-  },
-  {
-    "id": "enerzal",
-    "title": "Enerzal Enterprise Assistant",
-    "tagline": "Scalable RAG and tool-calling agent for IT/HR automation",
-    "description": "Secure, highly-customizable enterprise AI assistant designed to automate repetitive internal queries. Replaces traditional IT/HR support channels with a real-time, document-aware generative interface.",
-    "image_url": "../assets/images/projects/enerzal/main.png",
-    "images": [
-      "../assets/images/projects/enerzal/main.png"
-    ],
-    "markdown": "### Scalable Enterprise Graph RAG\nSecure assistant designed to automate IT support and HR query resolution using local document indexing.\n\n### Features & Capabilities\n* **Dynamic Document Parsing**: Automated OCR pipelines parser PDFs/DOCXs in sub-8-second retrieval window.\n* **Graph-based Indexing**: Employs Neo4j databases to capture relationships between support categories.\n* **TOTP Access Security**: Localized deployments guarded by strict 2FA configurations.",
-    "tag": "Enterprise AI",
-    "highlights": [
-      "Architected dynamic Graph-based RAG pipelines handling relationship-based data",
-      "Automated PDF/DOCX parsing routines, achieving sub-8-second retrieval latency",
-      "Engineered real-time tool calling integrations with personalized employee dashboards",
-      "Secured localized deployments utilizing strict 2FA (TOTP) access management flows"
-    ],
-    "techStack": [
-      {
-        "name": "Python"
-      },
-      {
-        "name": "OpenAI"
-      },
-      {
-        "name": "React"
-      },
-      {
-        "name": "PostgreSQL"
-      }
-    ],
-    "links": {
-      "github_link": "https://github.com/xoTEMPESTox/Enerzal",
-      "live_link": "https://www.youtube.com/watch?v=azj_7OdSxcY"
-    }
-  },
-  {
     "id": "tv-plus",
     "title": "TradingViewPlus",
     "tagline": "TypeScript browser extension for 300+ active traders",
@@ -226,6 +157,75 @@
     "privateProject": {
       "title": "🔒 Client Project",
       "description": "Built during internship engagement.\nRepository and production environment are private."
+    }
+  },
+  {
+    "id": "navdp-robotics",
+    "title": "NavDP Sandbox",
+    "tagline": "Navigation Diffusion Policy extension for omni-directional robotics",
+    "description": "Academic research fork extending the official Navigation Diffusion Policy (NavDP) framework. Solves simulation-to-reality gaps through custom omni-directional hardware integration and physics optimization.",
+    "image_url": "../assets/images/projects/navdp/main.png",
+    "images": [
+      "../assets/images/projects/navdp/main.png"
+    ],
+    "markdown": "### Sim-to-Real Navigation Diffusion Policies\nDeploys diffusion policies trained in simulation environments onto physical three-wheeled LeKiwi omni-directional robots.\n\n### Core Engineering Accomplishments\n* **USD Collision Geometry fixes**: Programmatically repaired collision meshes in Nvidia Isaac Sim.\n* **Actuator Dynamics Tuning**: Tuning gain schedules to resolve simulation explosions and NaN losses.\n* **Multi-View Telemetry**: Built real-time rendering tools for BEV tracking and path evaluation.",
+    "tag": "Sim-to-Real Robotics",
+    "highlights": [
+      "Integrated a custom LeKiwi 3-wheeled omni-directional robot into the pipeline",
+      "Programmatically re-engineered and fixed broken USD collision geometries",
+      "Resolved NaN simulation explosions via actuator gain and physics tuning",
+      "Developed custom multi-perspective tools (BEV/3rd-Person) for path evaluation"
+    ],
+    "techStack": [
+      {
+        "name": "Python"
+      },
+      {
+        "name": "Robotics"
+      },
+      {
+        "name": "Simulation"
+      }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/NavDP",
+      "live_link": "https://navdp.priyanshusah.com/"
+    }
+  },
+  {
+    "id": "enerzal",
+    "title": "Enerzal Enterprise Assistant",
+    "tagline": "Scalable RAG and tool-calling agent for IT/HR automation",
+    "description": "Secure, highly-customizable enterprise AI assistant designed to automate repetitive internal queries. Replaces traditional IT/HR support channels with a real-time, document-aware generative interface.",
+    "image_url": "../assets/images/projects/enerzal/main.png",
+    "images": [
+      "../assets/images/projects/enerzal/main.png"
+    ],
+    "markdown": "### Scalable Enterprise Graph RAG\nSecure assistant designed to automate IT support and HR query resolution using local document indexing.\n\n### Features & Capabilities\n* **Dynamic Document Parsing**: Automated OCR pipelines parser PDFs/DOCXs in sub-8-second retrieval window.\n* **Graph-based Indexing**: Employs Neo4j databases to capture relationships between support categories.\n* **TOTP Access Security**: Localized deployments guarded by strict 2FA configurations.",
+    "tag": "Enterprise AI",
+    "highlights": [
+      "Architected dynamic Graph-based RAG pipelines handling relationship-based data",
+      "Automated PDF/DOCX parsing routines, achieving sub-8-second retrieval latency",
+      "Engineered real-time tool calling integrations with personalized employee dashboards",
+      "Secured localized deployments utilizing strict 2FA (TOTP) access management flows"
+    ],
+    "techStack": [
+      {
+        "name": "Python"
+      },
+      {
+        "name": "OpenAI"
+      },
+      {
+        "name": "React"
+      },
+      {
+        "name": "PostgreSQL"
+      }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/Enerzal",
+      "live_link": "https://www.youtube.com/watch?v=azj_7OdSxcY"
     }
   },
   {

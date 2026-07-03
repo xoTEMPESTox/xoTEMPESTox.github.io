@@ -361,7 +361,33 @@ const DetailCard = ({ project, onClose }) => {
               Detailed Case Study
             </h3>
             <div className="markdown-content" style={{ paddingTop: '0.75rem', paddingBottom: '0.75rem' }}>
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  img: ({ node, src, alt }) => {
+                    // Convert absolute /assets/ paths to relative ../assets/ paths
+                    // (same format used by the image carousel) and decode %20 spaces
+                    const resolvedSrc = src?.startsWith("/assets/")
+                      ? decodeURIComponent(src.replace("/assets/", "../assets/"))
+                      : src;
+                    return (
+                      <img
+                        src={resolvedSrc}
+                        alt={alt || ""}
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto",
+                          borderRadius: "0.5rem",
+                          marginTop: "1rem",
+                          marginBottom: "0.5rem",
+                          border: `1px solid ${theme === "dark" ? "#27272a" : "#e4e4e7"}`,
+                          display: "block",
+                        }}
+                      />
+                    );
+                  },
+                }}
+              >
                 {project.markdown || project.description}
               </ReactMarkdown>
             </div>
@@ -525,6 +551,23 @@ const DetailCard = ({ project, onClose }) => {
           background: ${theme === "dark" ? "#18181b" : "#f4f4f5"};
           color: ${theme === "dark" ? "#d8b4fe" : "#7c3aed"};
           border: 1px solid ${theme === "dark" ? "#27272a" : "#e4e4e7"};
+        }
+        .markdown-content img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 0.5rem;
+          margin-top: 1rem;
+          margin-bottom: 0.5rem;
+          border: 1px solid ${theme === "dark" ? "#27272a" : "#e4e4e7"};
+          display: block;
+        }
+        .markdown-content em {
+          display: block;
+          font-size: 13px;
+          font-style: italic;
+          color: ${theme === "dark" ? "#71717a" : "#9ca3af"};
+          margin-bottom: 1.5rem;
+          text-align: center;
         }
       `,
         }}
