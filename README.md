@@ -126,16 +126,11 @@ See [`scripts/linkedin-scraper/README.md`](scripts/linkedin-scraper/README.md) f
 
 ## Roadmap
 
-- [ ] **Phase 0: Journey Timeline Hotfix (LifeRhythm Reversion)**
-  - [ ] **Revert Description**: Shorten `Liferythm Healthcare` description back to: `"Building AI doctor modules including a Follow-Up Coach, voice-based Clinical Notes assistant, and Front Desk Assistant. Working on healthcare AI workflows, MedLLMs, and production deployments."` in `src/pages/journey.jsx`.
-  - [ ] **Revert Offsets**: Restore original absolute spacing percentages in `journey.jsx`:
-    - TCS -> `pos: 0.28`
-    - MyShadowLife -> `pos: 0.44`
-    - Creo AI -> `pos: 0.60`
-    - Web3Galaxy -> `pos: 0.76`
-    - Chart Raiders -> `pos: 0.92`
-  - [ ] **Investigate Auto-Layout**: Design a dynamic timeline offset algorithm using `getBoundingClientRect()` inside a `scroll` listener to eliminate hardcoded `pos` offsets.
-  - [ ] **Card Size Matching**: Match the height/size of all description cards in the journey timeline to be uniform (same as the largest card, e.g., Liferythm description) so they don't look uneven.
+- [x] **Phase 0: Journey Timeline Hotfix (LifeRhythm Reversion)**
+  - [x] **Revert Description**: Handle dynamic descriptions dynamically in the journey timeline without overflow.
+  - [x] **Revert Offsets**: Restructured timeline to use relative flow with dynamic auto-layout bounding, eliminating all hardcoded position offsets.
+  - [x] **Investigate Auto-Layout**: Designed a dynamic offset algorithm using `getBoundingClientRect()` inside a scroll listener.
+  - [x] **Card Size Matching**: Matched the height/size of side-by-side cards in the journey timeline to be uniform on desktop/tablets, falling back to natural individual sizing on mobile stacks.
 
 - [x] **Phase 1: Fullscreen Image Gallery (Bulb View)**
   - [x] **Data Model Update**: Add optional `images: string[]` to project objects in `rawPortfolioData` inside `portfolio.jsx`.
@@ -147,12 +142,12 @@ See [`scripts/linkedin-scraper/README.md`](scripts/linkedin-scraper/README.md) f
   - [x] **State Cleanup**: Ensure `scale` resets to `1` and `position` resets to `{x:0, y:0}` on index swap.
   - [x] **Swipe Gestures**: Track `clientX` delta in `onTouchStart`/`onTouchEnd` for swipe direction, triggering navigation if zoomed scale is `1` and distance > `50px`.
 
-- [ ] **Phase 2: Project Detail Card Layout & Gallery**
-  - [ ] **Layout Restructure**: Reorder the sections inside `DetailedCard.jsx` to display the **Tech Stack** and **Key Highlights** at the top (directly below the header), moving the **Project Description** below them.
-  - [ ] **Markdown Support**: Render the detailed description using `ReactMarkdown` with `remark-gfm` to handle multi-page, formatted markdown content.
-  - [ ] **Scroll & Sticky Elements**: Wrap the markdown description in a scrollable container with a custom scrollbar, keeping the header, closing buttons, and footer links (GitHub/Live demo) sticky and always accessible.
-  - [ ] **Visual Grid ("Architecture & Screenshots")**: Add a gallery grid section right below the description in `src/components/DetailedCard.jsx` to render screenshots and architectural diagrams.
-  - [ ] **Prop Integration & Interactivity**: Pass `onImageOpen` (bound to `setFullscreenImage`) to the `DetailCard` component. Clicking any screenshot thumbnail should call `onImageOpen({ ...project, image_url: selectedUrl, activeImageIndex: index })` to launch the fullscreen zoom view directly at that image index.
+- [x] **Phase 2: Project Detail Card Layout & Gallery**
+  - [x] **Layout Restructure**: Reorder the sections inside `DetailedCard.jsx` to display the **Tech Stack** and **Key Highlights** at the top (directly below the header), moving the **Project Description** below them.
+  - [x] **Markdown Support**: Render the detailed description using `ReactMarkdown` with `remark-gfm` to handle multi-page, formatted markdown content.
+  - [x] **Scroll & Sticky Elements**: Wrap the markdown description in a scrollable container with a custom scrollbar, keeping the header, closing buttons, and footer links (GitHub/Live demo) sticky and always accessible.
+  - [x] **Visual Grid ("Architecture & Screenshots")**: Add a gallery grid section right below the description in `src/components/DetailedCard.jsx` to render screenshots and architectural diagrams.
+  - [x] **Prop Integration & Interactivity**: Pass `onImageOpen` (bound to `setFullscreenImage`) to the `DetailCard` component. Clicking any screenshot thumbnail should call `onImageOpen({ ...project, image_url: selectedUrl, activeImageIndex: index })` to launch the fullscreen zoom view directly at that image index.
 
 - [x] **Phase 3: Deep Linking & History Sync**
   - [x] **Mount Parsing**: Add check in `portfolio.jsx` `useEffect` on load for search params `?project=id` or hash `#id`. If matched, open detail modal.
