@@ -6,36 +6,67 @@ import { useTheme } from "./HeaderBackground";
 const SvgLoaderLeftToRight = ({ onFinish }) => {
   const { theme } = useTheme();
 
-  // 1. Parent variants to control the sequence
+  const isReturning = typeof window !== "undefined" && sessionStorage.getItem("hasLoadedBefore");
+
+  const getPathTransition = (i, isReturning) => {
+    if (isReturning) {
+      if (i === 0) {
+        // First stroke of P - slow: 0.5s duration
+        return { duration: 0.5, delay: 0 };
+      }
+      if (i === 1) {
+        // Second stroke of P - slow: 0.4s duration, starts staggered at 0.1s
+        return { duration: 0.4, delay: 0.1 };
+      }
+      if (i === 2) {
+        // Third starting stroke - slow: 0.3s duration, starts staggered at 0.2s
+        return { duration: 0.3, delay: 0.2 };
+      }
+      if (i === 3) {
+        // Fourth starting stroke - slow: 0.2s duration, starts staggered at 0.3s
+        return { duration: 0.2, delay: 0.3 };
+      }
+      if (i === 8) {
+        // Last character - slow: 0.5s duration, starts at 1.0s
+        return { duration: 0.5, delay: 1.0 };
+      }
+      // Middle characters (4 to 7) - fast: 0.15s duration, staggered over the middle 0.5s window
+      return { duration: 0.15, delay: 0.5 + (i - 4) * 0.12 };
+    } else {
+      // Normal staggered draw sequence: stagger delay 0.4s, draw duration 0.88s
+      return { duration: 0.88, delay: i * 0.4 };
+    }
+  };
+
+  // 1. Parent variants
   const svgVariants = {
     hidden: { opacity: 1 },
     visible: {
       opacity: 1,
-      transition: {
-        // This tells the children to animate one by one
-        // 0.4s delay between each path starting
-        staggerChildren: 0.4,
-      },
     },
   };
 
-  // 2. Child variants for the drawing effect
+  // 2. Child variants
   const pathVariants = {
     hidden: {
       pathLength: 0,
       opacity: 0,
     },
-    visible: {
-      pathLength: 1,
-      opacity: 1,
-      transition: {
-        pathLength: {
-          type: "spring",
-          duration: 0.88, // Duration of drawing a single character
-          bounce: 0,
+    visible: (i) => {
+      const { duration, delay } = getPathTransition(i, isReturning);
+      return {
+        pathLength: 1,
+        opacity: 1,
+        transition: {
+          pathLength: {
+            type: "spring",
+            duration: duration,
+            delay: delay,
+            bounce: 0,
+          },
+          opacity: { duration: isReturning ? 0.025 : 0.1, delay: delay },
         },
-        opacity: { duration: 0.1 },
-      },
+      };
     },
   };
 
@@ -83,6 +114,7 @@ const SvgLoaderLeftToRight = ({ onFinish }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={pathVariants}
+          custom={0}
         />
         <motion.path
           id="eeSQNZ5fwYi5"
@@ -93,6 +125,7 @@ const SvgLoaderLeftToRight = ({ onFinish }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={pathVariants}
+          custom={1}
         />
         <motion.path
           id="eeSQNZ5fwYi6"
@@ -103,6 +136,7 @@ const SvgLoaderLeftToRight = ({ onFinish }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={pathVariants}
+          custom={2}
         />
         <motion.path
           id="eeSQNZ5fwYi7"
@@ -113,6 +147,7 @@ const SvgLoaderLeftToRight = ({ onFinish }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={pathVariants}
+          custom={3}
         />
         <motion.path
           id="eeSQNZ5fwYi8"
@@ -124,6 +159,7 @@ const SvgLoaderLeftToRight = ({ onFinish }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={pathVariants}
+          custom={4}
         />
         <motion.path
           id="eeSQNZ5fwYi9"
@@ -135,6 +171,7 @@ const SvgLoaderLeftToRight = ({ onFinish }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={pathVariants}
+          custom={5}
         />
         <motion.path
           id="eeSQNZ5fwYi10"
@@ -146,8 +183,8 @@ const SvgLoaderLeftToRight = ({ onFinish }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={pathVariants}
+          custom={6}
         />
-
         <motion.path
           id="eeSQNZ5fwYi12"
           d="M191.752163,183.887473c2.151879,2.647097,12.155895,1.770015,17.062078-.218744c7.399812-2.999571,15.000489-7.176362,23.186927-12.687187c7.677516-6.363163,18.316955-17.68386,20.780736-22.530694c2.822344-5.24904,2.046437-7.600061.656229-7.656065-4.809358-1.138464-11.96798,9.69846-13.780906,11.812211-3.373545,4.879822-4.735644,10.264089-6.781082,14.437143-2.58291,7.734469-.343515,11.588881-4.593641,21.436968-2.308159,7.600794-10.899148,15.13522-15.968351,17.499569-5.556574,2.807309-13.689752,4.503024-17.280823,3.718658-18.876488-2.16001-18.826009-18.994824-15.968356-24.499396c2.944474-10.600114,12.569236-14.814455,19.249524-18.593291c10.62875-3.886411,19.415869-1.293531,21.218224,1.968702c8.990707,8.703731-.524542,22.23272-4.374893,21.874459"
@@ -158,6 +195,7 @@ const SvgLoaderLeftToRight = ({ onFinish }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={pathVariants}
+          custom={7}
         />
         <motion.path
           id="eeSQNZ5fwYi13"
@@ -169,6 +207,7 @@ const SvgLoaderLeftToRight = ({ onFinish }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           variants={pathVariants}
+          custom={8}
         />
       </motion.svg>
     </div>

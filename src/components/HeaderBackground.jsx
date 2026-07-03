@@ -948,27 +948,24 @@ export const ThemeProvider = ({ children }) => {
 
   const location = useLocation();
 
+  // Clear stored background when returning to Home page
   useEffect(() => {
-    const manifestUrl = withBase("assets/images/backgrounds/backgrounds.json");
-    
-    let storedBackground = null;
-    try {
-      if (location.pathname === "/") {
+    if (location.pathname === "/") {
+      try {
         localStorage.removeItem(storageKey);
         localStorage.removeItem("portfolio:lastBackgroundDate");
-      } else {
-        const storedDate = localStorage.getItem("portfolio:lastBackgroundDate");
-        const today = new Date().toDateString();
-        if (storedDate === today) {
-          const storedBackgroundRaw = getStoredBackground();
-          storedBackground = parseStoredBackground(storedBackgroundRaw);
-        } else {
-          localStorage.removeItem(storageKey);
-          localStorage.removeItem("portfolio:lastBackgroundDate");
-        }
-      }
-    } catch (e) {}
+      } catch (e) {}
+    }
+  }, [location.pathname]);
 
+  useEffect(() => {
+    // If we already have a wallpaper loaded and we are not navigating to home (/), do nothing.
+    // This keeps the wallpaper persistent on inner page changes and works correctly in StrictMode.
+    if (currentAsset && location.pathname !== "/") {
+      return;
+    }
+
+    const manifestUrl = withBase("assets/images/backgrounds/backgrounds.json");
     let isMounted = true;
 
     fetch(manifestUrl)
@@ -983,38 +980,30 @@ export const ThemeProvider = ({ children }) => {
 
         if (!normalizedAssets.length) return;
 
-        let selectedAsset = null;
-        if (storedBackground) {
-          selectedAsset =
-            normalizedAssets.find((a) => a.src === storedBackground.src) ||
-            null;
-        }
-        if (!selectedAsset) {
-          const themeWallpapers = normalizedAssets.filter((w) => {
-            const wTheme = getThemeFromFilename(w.src);
-            return wTheme === theme || wTheme === "neutral";
+        const themeWallpapers = normalizedAssets.filter((w) => {
+          const wTheme = getThemeFromFilename(w.src);
+          return wTheme === theme || wTheme === "neutral";
+        });
+
+        // Exclude the current wallpaper from the pool when randomizing
+        let availableWallpapers = themeWallpapers;
+        if (currentAsset && currentAsset.src) {
+          const currentBase = currentAsset.src.replace("-day", "").replace("-night", "");
+          const filtered = themeWallpapers.filter((w) => {
+            const wBase = w.src.replace("-day", "").replace("-night", "");
+            return wBase !== currentBase;
           });
-
-          // Exclude the current wallpaper from the pool when randomizing for the next
-          let availableWallpapers = themeWallpapers;
-          if (currentAsset && currentAsset.src) {
-            const currentBase = currentAsset.src.replace("-day", "").replace("-night", "");
-            const filtered = themeWallpapers.filter((w) => {
-              const wBase = w.src.replace("-day", "").replace("-night", "");
-              return wBase !== currentBase;
-            });
-            if (filtered.length > 0) {
-              availableWallpapers = filtered;
-            }
+          if (filtered.length > 0) {
+            availableWallpapers = filtered;
           }
-
-          selectedAsset =
-            availableWallpapers.length > 0
-              ? availableWallpapers[
-                  Math.floor(Math.random() * availableWallpapers.length)
-                ]
-              : normalizedAssets[0];
         }
+
+        const selectedAsset =
+          availableWallpapers.length > 0
+            ? availableWallpapers[
+                Math.floor(Math.random() * availableWallpapers.length)
+              ]
+            : normalizedAssets[0];
 
         if (selectedAsset) {
           const timeBasedAsset = getTimeBasedWallpaper(selectedAsset, normalizedAssets);
@@ -1049,7 +1038,7 @@ export const ThemeProvider = ({ children }) => {
 // 5. HEADER BACKGROUND (Updated with Parallax & Fallback Logic)
 // -----------------------------------------------------------------------------
 
-export const HeaderBackground = () => {
+export const HeaderBackground = ({ loading }) => {
   const { currentAsset, theme } = useTheme();
   const mainRef = useRef(null);
   const containerRef = useRef(null); // Container for transform
@@ -1102,7 +1091,35 @@ export const HeaderBackground = () => {
     };
   }, []);
 
-  // 2. Asset Loading Logic
+  const [readyToLoadVideo, setReadyToLoadVideo] = useState(false);
+
+  useEffect(() => {
+    // If the loader finishes, we are definitely ready to load the video!
+    if (!loading) {
+      setReadyToLoadVideo(true);
+      return;
+    }
+
+    // Otherwise, wait until critical resources (JS/CSS/images) are fully downloaded:
+    if (document.readyState === "complete") {
+      setReadyToLoadVideo(true);
+    } else {
+      const handleLoad = () => setReadyToLoadVideo(true);
+      window.addEventListener("load", handleLoad);
+
+      // Fallback timer: start download after 1.5s anyway to catch up during preloader
+      const timer = setTimeout(() => {
+        setReadyToLoadVideo(true);
+      }, 1500);
+
+      return () => {
+        window.removeEventListener("load", handleLoad);
+        clearTimeout(timer);
+      };
+    }
+  }, [loading]);
+
+  // 3. Asset Loading Logic
   useEffect(() => {
     if (!currentAsset || !mainRef.current) return;
     const main = mainRef.current;
@@ -1112,7 +1129,10 @@ export const HeaderBackground = () => {
       cleanupRef.current();
       cleanupRef.current = null;
     }
-    if (containerRef.current) containerRef.current.innerHTML = "";
+    if (containerRef.current) {
+      containerRef.current.innerHTML = "";
+      containerRef.current.style.backgroundImage = "none";
+    }
 
     const assetUrl = resolveAssetUrl(
       currentAsset.src,
@@ -1133,9 +1153,18 @@ export const HeaderBackground = () => {
     }
 
     // Always set the static background on the container initially
-    // Requirement 3: This ensures if video fails, image is there.
-    if (posterUrl) {
-      main.style.backgroundImage = `url("${posterUrl}")`;
+    // This aligns the image zoom (scale(1.1)) and parallax with the video.
+    if (posterUrl && containerRef.current) {
+      containerRef.current.style.backgroundImage = `url("${posterUrl}")`;
+      containerRef.current.style.backgroundSize = "cover";
+      containerRef.current.style.backgroundPosition = "center";
+      containerRef.current.style.backgroundRepeat = "no-repeat";
+      main.style.backgroundImage = "none";
+    }
+
+    // Hold off on loading the heavy video until critical assets (styles, code, background image) are ready.
+    if (!readyToLoadVideo && currentAsset.type === "video") {
+      return;
     }
 
     if (currentAsset.type === "video") {
@@ -1187,7 +1216,7 @@ export const HeaderBackground = () => {
         // Fallback image is already visible
       });
     }
-  }, [currentAsset]);
+  }, [currentAsset, readyToLoadVideo]);
 
   return (
     <div
