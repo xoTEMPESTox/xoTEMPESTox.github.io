@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy } from "react";
 import {
   createBrowserRouter,
   Navigate,
@@ -7,15 +7,23 @@ import App from "./App";
 
 // Helper to catch dynamic chunk loading failures (e.g. after a redeployment) and reload the page
 const safeLazy = (importFunc) => {
-  return () =>
-    importFunc()
-      .then((m) => ({ Component: m.default }))
-      .catch((err) => {
-        console.error("Failed to fetch dynamically imported module, forcing page reload:", err);
-        window.location.reload();
-        return { Component: () => null };
-      });
+  return lazy(() =>
+    importFunc().catch((err) => {
+      console.error("Failed to fetch dynamically imported module, forcing page reload:", err);
+      window.location.reload();
+      return { default: () => null };
+    })
+  );
 };
+
+const Home = safeLazy(() => import("./pages/home"));
+const About = safeLazy(() => import("./pages/about"));
+const Journey = safeLazy(() => import("./pages/journey"));
+const Portfolio = safeLazy(() => import("./pages/portfolio"));
+const Services = safeLazy(() => import("./pages/services"));
+const Skills = safeLazy(() => import("./pages/skills"));
+const Socials = safeLazy(() => import("./pages/socials"));
+const MailPage = safeLazy(() => import("./pages/mail"));
 
 const appRouter = createBrowserRouter([
   {
@@ -24,35 +32,35 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        lazy: safeLazy(() => import("./pages/home")),
+        element: <Home />,
       },
       {
         path: "/about",
-        lazy: safeLazy(() => import("./pages/about")),
+        element: <About />,
       },
       {
         path: "/journey",
-        lazy: safeLazy(() => import("./pages/journey")),
+        element: <Journey />,
       },
       {
         path: "/portfolio",
-        lazy: safeLazy(() => import("./pages/portfolio")),
+        element: <Portfolio />,
       },
       {
         path: "/services",
-        lazy: safeLazy(() => import("./pages/services")),
+        element: <Services />,
       },
       {
         path: "/skills",
-        lazy: safeLazy(() => import("./pages/skills")),
+        element: <Skills />,
       },
       {
         path: "/socials",
-        lazy: safeLazy(() => import("./pages/socials")),
+        element: <Socials />,
       },
       {
         path: "/mail",
-        lazy: safeLazy(() => import("./pages/mail")),
+        element: <MailPage />,
       },
       {
         path: "*",

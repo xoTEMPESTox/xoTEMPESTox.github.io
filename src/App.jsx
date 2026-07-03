@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import HeaderBackground, {
   ThemeProvider,
@@ -679,9 +679,11 @@ function App() {
                   top: topContentCutOff ? "4rem" : socials ? "8rem" : "0rem",
                 }}
               >
-                <AnimatedOutlet
-                  context={{ startAudioOnInteraction, setIsScrollingDown }}
-                />
+                <Suspense fallback={null}>
+                  <AnimatedOutlet
+                    context={{ startAudioOnInteraction, setIsScrollingDown }}
+                  />
+                </Suspense>
               </div>
               {socials && <SocialBar />}
               <FooterNavbar onNavigate={startAudioOnInteraction} />
