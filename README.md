@@ -147,10 +147,12 @@ See [`scripts/linkedin-scraper/README.md`](scripts/linkedin-scraper/README.md) f
   - [x] **State Cleanup**: Ensure `scale` resets to `1` and `position` resets to `{x:0, y:0}` on index swap.
   - [x] **Swipe Gestures**: Track `clientX` delta in `onTouchStart`/`onTouchEnd` for swipe direction, triggering navigation if zoomed scale is `1` and distance > `50px`.
 
-- [ ] **Phase 2: Project Detail Card Gallery**
-  - [ ] **Prop Integration**: Pass `onImageOpen` (bound to `setFullscreenImage`) to `DetailCard` component.
-  - [ ] **Visual Grid**: Add a flex/grid section "Architecture & Screenshots" right below the project description in `src/components/DetailedCard.jsx`.
-  - [ ] **Thumbnail Interactivity**: Render thumbnails for all image items in the array (falling back to `image_url`). Clicking a thumbnail triggers `onImageOpen({ ...project, image_url: selectedUrl, activeImageIndex: index })` to launch the fullscreen zoom view directly at that specific image index.
+- [ ] **Phase 2: Project Detail Card Layout & Gallery**
+  - [ ] **Layout Restructure**: Reorder the sections inside `DetailedCard.jsx` to display the **Tech Stack** and **Key Highlights** at the top (directly below the header), moving the **Project Description** below them.
+  - [ ] **Markdown Support**: Render the detailed description using `ReactMarkdown` with `remark-gfm` to handle multi-page, formatted markdown content.
+  - [ ] **Scroll & Sticky Elements**: Wrap the markdown description in a scrollable container with a custom scrollbar, keeping the header, closing buttons, and footer links (GitHub/Live demo) sticky and always accessible.
+  - [ ] **Visual Grid ("Architecture & Screenshots")**: Add a gallery grid section right below the description in `src/components/DetailedCard.jsx` to render screenshots and architectural diagrams.
+  - [ ] **Prop Integration & Interactivity**: Pass `onImageOpen` (bound to `setFullscreenImage`) to the `DetailCard` component. Clicking any screenshot thumbnail should call `onImageOpen({ ...project, image_url: selectedUrl, activeImageIndex: index })` to launch the fullscreen zoom view directly at that image index.
 
 - [x] **Phase 3: Deep Linking & History Sync**
   - [x] **Mount Parsing**: Add check in `portfolio.jsx` `useEffect` on load for search params `?project=id` or hash `#id`. If matched, open detail modal.
