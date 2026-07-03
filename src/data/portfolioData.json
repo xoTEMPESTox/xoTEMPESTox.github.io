@@ -1,0 +1,224 @@
+[
+  {
+    "id": "liferythm-ai-doctor",
+    "title": "Healthcare AI Platform",
+    "tagline": "End-to-end AI platform for community healthcare and clinical automation",
+    "description": "End-to-end healthcare AI platform combining Medical LLMs, LangGraph workflows, React Native applications, FastAPI microservices, and Bluetooth-enabled medical device integrations. Designed to streamline community healthcare through patient triage, AI-assisted clinical documentation, intelligent reception, and proactive follow-up workflows.",
+    "image_url": "../assets/images/projects/liferythm/main.png",
+    "images": [
+      "../assets/images/projects/liferythm/main.png"
+    ],
+    "markdown": "### Enterprise Medical LLM Integration\nAn end-to-end clinical assistant built to optimize triage operations and note compilation in busy healthcare settings.\n\n### Implementation Highlights\n* **Multi-Agent Systems**: Leverages LangGraph states to manage memory across clinical intake routing loops.\n* **SOAP Note Synthesis**: Automatically converts clinician-patient conversations into structured documentation.\n* **IoT Telemetry**: Integrates blood pressure, pulse oximetry, and temperature readings from connected Bluetooth devices.",
+    "tag": "Healthcare AI",
+    "highlights": [
+      "Built AI Receptionist, Clinical Documentation, patient triage, and Follow-Up workflows using Medical LLMs",
+      "Developed FastAPI microservices and LangGraph orchestration powering production healthcare workflows",
+      "Integrated Bluetooth medical device SDKs with React Native applications for connected diagnostics",
+      "Contributed across architecture, deployment, model evaluation, and production AI workflows"
+    ],
+    "techStack": [
+      { "name": "FastAPI" },
+      { "name": "LangChain" },
+      { "name": "LangGraph" },
+      { "name": "Firebase" }
+    ],
+    "links": { "github_link": "", "live_link": "" },
+    "privateProject": {
+      "title": "🔒 Proprietary Healthcare System",
+      "description": "Built under internship agreement.\nSource code and deployment details are private."
+    }
+  },
+  {
+    "id": "pokedreamer-rl",
+    "title": "PokeDreamer",
+    "tagline": "Dreamer-style world models for model-based reinforcement learning",
+    "description": "Research project exploring Dreamer-style world models for model-based reinforcement learning. Focused on learning latent environment dynamics, improving long-horizon prediction, and reducing compounding errors during imagination rollouts.",
+    "image_url": "../assets/images/projects/pokedreamer/main.png",
+    "images": [
+      "../assets/images/projects/pokedreamer/main.png"
+    ],
+    "markdown": "### Model-Based Reinforcement Learning Research\nExploring latent imagination dynamics in high-dimensional visual environments.\n\n### Technical Features\n* **Recurrent State-Space Models (RSSM)**: Captures discrete transitions to predict future states with reduced drift.\n* **Imagination Rollouts**: Predicts environments 15 frames into the future for latent MPC planners.\n* **Mitigating Compounding Error**: Implements scheduled sampling to stabilize prediction over long horizons.",
+    "tag": "AI Research",
+    "highlights": [
+      "Engineered a discrete native-resolution Recurrent State-Space Model (RSSM)",
+      "Implemented a VAE+GRU dynamics baseline with continuous latent MPC planners",
+      "Executed scheduled-sampling ablation studies to evaluate predictive accuracy",
+      "Analyzed and mitigated latent imagination drift for stable RL environments"
+    ],
+    "techStack": [
+      { "name": "PyTorch" },
+      { "name": "Python" },
+      { "name": "NumPy" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/PokeDreamer",
+      "live_link": "https://pokedreamer.priyanshusah.com/"
+    }
+  },
+  {
+    "id": "navdp-robotics",
+    "title": "NavDP Sandbox",
+    "tagline": "Navigation Diffusion Policy extension for omni-directional robotics",
+    "description": "Academic research fork extending the official Navigation Diffusion Policy (NavDP) framework. Solves simulation-to-reality gaps through custom omni-directional hardware integration and physics optimization.",
+    "image_url": "../assets/images/projects/navdp/main.png",
+    "images": [
+      "../assets/images/projects/navdp/main.png"
+    ],
+    "markdown": "### Sim-to-Real Navigation Diffusion Policies\nDeploys diffusion policies trained in simulation environments onto physical three-wheeled LeKiwi omni-directional robots.\n\n### Core Engineering Accomplishments\n* **USD Collision Geometry fixes**: Programmatically repaired collision meshes in Nvidia Isaac Sim.\n* **Actuator Dynamics Tuning**: Tuning gain schedules to resolve simulation explosions and NaN losses.\n* **Multi-View Telemetry**: Built real-time rendering tools for BEV tracking and path evaluation.",
+    "tag": "Sim-to-Real Robotics",
+    "highlights": [
+      "Integrated a custom LeKiwi 3-wheeled omni-directional robot into the pipeline",
+      "Programmatically re-engineered and fixed broken USD collision geometries",
+      "Resolved NaN simulation explosions via actuator gain and physics tuning",
+      "Developed custom multi-perspective tools (BEV/3rd-Person) for path evaluation"
+    ],
+    "techStack": [
+      { "name": "Python" },
+      { "name": "Robotics" },
+      { "name": "Simulation" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/NavDP",
+      "live_link": "https://navdp.priyanshusah.com/"
+    }
+  },
+  {
+    "id": "enerzal",
+    "title": "Enerzal Enterprise Assistant",
+    "tagline": "Scalable RAG and tool-calling agent for IT/HR automation",
+    "description": "Secure, highly-customizable enterprise AI assistant designed to automate repetitive internal queries. Replaces traditional IT/HR support channels with a real-time, document-aware generative interface.",
+    "image_url": "../assets/images/projects/enerzal/main.png",
+    "images": [
+      "../assets/images/projects/enerzal/main.png"
+    ],
+    "markdown": "### Scalable Enterprise Graph RAG\nSecure assistant designed to automate IT support and HR query resolution using local document indexing.\n\n### Features & Capabilities\n* **Dynamic Document Parsing**: Automated OCR pipelines parser PDFs/DOCXs in sub-8-second retrieval window.\n* **Graph-based Indexing**: Employs Neo4j databases to capture relationships between support categories.\n* **TOTP Access Security**: Localized deployments guarded by strict 2FA configurations.",
+    "tag": "Enterprise AI",
+    "highlights": [
+      "Architected dynamic Graph-based RAG pipelines handling relationship-based data",
+      "Automated PDF/DOCX parsing routines, achieving sub-8-second retrieval latency",
+      "Engineered real-time tool calling integrations with personalized employee dashboards",
+      "Secured localized deployments utilizing strict 2FA (TOTP) access management flows"
+    ],
+    "techStack": [
+      { "name": "Python" },
+      { "name": "OpenAI" },
+      { "name": "React" },
+      { "name": "PostgreSQL" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/Enerzal",
+      "live_link": "https://www.youtube.com/watch?v=azj_7OdSxcY"
+    }
+  },
+  {
+    "id": "tv-plus",
+    "title": "TradingViewPlus",
+    "tagline": "TypeScript browser extension for 300+ active traders",
+    "description": "A major open-source enhancement suite for the TradingView ecosystem, actively used by 300+ traders. Contributing major feature releases, adapter-based support for TradingView-powered platforms, architectural improvements, and ongoing maintenance as a project maintainer.",
+    "image_url": "../assets/images/projects/tv-plus/main.jpg",
+    "images": [
+      "../assets/images/projects/tv-plus/main.jpg"
+    ],
+    "markdown": "### TradingView Open Source Enhancement Suite\nTypeScript browser extension maintaining high performance for 300+ active day traders.\n\n### Contributions & Architecture\n* **Modular Adapter System**: Standardized support across a variety of broker-integrated TradingView charts.\n* **Performance Optimization**: Reduced DOM mutation listener overhead by 30%.\n* **Community Coordination**: Managed issues and PR reviews to grow user base.",
+    "tag": "Open Source",
+    "highlights": [
+      "Contributed 20+ pull requests and resolved 30+ GitHub issues",
+      "Designed an adapter-based architecture supporting multiple TradingView-powered platforms",
+      "Shipped major feature releases and performance improvements as project maintainer",
+      "Continue maintaining and evolving the project alongside the open-source community"
+    ],
+    "techStack": [
+      { "name": "TypeScript" },
+      { "name": "JavaScript" },
+      { "name": "Chrome" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/TradingviewPlus",
+      "live_link": "https://chromewebstore.google.com/detail/tradingviewplus/pkcgjgllebhppgegpedlhjmabmnpcpec?hl=en&authuser=0"
+    }
+  },
+  {
+    "id": "creo-sts-chatbot",
+    "title": "STS Chatbot",
+    "tagline": "Speech-to-speech AI architecture for real-time reasoning",
+    "description": "An end-to-end speech-to-speech (STS) conversational agent built to handle complex, real-time audio interactions with an emphasis on low-latency inference and high concurrency.",
+    "image_url": "../assets/images/projects/creo/main.jpg",
+    "images": [
+      "../assets/images/projects/creo/main.jpg"
+    ],
+    "markdown": "### Low-Latency Speech-to-Speech Architecture\nHigh-concurrency conversational assistant optimized for fast audio interaction loops.\n\n### Design Achievements\n* **Optimized Audio Pipelines**: Achieved sub-350ms turn-taking response latency.\n* **Agentic RAG Integration**: Injects live retrieval chunks directly into the output speech synthesizer stream.\n* **FastAPI WebSockets**: Streamlined audio buffer transfers over concurrent channels.",
+    "tag": "Voice AI",
+    "highlights": [
+      "Led end-to-end engineering of natural language processing and agentic AI reasoning loops",
+      "Designed advanced Voice+LLM pipelines to minimize audio-to-text-to-audio latency",
+      "Deployed scalable API endpoints engineered explicitly for high concurrency workloads",
+      "Integrated live Retrieval-Augmented Generation (RAG) directly into the voice stream"
+    ],
+    "techStack": [
+      { "name": "FastAPI" },
+      { "name": "LangChain" },
+      { "name": "Python" }
+    ],
+    "links": { "github_link": "", "live_link": "" },
+    "privateProject": {
+      "title": "🔒 Client Project",
+      "description": "Built during internship engagement.\nRepository and production environment are private."
+    }
+  },
+  {
+    "id": "eco-chain",
+    "title": "Eco Chain",
+    "tagline": "Full-stack Web3 marketplace for carbon credit tokenization",
+    "description": "A decentralized full-stack application (DApp) structured to bring transparency and automated trading to environmental assets. Designed specifically to reduce double-counting in carbon markets.",
+    "image_url": "../assets/images/projects/eco-chain/main.png",
+    "images": [
+      "../assets/images/projects/eco-chain/main.png"
+    ],
+    "markdown": "### Verified Web3 Carbon Marketplace\nDeploys smart contracts to establish verified tracking ledgers for carbon offset credits.\n\n### Core Implementation\n* **Solidity Smart Contracts**: Tokenizes offsets via secure ERC-20 structures to prevent double-spending.\n* **DApp Frontend**: Responsive dashboard using React, MetaMask integration, and Ethers.js.\n* **Logistics Ledger**: Public tracing database connecting buyers with real-world verification sources.",
+    "tag": "Web3 Ecosystem",
+    "highlights": [
+      "Programmed Ethereum smart contracts via Solidity for secure ERC-20 tokenization",
+      "Architected a responsive MERN-stack frontend bridging traditional UI with Web3 protocols",
+      "Integrated MetaMask flows for secure, decentralized user authentication and signing",
+      "Automated decentralized funding ledgers to drastically improve market transparency"
+    ],
+    "techStack": [
+      { "name": "Solidity" },
+      { "name": "Ethereum" },
+      { "name": "Node.js" },
+      { "name": "MongoDB" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/EcoChain",
+      "live_link": "https://eco-chain-ashen.vercel.app/"
+    }
+  },
+  {
+    "id": "wakebot32",
+    "title": "WakeBot32",
+    "tagline": "Low-power IoT automation tool with secure remote access",
+    "description": "A practical, lightweight C++ hardware application utilizing an ESP32 microcontroller. Circumvents the need for heavy local servers by acting as a dedicated, secure bridge for remote PC wake commands.",
+    "image_url": "../assets/images/projects/wakebot32/main.jpg",
+    "images": [
+      "../assets/images/projects/wakebot32/main.jpg"
+    ],
+    "markdown": "### ESP32-Powered Hardware WOL Gateway\nA secure, low-power IoT device acting as a bridge to send remote wake commands to host systems.\n\n### Technical Design\n* **C++ Arduino firmware**: Written to manage secure memory allocation and minimize power consumption.\n* **Telegram Bot polling**: Polling triggers wake requests directly without opening ports on the local network router.\n* **WOL Packet Generation**: Broadcasts custom WOL packets over local subnet masks.",
+    "tag": "IoT & Hardware",
+    "highlights": [
+      "Engineered robust, low-power ESP32 hardware memory interactions using C++",
+      "Implemented a secure, user-authenticated polling bridge utilizing the Telegram API",
+      "Constructed and deployed network-level Wake-on-LAN (WOL) magic packets",
+      "Designed an automated hardware-reboot architecture to guarantee long-term stability"
+    ],
+    "techStack": [
+      { "name": "C++" },
+      { "name": "ESP32" },
+      { "name": "Telegram" },
+      { "name": "Arduino" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/WakeBot32",
+      "live_link": "https://youtu.be/fOirqvQiiFo"
+    }
+  }
+]

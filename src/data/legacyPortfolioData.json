@@ -1,0 +1,83 @@
+[
+  {
+    "id": "supplyzal",
+    "title": "Supplyzal",
+    "tagline": "Blockchain-based supply tracking with verified sustainability",
+    "description": "Blockchain-based supply tracking with verified sustainability.",
+    "image_url": "../assets/images/projects/supplyzal/main.png",
+    "tag": "Web3 & Logistics",
+    "highlights": [
+      "Designed and deployed smart contracts for tracking product history on-chain",
+      "Created a web dashboard to verify product origin and sustainability claims"
+    ],
+    "techStack": [
+      { "name": "Solidity", "slug": "skill-icons/solidity", "color": "888888", "iconColor": "" },
+      { "name": "React", "slug": "logos/react", "color": "61DAFB", "iconColor": "" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/Supplyzal",
+      "live_link": "https://www.youtube.com/watch?v=CEGqZsqdnN8"
+    }
+  },
+  {
+    "id": "ledgerplay",
+    "title": "LedgerPlay",
+    "tagline": "ERC20 based Staking Logic with Web socket based Multiplayer",
+    "description": "ERC20 based Staking Logic with Web socket based Multiplayer.",
+    "image_url": "../assets/images/projects/ledgerplay/main.png",
+    "tag": "WebSockets & DeFi",
+    "highlights": [
+      "Implemented ERC20-based token staking smart contracts for multiplayer game wagering",
+      "Built a real-time web socket server to handle multiplayer game sessions"
+    ],
+    "techStack": [
+      { "name": "Node.js", "slug": "logos/nodejs-icon", "color": "339933", "iconColor": "" },
+      { "name": "WebSockets", "slug": "logos/websocket", "color": "888888", "iconColor": "" },
+      { "name": "Ethereum", "slug": "logos/ethereum", "color": "888888", "iconColor": "" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/LedgerPlay",
+      "live_link": "https://www.youtube.com/watch?v=w-SHifenCqE"
+    }
+  },
+  {
+    "id": "kaggle-comp",
+    "title": "ML Kaggle Competition",
+    "tagline": "Hosted a Kaggle Competition under TCET ACM SIG AI 2025",
+    "description": "Hosted a Kaggle Competition under TCET ACM SIG AI 2025.",
+    "image_url": "../assets/images/projects/kaggle-comp/main.png",
+    "tag": "Machine Learning",
+    "highlights": [
+      "Co-organized and hosted a machine learning competition for 100+ participants",
+      "Designed clean evaluation datasets and competition baselines"
+    ],
+    "techStack": [
+      { "name": "Kaggle", "slug": "logos/kaggle", "color": "20BEFF", "iconColor": "" },
+      { "name": "Python", "slug": "logos/python", "color": "3776AB", "iconColor": "" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/TCET_ACM_SIGAI_KAGGLE_COMP",
+      "live_link": "https://www.kaggle.com/competitions/acm-sigai-tcet"
+    }
+  },
+  {
+    "id": "portfolio-website",
+    "title": "Portfolio Website",
+    "tagline": "Personal portfolio website built with quality and performance in mind",
+    "description": "Personal portfolio website built with React, Vite, and Tailwind CSS. Designed to showcase projects, experience, skills, and interactive components like a 3D portfolio carousel.",
+    "image_url": "../assets/images/projects/portfolio-website/main.png",
+    "tag": "Frontend & Design",
+    "highlights": [
+      "Implemented a custom 3D carousel using CSS 3D transforms",
+      "Optimized assets and load times for high performance and clean SEO scores"
+    ],
+    "techStack": [
+      { "name": "React", "slug": "logos/react", "color": "61DAFB", "iconColor": "" },
+      { "name": "Vite", "slug": "logos/vite", "color": "646CFF", "iconColor": "" }
+    ],
+    "links": {
+      "github_link": "https://github.com/xoTEMPESTox/Portfolio",
+      "live_link": "https://priyanshusah.com"
+    }
+  }
+]
