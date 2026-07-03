@@ -32,7 +32,17 @@ import rawPortfolioData from "../data/portfolioData.json";
 import legacyPortfolioData from "../data/legacyPortfolioData.json";
 
 const Portfolio = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(() => {
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) {
+        let matched = rawPortfolioData.find((p) => p.id === hash);
+        if (!matched) matched = legacyPortfolioData.find((p) => p.id === hash);
+        return matched || null;
+      }
+    }
+    return null;
+  });
   const [fullscreenImage, setFullscreenImage] = useState(null);
   const { theme } = useTheme();
 
@@ -60,7 +70,21 @@ const Portfolio = () => {
   const len = rawPortfolioData.length;
   // Start at a large index to allow left scrolling without negative quirks immediately,
   // though the logic handles negatives fine.
-  const [activeIndex, setActiveIndex] = useState(len * 100);
+  
+  // Initialize active index based on hash if present
+  const [activeIndex, setActiveIndex] = useState(() => {
+    let initialIndex = len * 100;
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) {
+        const matchedIndex = rawPortfolioData.findIndex((p) => p.id === hash);
+        if (matchedIndex !== -1) {
+          initialIndex = (len * 100) + matchedIndex;
+        }
+      }
+    }
+    return initialIndex;
+  });
 
   const [isDragging, setIsDragging] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(true);
@@ -123,20 +147,18 @@ const Portfolio = () => {
     return stopAutoSlide;
   }, [startAutoSlide, stopAutoSlide]);
 
-  // Handle initial hash check on mount and browser back/forward navigation
+  // Handle external hash changes (e.g. browser back/forward)
   useEffect(() => {
-    const handleHashCheck = () => {
+    const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "");
       if (!hash) {
         setSelectedProject(null);
         return;
       }
 
-      // Check rawPortfolioData first (active projects)
       let matchedProject = rawPortfolioData.find((p) => p.id === hash);
       let isActiveProject = true;
 
-      // If not found in active, check legacyPortfolioData
       if (!matchedProject) {
         matchedProject = legacyPortfolioData.find((p) => p.id === hash);
         isActiveProject = false;
@@ -144,15 +166,12 @@ const Portfolio = () => {
 
       if (matchedProject) {
         setSelectedProject(matchedProject);
-
-        // Snap active carousel index if it's an active project in the carousel
         if (isActiveProject) {
           const matchedIndex = rawPortfolioData.findIndex((p) => p.id === hash);
           if (matchedIndex !== -1) {
             const currentActiveIndex = activeIndexRef.current;
             const currentVirtualBase = Math.floor(currentActiveIndex / len) * len;
-            const targetActiveIndex = currentVirtualBase + matchedIndex;
-            setActiveIndex(targetActiveIndex);
+            setActiveIndex(currentVirtualBase + matchedIndex);
           }
         }
       } else {
@@ -160,13 +179,9 @@ const Portfolio = () => {
       }
     };
 
-    // Check on mount
-    handleHashCheck();
-
-    // Listen for history/hash changes
-    window.addEventListener("hashchange", handleHashCheck);
+    window.addEventListener("hashchange", handleHashChange);
     return () => {
-      window.removeEventListener("hashchange", handleHashCheck);
+      window.removeEventListener("hashchange", handleHashChange);
     };
   }, [len]);
 
