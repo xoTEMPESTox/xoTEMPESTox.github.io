@@ -46,7 +46,7 @@
   </url>
   <url>
     <loc>https://priyanshusah.com/portfolio</loc>
-    <priority>0.2</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://priyanshusah.com/resume</loc>
@@ -218,6 +218,38 @@
   <url>
     <loc>https://priyanshusah.com/socials/ecochain-designing-a-decentralized-platform-for-carbon-credit-trading</loc>
     <lastmod>2025-05-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://priyanshusah.com/portfolio/liferythm-ai-doctor</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://priyanshusah.com/portfolio/pokedreamer-rl</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://priyanshusah.com/portfolio/tv-plus</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://priyanshusah.com/portfolio/creo-sts-chatbot</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://priyanshusah.com/portfolio/navdp-robotics</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://priyanshusah.com/portfolio/enerzal</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://priyanshusah.com/portfolio/eco-chain</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://priyanshusah.com/portfolio/wakebot32</loc>
     <priority>0.8</priority>
   </url>
 </urlset>

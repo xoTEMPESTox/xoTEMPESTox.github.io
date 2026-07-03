@@ -152,10 +152,15 @@ a:visited {
 }
 
 img {
-  max-height: 100%;
   max-width: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
+}
+
+/* Lightbox / fullscreen images — override global constraints so viewport sizing works */
+img[class*="max-h-["],
+img[class*="max-w-["] {
+  max-height: none;
+  max-width: none;
+  object-fit: unset;
 }
 
 section {

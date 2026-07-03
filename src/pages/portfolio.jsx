@@ -9,8 +9,10 @@ import React, {
 import "../styles/main.css";
 import DetailCard from "../components/DetailedCard";
 import Cube from "../components/Cube";
-import { RotateCcw, X, ZoomIn, ZoomOut } from "lucide-react";
+import { RotateCcw, X, ZoomIn, ZoomOut, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTheme } from "../components/HeaderBackground";
+import FullscreenZoomableImage from "../components/FullscreenZoomableImage";
+import { createPortal } from "react-dom";
 
 // --- Configuration Constants ---
 // Base values (Mobile/Tablet)
@@ -26,373 +28,8 @@ const GAP_WIDTH = 64; // 4rem
 const ITEM_WIDTH = CUBE_WIDTH + GAP_WIDTH;
 const AUTO_SLIDE_DELAY = 2500;
 const SWIPE_THRESHOLD = 50;
-
-// --- Data ---
-const rawPortfolioData = [
-  {
-    id: "liferythm-ai-doctor",
-    title: "Healthcare AI Platform",
-    tagline: "End-to-end AI platform for community healthcare and clinical automation",
-    description: "End-to-end healthcare AI platform combining Medical LLMs, LangGraph workflows, React Native applications, FastAPI microservices, and Bluetooth-enabled medical device integrations. Designed to streamline community healthcare through patient triage, AI-assisted clinical documentation, intelligent reception, and proactive follow-up workflows.",
-    image_url: "../assets/images/projects/liferythm.png",
-    tag: "Healthcare AI",
-    highlights: [
-      "Built AI Receptionist, Clinical Documentation, patient triage, and Follow-Up workflows using Medical LLMs",
-      "Developed FastAPI microservices and LangGraph orchestration powering production healthcare workflows",
-      "Integrated Bluetooth medical device SDKs with React Native applications for connected diagnostics",
-      "Contributed across architecture, deployment, model evaluation, and production AI workflows",
-    ],
-    techStack: [
-      { name: "FastAPI", slug: "logos/fastapi", color: "009688", iconColor: "" },
-      { name: "LangChain", slug: "logos/python", color: "3776AB", iconColor: "" },
-      { name: "LangGraph", slug: "logos/python", color: "3776AB", iconColor: "" },
-      { name: "Firebase", slug: "logos/firebase", color: "FFCA28", iconColor: "" },
-    ],
-    links: { github_link: "", live_link: "" },
-    privateProject: {
-      title: "🔒 Proprietary Healthcare System",
-      description: "Built under internship agreement.\nSource code and deployment details are private.",
-    },
-  },
-  {
-    id: "pokedreamer-rl",
-    title: "PokeDreamer",
-    tagline: "Dreamer-style world models for model-based reinforcement learning",
-    description: "Research project exploring Dreamer-style world models for model-based reinforcement learning. Focused on learning latent environment dynamics, improving long-horizon prediction, and reducing compounding errors during imagination rollouts.",
-    image_url: "../assets/images/projects/pokedreamer.png",
-    tag: "AI Research",
-    highlights: [
-      "Engineered a discrete native-resolution Recurrent State-Space Model (RSSM)",
-      "Implemented a VAE+GRU dynamics baseline with continuous latent MPC planners",
-      "Executed scheduled-sampling ablation studies to evaluate predictive accuracy",
-      "Analyzed and mitigated latent imagination drift for stable RL environments",
-    ],
-    techStack: [
-      { name: "PyTorch", slug: "logos/pytorch", color: "EE4C2C", iconColor: "" },
-      { name: "Python", slug: "logos/python", color: "3776AB", iconColor: "" },
-      { name: "NumPy", slug: "logos/numpy", color: "013243", iconColor: "" },
-    ],
-    links: {
-      github_link: "https://github.com/xoTEMPESTox/PokeDreamer",
-      live_link: "https://pokedreamer.priyanshusah.com/",
-    },
-  },
-  {
-    id: "navdp-robotics",
-    title: "NavDP Sandbox",
-    tagline: "Navigation Diffusion Policy extension for omni-directional robotics",
-    description: "Academic research fork extending the official Navigation Diffusion Policy (NavDP) framework. Solves simulation-to-reality gaps through custom omni-directional hardware integration and physics optimization.",
-    image_url: "../assets/images/projects/navdp.png",
-    tag: "Sim-to-Real Robotics",
-    highlights: [
-      "Integrated a custom LeKiwi 3-wheeled omni-directional robot into the pipeline",
-      "Programmatically re-engineered and fixed broken USD collision geometries",
-      "Resolved NaN simulation explosions via actuator gain and physics tuning",
-      "Developed custom multi-perspective tools (BEV/3rd-Person) for path evaluation",
-    ],
-    techStack: [
-      { name: "Python", slug: "logos/python", color: "3776AB", iconColor: "" },
-      { name: "Robotics", slug: "logos/ros", color: "22314E", iconColor: "" },
-      { name: "Simulation", slug: "logos/nvidia", color: "76B900", iconColor: "" },
-    ],
-    links: {
-      github_link: "https://github.com/xoTEMPESTox/NavDP",
-      live_link: "https://navdp.priyanshusah.com/",
-    },
-  },
-  {
-    id: "enerzal",
-    title: "Enerzal Enterprise Assistant",
-    tagline: "Scalable RAG and tool-calling agent for IT/HR automation",
-    description: "Secure, highly-customizable enterprise AI assistant designed to automate repetitive internal queries. Replaces traditional IT/HR support channels with a real-time, document-aware generative interface.",
-    image_url: "../assets/images/projects/project-1.png",
-    tag: "Enterprise AI",
-    highlights: [
-      "Architected dynamic Graph-based RAG pipelines handling relationship-based data",
-      "Automated PDF/DOCX parsing routines, achieving sub-8-second retrieval latency",
-      "Engineered real-time tool calling integrations with personalized employee dashboards",
-      "Secured localized deployments utilizing strict 2FA (TOTP) access management flows",
-    ],
-    techStack: [
-      { name: "Python", slug: "logos/python", color: "3776AB", iconColor: "" },
-      { name: "OpenAI", slug: "logos/openai-icon", color: "888888", iconColor: "invert" },
-      { name: "React", slug: "logos/react", color: "61DAFB", iconColor: "" },
-      { name: "PostgreSQL", slug: "logos/postgresql", color: "4169E1", iconColor: "" },
-    ],
-    links: {
-      github_link: "https://github.com/xoTEMPESTox/Enerzal",
-      live_link: "https://www.youtube.com/watch?v=azj_7OdSxcY",
-    },
-  },
-  {
-    id: "tv-plus",
-    title: "TradingViewPlus",
-    tagline: "TypeScript browser extension for 300+ active traders",
-    description: "A major open-source enhancement suite for the TradingView ecosystem, actively used by 300+ traders. Contributing major feature releases, adapter-based support for TradingView-powered platforms, architectural improvements, and ongoing maintenance as a project maintainer.",
-    image_url: "../assets/images/projects/project-6.jpg",
-    tag: "Open Source",
-    highlights: [
-      "Contributed 20+ pull requests and resolved 30+ GitHub issues",
-      "Designed an adapter-based architecture supporting multiple TradingView-powered platforms",
-      "Shipped major feature releases and performance improvements as project maintainer",
-      "Continue maintaining and evolving the project alongside the open-source community",
-    ],
-    techStack: [
-      { name: "TypeScript", slug: "logos/typescript-icon", color: "3178C6", iconColor: "" },
-      { name: "JavaScript", slug: "logos/javascript", color: "F7DF1E", iconColor: "" },
-      { name: "Chrome", slug: "logos/chrome", color: "4285F4", iconColor: "" },
-    ],
-    links: {
-      github_link: "https://github.com/xoTEMPESTox/TradingviewPlus",
-      live_link: "https://chromewebstore.google.com/detail/tradingviewplus/pkcgjgllebhppgegpedlhjmabmnpcpec?hl=en&authuser=0",
-    },
-  },
-  {
-    id: "creo-sts-chatbot",
-    title: "STS Chatbot",
-    tagline: "Speech-to-speech AI architecture for real-time reasoning",
-    description: "An end-to-end speech-to-speech (STS) conversational agent built to handle complex, real-time audio interactions with an emphasis on low-latency inference and high concurrency.",
-    image_url: "../assets/images/projects/creo.jpg",
-    tag: "Voice AI",
-    highlights: [
-      "Led end-to-end engineering of natural language processing and agentic AI reasoning loops",
-      "Designed advanced Voice+LLM pipelines to minimize audio-to-text-to-audio latency",
-      "Deployed scalable API endpoints engineered explicitly for high concurrency workloads",
-      "Integrated live Retrieval-Augmented Generation (RAG) directly into the voice stream",
-    ],
-    techStack: [
-      { name: "FastAPI", slug: "logos/fastapi", color: "009688", iconColor: "" },
-      { name: "LangChain", slug: "logos/python", color: "3776AB", iconColor: "" },
-      { name: "Python", slug: "logos/python", color: "3776AB", iconColor: "" },
-    ],
-    links: { github_link: "", live_link: "" },
-    privateProject: {
-      title: "🔒 Client Project",
-      description: "Built during internship engagement.\nRepository and production environment are private.",
-    },
-  },
-  {
-    id: "eco-chain",
-    title: "Eco Chain",
-    tagline: "Full-stack Web3 marketplace for carbon credit tokenization",
-    description: "A decentralized full-stack application (DApp) structured to bring transparency and automated trading to environmental assets. Designed specifically to reduce double-counting in carbon markets.",
-    image_url: "../assets/images/projects/project-2.png",
-    tag: "Web3 Ecosystem",
-    highlights: [
-      "Programmed Ethereum smart contracts via Solidity for secure ERC-20 tokenization",
-      "Architected a responsive MERN-stack frontend bridging traditional UI with Web3 protocols",
-      "Integrated MetaMask flows for secure, decentralized user authentication and signing",
-      "Automated decentralized funding ledgers to drastically improve market transparency",
-    ],
-    techStack: [
-      { name: "Solidity", slug: "skill-icons/solidity", color: "888888", iconColor: "" },
-      { name: "Ethereum", slug: "logos/ethereum", color: "888888", iconColor: "" },
-      { name: "Node.js", slug: "logos/nodejs-icon", color: "339933", iconColor: "" },
-      { name: "MongoDB", slug: "logos/mongodb-icon", color: "47A248", iconColor: "" },
-    ],
-    links: {
-      github_link: "https://github.com/xoTEMPESTox/EcoChain",
-      live_link: "https://eco-chain-ashen.vercel.app/",
-    },
-  },
-  {
-    id: "wakebot32",
-    title: "WakeBot32",
-    tagline: "Low-power IoT automation tool with secure remote access",
-    description: "A practical, lightweight C++ hardware application utilizing an ESP32 microcontroller. Circumvents the need for heavy local servers by acting as a dedicated, secure bridge for remote PC wake commands.",
-    image_url: "../assets/images/projects/project-5.jpg",
-    tag: "IoT & Hardware",
-    highlights: [
-      "Engineered robust, low-power ESP32 hardware memory interactions using C++",
-      "Implemented a secure, user-authenticated polling bridge utilizing the Telegram API",
-      "Constructed and deployed network-level Wake-on-LAN (WOL) magic packets",
-      "Designed an automated hardware-reboot architecture to guarantee long-term stability",
-    ],
-    techStack: [
-      { name: "C++", slug: "logos/c-plusplus", color: "00599C", iconColor: "" },
-      { name: "ESP32", slug: "simple-icons/espressif", color: "888888", iconColor: "invert" },
-      { name: "Telegram", slug: "logos/telegram", color: "26A5E4", iconColor: "" },
-      { name: "Arduino", slug: "logos/arduino", color: "00979D", iconColor: "" },
-    ],
-    links: {
-      github_link: "https://github.com/xoTEMPESTox/WakeBot32",
-      live_link: "https://youtu.be/fOirqvQiiFo",
-    },
-  }
-];
-
-/**
- * Enhanced Fullscreen Image Modal
- * Features: Pinch-to-zoom, Drag-to-pan, Wheel-to-zoom
- * Layout: Strictly adheres to user request
- */
-const FullscreenZoomableImage = ({ image, onClose }) => {
-  const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-
-  // Refs for gesture handling
-  const startPos = useRef({ x: 0, y: 0 });
-  const startPinchDist = useRef(null);
-  const startScale = useRef(1);
-
-  // Constants
-  const minScale = 1;
-  const maxScale = 4;
-
-  const updateScale = (newScale) => {
-    const clampedScale = Math.min(Math.max(newScale, minScale), maxScale);
-    setScale(clampedScale);
-
-    // If returning to 1, recenter
-    if (clampedScale <= 1.05) {
-      setPosition({ x: 0, y: 0 });
-    }
-  };
-
-  const handleDoubleClick = (e) => {
-    e.stopPropagation();
-    if (scale > 1.5) {
-      updateScale(1);
-    } else {
-      updateScale(2.5);
-    }
-  };
-
-  // --- MOUSE EVENTS ---
-  const handleWheel = (e) => {
-    e.stopPropagation();
-    const delta = -e.deltaY * 0.002;
-    updateScale(scale + delta);
-  };
-
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    if (scale <= 1) return;
-    setIsDragging(true);
-    startPos.current = { x: e.clientX - position.x, y: e.clientY - position.y };
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const newX = e.clientX - startPos.current.x;
-    const newY = e.clientY - startPos.current.y;
-    setPosition({ x: newX, y: newY });
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  // --- TOUCH EVENTS (Pinch & Pan) ---
-  const handleTouchStart = (e) => {
-    if (e.touches.length === 2) {
-      // Pinch Start
-      const dist = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY,
-      );
-      startPinchDist.current = dist;
-      startScale.current = scale;
-    } else if (e.touches.length === 1 && scale > 1) {
-      // Pan Start
-      setIsDragging(true);
-      startPos.current = {
-        x: e.touches[0].clientX - position.x,
-        y: e.touches[0].clientY - position.y,
-      };
-    }
-  };
-
-  const handleTouchMove = (e) => {
-    // Prevent default to stop scrolling background while interacting
-    if (scale > 1 || e.touches.length === 2) {
-      // Only prevent default if we are actively interacting with the image logic
-      // otherwise standard scrolling might be desired (though this is a modal)
-      // e.preventDefault();
-    }
-
-    if (e.touches.length === 2 && startPinchDist.current) {
-      // Pinch Move
-      const dist = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY,
-      );
-      const zoomFactor = dist / startPinchDist.current;
-      updateScale(startScale.current * zoomFactor);
-    } else if (e.touches.length === 1 && isDragging && scale > 1) {
-      // Pan Move
-      const newX = e.touches[0].clientX - startPos.current.x;
-      const newY = e.touches[0].clientY - startPos.current.y;
-      setPosition({ x: newX, y: newY });
-    }
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-    startPinchDist.current = null;
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/95 backdrop-blur-xl animate-in fade-in duration-300"
-      onClick={onClose}
-    >
-      <div
-        className="relative flex flex-col items-center justify-center max-w-[95vw] max-h-[60vh] animate-in zoom-in-95 duration-300 ease-out"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* The Image - Scaled to 80% screen height */}
-        <div className="relative group">
-          <img
-            src={image.image_url}
-            alt={image.title}
-            className="md:h-[60vh] h-auto w-auto max-w-full object-contain rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-white/10 touch-none"
-            style={{
-              transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-              cursor: scale > 1 ? "grab" : "zoom-in",
-              transition: isDragging
-                ? "none"
-                : "transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-              zIndex: 10,
-            }}
-            // Handlers
-            onWheel={handleWheel}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onDoubleClick={handleDoubleClick}
-            draggable={false}
-          />
-        </div>
-        <button
-          onClick={onClose}
-          className="fixed top-6 right-6 z-[10010] flex items-center gap-2 text-white/50 hover:text-white transition-colors group/btn"
-        >
-          <span className="text-[10px] text-white font-bold uppercase tracking-widest">
-            Close Preview
-          </span>
-          <div className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full border border-white/20 group-hover/btn:bg-white/20 group-hover/btn:scale-110 transition-all backdrop-blur-md">
-            <X size={20} />
-          </div>
-        </button>
-
-        {/* Bottom Caption Area */}
-        <div className="mt-6 text-center">
-          <h3 className="text-white font-bold text-2xl uppercase tracking-tight">
-            {image.title}
-          </h3>
-          <p className="text-zinc-400 text-lg mt-1">{image.tag}</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+import rawPortfolioData from "../data/portfolioData.json";
+import legacyPortfolioData from "../data/legacyPortfolioData.json";
 
 const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -469,17 +106,93 @@ const Portfolio = () => {
 
   const startAutoSlide = useCallback(() => {
     stopAutoSlide();
-    if (isHoveringRef.current) return;
+    if (isHoveringRef.current || selectedProject) return;
     autoSlideRef.current = setInterval(() => {
       setActiveIndex((prev) => prev + 1);
       setIsTransitioning(true);
     }, AUTO_SLIDE_DELAY);
-  }, [stopAutoSlide]);
+  }, [stopAutoSlide, selectedProject]);
+
+  const activeIndexRef = useRef(activeIndex);
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   useEffect(() => {
     startAutoSlide();
     return stopAutoSlide;
   }, [startAutoSlide, stopAutoSlide]);
+
+  // Handle initial hash check on mount and browser back/forward navigation
+  useEffect(() => {
+    const handleHashCheck = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (!hash) {
+        setSelectedProject(null);
+        return;
+      }
+
+      // Check rawPortfolioData first (active projects)
+      let matchedProject = rawPortfolioData.find((p) => p.id === hash);
+      let isActiveProject = true;
+
+      // If not found in active, check legacyPortfolioData
+      if (!matchedProject) {
+        matchedProject = legacyPortfolioData.find((p) => p.id === hash);
+        isActiveProject = false;
+      }
+
+      if (matchedProject) {
+        setSelectedProject(matchedProject);
+
+        // Snap active carousel index if it's an active project in the carousel
+        if (isActiveProject) {
+          const matchedIndex = rawPortfolioData.findIndex((p) => p.id === hash);
+          if (matchedIndex !== -1) {
+            const currentActiveIndex = activeIndexRef.current;
+            const currentVirtualBase = Math.floor(currentActiveIndex / len) * len;
+            const targetActiveIndex = currentVirtualBase + matchedIndex;
+            setActiveIndex(targetActiveIndex);
+          }
+        }
+      } else {
+        setSelectedProject(null);
+      }
+    };
+
+    // Check on mount
+    handleHashCheck();
+
+    // Listen for history/hash changes
+    window.addEventListener("hashchange", handleHashCheck);
+    return () => {
+      window.removeEventListener("hashchange", handleHashCheck);
+    };
+  }, [len]);
+
+  const isFirstRenderRef = useRef(true);
+
+  // Update browser hash/history when selectedProject changes
+  useEffect(() => {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      return;
+    }
+
+    if (selectedProject) {
+      if (window.location.hash !== `#${selectedProject.id}`) {
+        window.location.hash = selectedProject.id;
+      }
+    } else {
+      if (window.location.hash) {
+        window.history.pushState(
+          "",
+          document.title,
+          window.location.pathname + window.location.search
+        );
+      }
+    }
+  }, [selectedProject]);
 
   // We no longer need separate handleTransitionEnd for snapping
   // But we might want to ensure 'isTransitioning' is set back to true if it was false for dragging
@@ -569,8 +282,16 @@ const Portfolio = () => {
           }}
           onMouseLeave={(e) => {
             isHoveringRef.current = false;
-            if (draggingRef.current) handleDragEnd(e.clientX);
-            else startAutoSlide();
+            if (draggingRef.current) {
+              handleDragEnd(e.clientX);
+            } else {
+              // Start rotating instantly on hover leave, unless details modal is open
+              if (!selectedProject) {
+                setActiveIndex((prev) => prev + 1);
+                setIsTransitioning(true);
+              }
+              startAutoSlide();
+            }
           }}
           onPointerDown={(e) => {
             if (e.target.closest("button") || e.target.closest("a")) return;
@@ -627,12 +348,16 @@ const Portfolio = () => {
       </div>
 
       {/* RE-ENGINEERED ZOOMABLE MODAL */}
-      {fullscreenImage && (
-        <FullscreenZoomableImage
-          image={fullscreenImage}
-          onClose={() => setFullscreenImage(null)}
-        />
-      )}
+      {fullscreenImage &&
+        createPortal(
+          <FullscreenZoomableImage
+            images={fullscreenImage.images || [fullscreenImage.image_url]}
+            title={fullscreenImage.title}
+            tag={fullscreenImage.tag}
+            onClose={() => setFullscreenImage(null)}
+          />,
+          document.body
+        )}
       <DetailCard
         project={selectedProject}
         onClose={() => setSelectedProject(null)}

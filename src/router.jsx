@@ -1,11 +1,21 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   Navigate,
-  RouterProvider,
 } from "react-router-dom";
 import App from "./App";
+
+// Helper to catch dynamic chunk loading failures (e.g. after a redeployment) and reload the page
+const safeLazy = (importFunc) => {
+  return () =>
+    importFunc()
+      .then((m) => ({ Component: m.default }))
+      .catch((err) => {
+        console.error("Failed to fetch dynamically imported module, forcing page reload:", err);
+        window.location.reload();
+        return { Component: () => null };
+      });
+};
 
 const appRouter = createBrowserRouter([
   {
@@ -14,35 +24,35 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        lazy: () => import("./pages/home").then(m => ({ Component: m.default })),
+        lazy: safeLazy(() => import("./pages/home")),
       },
       {
         path: "/about",
-        lazy: () => import("./pages/about").then(m => ({ Component: m.default })),
+        lazy: safeLazy(() => import("./pages/about")),
       },
       {
         path: "/journey",
-        lazy: () => import("./pages/journey").then(m => ({ Component: m.default })),
+        lazy: safeLazy(() => import("./pages/journey")),
       },
       {
         path: "/portfolio",
-        lazy: () => import("./pages/portfolio").then(m => ({ Component: m.default })),
+        lazy: safeLazy(() => import("./pages/portfolio")),
       },
       {
         path: "/services",
-        lazy: () => import("./pages/services").then(m => ({ Component: m.default })),
+        lazy: safeLazy(() => import("./pages/services")),
       },
       {
         path: "/skills",
-        lazy: () => import("./pages/skills").then(m => ({ Component: m.default })),
+        lazy: safeLazy(() => import("./pages/skills")),
       },
       {
         path: "/socials",
-        lazy: () => import("./pages/socials").then(m => ({ Component: m.default })),
+        lazy: safeLazy(() => import("./pages/socials")),
       },
       {
         path: "/mail",
-        lazy: () => import("./pages/mail").then(m => ({ Component: m.default })),
+        lazy: safeLazy(() => import("./pages/mail")),
       },
       {
         path: "*",

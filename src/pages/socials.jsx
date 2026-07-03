@@ -12,164 +12,13 @@ import DetailView from "../components/DetailView";
 import "../styles/main.css";
 import { useTheme } from "../components/HeaderBackground";
 import { NavLink } from "react-router-dom";
+import FullscreenZoomableImage from "../components/FullscreenZoomableImage";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import ReactDOM from "react-dom";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import Fuse from "fuse.js";
 
-const ImageGalleryModal = ({ images, onClose, theme = "dark" }) => {
-  const [isPaused, setIsPaused] = useState(false);
-  const scrollContainerRef = useRef(null);
-  const requestRef = useRef(null);
-  const previousTimeRef = useRef(null);
-  const timeoutRef = useRef(null);
 
-  // Constants
-  const SCROLL_SPEED = 60; // Pixels per second
-  const RESUME_DELAY = 3000; // 3 seconds of silence before resume
-
-  const animate = (time) => {
-    if (
-      previousTimeRef.current !== undefined &&
-      scrollContainerRef.current &&
-      !isPaused
-    ) {
-      const deltaTime = (time - previousTimeRef.current) / 1000; // Convert to seconds
-      const container = scrollContainerRef.current;
-
-      const { scrollTop, scrollHeight, clientHeight } = container;
-
-      // Calculate next scroll position
-      let nextScroll = scrollTop + SCROLL_SPEED * deltaTime;
-
-      // Seamless loop: if we're at the very bottom (last buffer image), reset to top
-      if (nextScroll + clientHeight >= scrollHeight - 2) {
-        nextScroll = 0;
-      }
-
-      container.scrollTop = nextScroll;
-    }
-    previousTimeRef.current = time;
-    requestRef.current = requestAnimationFrame(animate);
-  };
-
-  const handleManualScroll = () => {
-    // Stop auto-scroll
-    setIsPaused(true);
-
-    // Clear existing timer
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-
-    // Set timer to resume after inactivity
-    timeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, RESUME_DELAY);
-  };
-
-  useEffect(() => {
-    requestRef.current = requestAnimationFrame(animate);
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      document.body.style.overflow = "";
-    };
-  }, [isPaused]);
-
-  if (!images || images.length === 0) return null;
-
-  return (
-    <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8"
-      style={{
-        backgroundColor:
-          theme === "dark" ? "rgba(0, 0, 0, 0.95)" : "rgba(15, 23, 42, 0.95)",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      }}
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* Header / UI Layer */}
-      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-50 pointer-events-none">
-        <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-full">
-          <p className="text-white text-xs font-medium uppercase tracking-widest">
-            {isPaused ? "Paused" : "Auto-Scrolling"}
-          </p>
-        </div>
-        <button
-          onClick={onClose}
-          className="pointer-events-auto p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-md"
-        >
-          <X size={24} />
-        </button>
-      </div>
-
-      {/* Main Slideshow Container */}
-      <div
-        className="w-full max-w-2xl h-full flex flex-col items-center relative group"
-        style={{ maxHeight: "85vh" }}
-      >
-        <div
-          ref={scrollContainerRef}
-          onWheel={handleManualScroll}
-          onTouchMove={handleManualScroll}
-          className="w-full h-full overflow-y-auto no-scrollbar rounded-xl shadow-2xl space-y-1"
-          style={{
-            msOverflowStyle: "none",
-            scrollbarWidth: "none",
-            scrollBehavior: "auto", // Important: must be auto for smooth manual-to-auto transitions
-          }}
-        >
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="relative w-full flex-shrink-0 bg-zinc-900 overflow-hidden"
-            >
-              <img
-                src={image.url}
-                alt={image.alt || `Slide ${index + 1}`}
-                className="w-full h-auto object-contain block mx-auto transition-transform duration-700 hover:scale-105"
-                loading="lazy"
-              />
-              {image.alt && !image.alt.toLowerCase().includes("no alternative text") && (
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                  <p className="text-white text-sm md:text-base font-light">
-                    {image.alt}
-                  </p>
-                </div>
-              )}
-            </div>
-          ))}
-
-          {/* Loop Buffer for seamlessness */}
-          <div className="relative w-full flex-shrink-0 bg-zinc-900">
-            <img
-              src={images[0].url}
-              alt="buffer"
-              className="w-full h-auto object-contain opacity-50"
-            />
-          </div>
-        </div>
-
-        {/* Scroll Indicators */}
-        <div className="absolute right-[-40px] top-1/2 -translate-y-1/2 flex flex-col gap-4 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex">
-          <ChevronUp className="text-white/50 animate-bounce" />
-          <ChevronDown className="text-white/50 animate-bounce" />
-        </div>
-      </div>
-
-      <style>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-    </div>
-  );
-};
 
 // --- COOKIE UTILITIES ---
 const LIKED_POSTS_COOKIE = "likedBlogPosts";
@@ -351,21 +200,7 @@ const Socials = () => {
     setGalleryIndex(0);
   }, []);
 
-  const handleGalleryPrev = useCallback(() => {
-    setGalleryIndex((prev) =>
-      prev === 0 ? (galleryImages?.length || 1) - 1 : prev - 1,
-    );
-  }, [galleryImages]);
 
-  const handleGalleryNext = useCallback(() => {
-    setGalleryIndex((prev) =>
-      prev === (galleryImages?.length || 1) - 1 ? 0 : prev + 1,
-    );
-  }, [galleryImages]);
-
-  const handleGallerySelectIndex = useCallback((index) => {
-    setGalleryIndex(index);
-  }, []);
 
   return (
     <div className="page-section" data-theme={theme}>
@@ -521,19 +356,17 @@ const Socials = () => {
           </div>
         )}
 
-        {/* IMAGE GALLERY MODAL - Rendered via Portal at document.body level */}
+        {/* IMAGE GALLERY MODAL - Portal to document.body to escape transform stacking context */}
         {galleryImages &&
           ReactDOM.createPortal(
-            <ImageGalleryModal
+            <FullscreenZoomableImage
               images={galleryImages}
-              currentIndex={galleryIndex}
+              initialIndex={galleryIndex}
+              title={selectedPost?.title}
               onClose={handleGalleryClose}
-              onPrev={handleGalleryPrev}
-              onNext={handleGalleryNext}
-              onSelectIndex={handleGallerySelectIndex}
               theme={theme}
             />,
-            document.body,
+            document.body
           )}
       </div>
       <style>{`

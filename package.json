@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "npm install && vite build",
+    "build": "npm install && node scripts/generate-portfolio-seo.js && vite build",
     "preview": "vite preview",
     "update:scrape": "npm --prefix scripts/linkedin-scraper run scrape",
     "update:process": "npm --prefix scripts/linkedin-scraper run process",

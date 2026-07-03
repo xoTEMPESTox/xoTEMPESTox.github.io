@@ -2,29 +2,38 @@ import React, { useState, useRef, useEffect } from "react";
 import { Github, ExternalLink } from "lucide-react";
 import { useTheme } from "./HeaderBackground";
 
+import { TECH_ICON_MAP } from "../constants/techIcons";
+
 // --- Sub-Components ---
 const TechBadge = React.memo(({ label, slug, color, iconColor, theme }) => {
-  // Only invert if explicitly requested AND we are in dark mode
-  const finalIconClass =
-    iconColor === "invert" ? (theme === "dark" ? "invert" : "") : iconColor;
+  const mapped = TECH_ICON_MAP[label];
+
+  const resolvedUrl = mapped?.url
+    ?? (slug
+      ? slug.startsWith("http") ? slug : `https://api.iconify.design/${slug}.svg`
+      : null);
+
+  const resolvedColor = mapped?.color ?? color ?? "888888";
 
   return (
     <div
       style={{
-        backgroundColor: `#${color}15`, // 15 is ~8% opacity
-        borderColor: `#${color}30`, // 30 is ~20% opacity
+        backgroundColor: `#${resolvedColor}15`,
+        borderColor: `#${resolvedColor}30`,
       }}
       className="flex items-center px-2.5 py-1 rounded-full border backdrop-blur-sm transition-transform hover:scale-105"
     >
-      <img
-        src={`https://api.iconify.design/${slug}.svg`}
-        alt={label}
-        decoding="async"
-        className={`w-4 h-4 min-[1265px]:w-5 min-[1265px]:h-5 mr-2 ${finalIconClass}`}
-      />
+      {resolvedUrl && (
+        <img
+          src={resolvedUrl}
+          alt={label}
+          decoding="async"
+          className="w-4 h-4 min-[1265px]:w-5 min-[1265px]:h-5 mr-2 shrink-0"
+        />
+      )}
       <span
-        style={{ color: `#${color}` }}
-        className="text-[11px] min-[1265px]:text-[13px]  font-semibold"
+        style={{ color: `#${resolvedColor}` }}
+        className="text-[11px] min-[1265px]:text-[13px] font-semibold"
       >
         {label}
       </span>

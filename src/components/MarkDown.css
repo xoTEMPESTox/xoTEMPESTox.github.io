@@ -73,20 +73,23 @@
 
 /* Lists */
 .markdownBody ul {
-  list-style: disc; /* Default bullet points */
-  margin-left: 1.5em;
+  list-style: disc !important;
+  list-style-type: disc !important;
+  margin-left: 1.8em !important;
+  padding-left: 0 !important;
   margin-bottom: 1em;
   color: #e2e8f0;
   font-size: 1.3rem;
 }
 
 .markdownBody ol {
-  list-style: decimal; /* Numbered list */
-  margin-left: 1.7em;
+  list-style: decimal !important;
+  list-style-type: decimal !important;
+  margin-left: 1.8em !important;
+  padding-left: 0 !important;
   margin-bottom: 1em;
   color: #e2e8f0;
   font-size: 1.3rem;
-
 }
 
 .markdownBody ul li,
