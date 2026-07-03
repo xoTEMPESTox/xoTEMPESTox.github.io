@@ -267,7 +267,7 @@ const DetailCard = ({ project, onClose }) => {
                       <button
                         key={index}
                         onClick={() => setActiveImageIndex(index)}
-                        className={`relative w-20 aspect-video rounded-lg overflow-hidden border-2 shrink-0 transition-all duration-200 active:scale-95 ${
+                        className={`relative w-[108px] aspect-video rounded-lg overflow-hidden border-2 shrink-0 transition-all duration-200 active:scale-95 ${
                           isActive
                             ? "border-purple-500 ring-2 ring-purple-500/20 scale-102 shadow-md"
                             : theme === "dark"

@@ -88,6 +88,14 @@ export const TECH_ICON_MAP = {
     url: "https://api.iconify.design/logos/nodejs-icon.svg",
     color: "339933",
   },
+  Flask: {
+    url: "https://api.iconify.design/simple-icons/flask.svg?color=%23000000",
+    color: "000000",
+  },
+  Neo4j: {
+    url: "https://api.iconify.design/simple-icons/neo4j.svg?color=%23008CC1",
+    color: "008CC1",
+  },
 
   // ── Frontend ───────────────────────────────────────────────────────────────
   React: {
@@ -97,6 +105,18 @@ export const TECH_ICON_MAP = {
   Chrome: {
     url: "https://api.iconify.design/logos/chrome.svg",
     color: "4285F4",
+  },
+  "WebExtensions API": {
+    url: "https://api.iconify.design/lucide/puzzle.svg?color=%233178C6",
+    color: "3178C6",
+  },
+  "Chrome Extensions": {
+    url: "https://api.iconify.design/logos/chrome.svg",
+    color: "4285F4",
+  },
+  "Firefox Extensions": {
+    url: "https://api.iconify.design/logos/firefox.svg",
+    color: "FF7139",
   },
 
   // ── Web3 ───────────────────────────────────────────────────────────────────
@@ -118,6 +138,18 @@ export const TECH_ICON_MAP = {
     url: "https://api.iconify.design/logos/arduino.svg",
     color: "00979D",
   },
+  PlatformIO: {
+    url: "https://api.iconify.design/simple-icons/platformio.svg?color=%23F6851B",
+    color: "F6851B",
+  },
+  SPI: {
+    url: "https://api.iconify.design/lucide/cpu.svg?color=%2364748B",
+    color: "64748B",
+  },
+  I2C: {
+    url: "https://api.iconify.design/lucide/cpu.svg?color=%2300979D",
+    color: "00979D",
+  },
 
   // ── Robotics / Simulation ──────────────────────────────────────────────────
   Robotics: {
@@ -129,5 +161,13 @@ export const TECH_ICON_MAP = {
     // Nvidia Isaac Sim
     url: "https://api.iconify.design/simple-icons/nvidia.svg?color=%2376B900",
     color: "76B900",
+  },
+  "Isaac Sim": {
+    url: "https://api.iconify.design/simple-icons/nvidia.svg?color=%2376B900",
+    color: "76B900",
+  },
+  USD: {
+    url: "https://api.iconify.design/lucide/box.svg?color=%235F6062",
+    color: "5F6062",
   },
 };
