@@ -124,15 +124,15 @@ See [`scripts/linkedin-scraper/README.md`](scripts/linkedin-scraper/README.md) f
 - Backgrounds: Video loops sourced from Steam Wallpaper Engine Workshop — credit to the original artists
 - Music: Lo-fi tracks credit to the original artists
 
-## Roadmap
+## Feature Roadmap
 
-- [x] **Phase 0: Journey Timeline Hotfix (LifeRhythm Reversion)**
-  - [x] **Revert Description**: Handle dynamic descriptions dynamically in the journey timeline without overflow.
-  - [x] **Revert Offsets**: Restructured timeline to use relative flow with dynamic auto-layout bounding, eliminating all hardcoded position offsets.
+- [x] **Journey Timeline Layout & Auto-Offsets**
+  - [x] **Dynamic Descriptions**: Handle dynamic descriptions dynamically in the journey timeline without overflow.
+  - [x] **Relative Flows**: Restructured timeline to use relative flow with dynamic auto-layout bounding, eliminating all hardcoded position offsets.
   - [x] **Investigate Auto-Layout**: Designed a dynamic offset algorithm using `getBoundingClientRect()` inside a scroll listener.
   - [x] **Card Size Matching**: Matched the height/size of side-by-side cards in the journey timeline to be uniform on desktop/tablets, falling back to natural individual sizing on mobile stacks.
 
-- [x] **Phase 1: Fullscreen Image Gallery (Bulb View)**
+- [x] **Fullscreen Image Gallery (Bulb View)**
   - [x] **Data Model Update**: Add optional `images: string[]` to project objects in `rawPortfolioData` inside `portfolio.jsx`.
   - [x] **Carousel Navigation**:
     - Add `currentIndex` state inside `FullscreenZoomableImage`, initialized with `image.activeImageIndex || 0`.
@@ -142,19 +142,24 @@ See [`scripts/linkedin-scraper/README.md`](scripts/linkedin-scraper/README.md) f
   - [x] **State Cleanup**: Ensure `scale` resets to `1` and `position` resets to `{x:0, y:0}` on index swap.
   - [x] **Swipe Gestures**: Track `clientX` delta in `onTouchStart`/`onTouchEnd` for swipe direction, triggering navigation if zoomed scale is `1` and distance > `50px`.
 
-- [x] **Phase 2: Project Detail Card Layout & Gallery**
+- [x] **Project Detail Card Layout & Gallery**
   - [x] **Layout Restructure**: Reorder the sections inside `DetailedCard.jsx` to display the **Tech Stack** and **Key Highlights** at the top (directly below the header), moving the **Project Description** below them.
   - [x] **Markdown Support**: Render the detailed description using `ReactMarkdown` with `remark-gfm` to handle multi-page, formatted markdown content.
   - [x] **Scroll & Sticky Elements**: Wrap the markdown description in a scrollable container with a custom scrollbar, keeping the header, closing buttons, and footer links (GitHub/Live demo) sticky and always accessible.
   - [x] **Visual Grid ("Architecture & Screenshots")**: Add a gallery grid section right below the description in `src/components/DetailedCard.jsx` to render screenshots and architectural diagrams.
   - [x] **Prop Integration & Interactivity**: Pass `onImageOpen` (bound to `setFullscreenImage`) to the `DetailCard` component. Clicking any screenshot thumbnail should call `onImageOpen({ ...project, image_url: selectedUrl, activeImageIndex: index })` to launch the fullscreen zoom view directly at that image index.
 
-- [x] **Phase 3: Deep Linking & History Sync**
+- [x] **Deep Linking & History Sync**
   - [x] **Mount Parsing**: Add check in `portfolio.jsx` `useEffect` on load for search params `?project=id` or hash `#id`. If matched, open detail modal.
   - [x] **Carousel Snapping**: Set background `activeIndex` to match the data index of the deep-linked project, ensuring the background aligns behind the modal.
   - [x] **History Sync**: Add a window `hashchange` event listener in `portfolio.jsx` to dynamically close or transition detail views on browser back/forward navigation.
   - [x] **URL Updates**: Set `window.location.hash = project.id` when details open, and use `window.history.pushState` on close to clean the URL without page jumps.
 
-- [ ] **Phase 4: Load More Project List (Blog-style view)**
+- [ ] **Load More Project List (Blog-style view)**
   - [ ] **Roadmap Entry**: Add a "Load More" button at the bottom of the projects section.
   - [ ] **Grid UI**: When clicked, expand to display a list or grid UI of all project cards (including legacy projects) styled similarly to the blogs post card list.
+
+- [ ] **Comments Schema & Author Identification**
+  - [ ] **Comment Schema Design**: Define data schema for comments with user display name, profile metadata, comment body, timestamp, and parent/thread links.
+  - [ ] **Reader Identification**: Allow visitors/readers to submit comments with a proper, formatted name.
+  - [ ] **Author Mention & Verification**: Explicitly tag and highlight comments authored by you (the site owner) to distinguish author replies from reader submissions.
