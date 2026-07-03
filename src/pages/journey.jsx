@@ -33,7 +33,7 @@ const experienceData = [
     title: "Project Intern",
     subtitle: "Tata Consultancy Services",
     description:
-      "Worked in an exploratory engineering team evaluating emerging concepts through early proof-of-technology efforts. Contributed to detailed feasibility studies, target-architecture designs, third-party system integrations, and validation reviews. Designed custom analytics dashboards, optimized background job schedulers, and analyzed database queries to resolve bottlenecks. Collaborated with cross-functional project leads to streamline agile testing procedures, write automated API verification scripts, and construct complete technical diagrams for stakeholders.",
+      "Worked in an exploratory engineering team evaluating emerging concepts through early POT efforts. Contributed to feasibility studies, architecture discussions, system integrations, and validation reviews.",
     date: "Nov 2025 - Jan 2026",
     tag: "Internship",
     type: "exp",
@@ -43,7 +43,7 @@ const experienceData = [
     title: "Audio Data and AI/ML Engineer",
     subtitle: "MyShadowLife",
     description:
-      "Engineered end-to-end audio data pipelines for processing long-form recordings. Applied preprocessing algorithms for automated denoising, speech enhancement, and acoustic segmentation. Formatted, cleaned, and compiled structured datasets for downstream machine learning tasks, ensuring data integrity and high training fidelity. Collaborated closely with research teams to define annotation guidelines and validate segment coordinates.",
+      "Engineered end-to-end audio data pipelines for long-form recordings, applied preprocessing for denoising and segmentation, and prepared structured datasets for downstream ML tasks.",
     date: "Oct 2025 - Nov 2025",
     tag: "Contract",
     type: "exp",
@@ -53,7 +53,7 @@ const experienceData = [
     title: "Full-Stack AI Engineer Intern",
     subtitle: "Creo AI",
     description:
-      "Built an advanced STS chatbot utilizing Retrieval-Augmented Generation, voice-processing pipelines, and multi-agent systems for real-time reasoning. Designed scalable FastAPI microservices, set up rate-limiting middleware, and established complete performance metrics for production workloads.",
+      "Built an STS chatbot using RAG, agentic AI, and voice pipelines for real-time reasoning. Designed scalable APIs and contributed to production-grade reliability.",
     date: "Mar 2025 - Aug 2025",
     tag: "Internship",
     type: "exp",
@@ -63,7 +63,7 @@ const experienceData = [
     title: "Full-Stack AI Engineer Intern",
     subtitle: "Web3Galaxy",
     description:
-      "Delivered a multimodal chatbot integrating speech-to-text, text-to-speech, and structured document parser pipelines. Configured multilingual capabilities and secure, low-latency edge deployments.",
+      "Delivered a multimodal chatbot with STT, TTS, and document parsing. Implemented multilingual and location-aware support with secure, low-latency deployment.",
     date: "Dec 2024 - Feb 2025",
     tag: "Internship",
     type: "exp",
@@ -73,7 +73,7 @@ const experienceData = [
     title: "Software Developer Intern",
     subtitle: "Chart Raiders",
     description:
-      "Created an AI trading assistant powered by LangChain orchestration and chroma vector databases. Managed SLM fine-tuning datasets, constructed synthetic Q&A validation sets, and engineered deployment workflows with automated CI/CD checks.",
+      "Built an AI-powered trading assistant using LangChain and VectorDBs. Fine-tuned SLMs, created synthetic Q&A pipelines, and scaled RAG systems with CI/CD.",
     date: "Feb 2024 - Aug 2024",
     tag: "Internship",
     type: "exp",
