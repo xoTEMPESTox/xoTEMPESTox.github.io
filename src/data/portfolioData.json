@@ -20,12 +20,23 @@
       "Developed Android/React Native features, integrating Bluetooth diagnostic SDKs and secure medical report exchanges"
     ],
     "techStack": [
-      { "name": "FastAPI" },
-      { "name": "LangChain" },
-      { "name": "LangGraph" },
-      { "name": "Firebase" }
+      {
+        "name": "FastAPI"
+      },
+      {
+        "name": "LangChain"
+      },
+      {
+        "name": "LangGraph"
+      },
+      {
+        "name": "Firebase"
+      }
     ],
-    "links": { "github_link": "", "live_link": "https://www.linkedin.com/company/liferythem-healthcare-services/people/" },
+    "links": {
+      "github_link": "",
+      "live_link": "https://www.linkedin.com/company/liferythem-healthcare-services/people/"
+    },
     "privateProject": {
       "title": "🔒 Proprietary Healthcare System",
       "description": "Built under internship agreement.\nSource code and deployment details are private."
@@ -33,25 +44,33 @@
   },
   {
     "id": "pokedreamer-rl",
-    "title": "PokeDreamer",
+    "title": "PokéWorld",
     "tagline": "Dreamer-style world models for model-based reinforcement learning",
     "description": "Research project exploring Dreamer-style world models for model-based reinforcement learning. Focused on learning latent environment dynamics, improving long-horizon prediction, and reducing compounding errors during imagination rollouts.",
     "image_url": "../assets/images/projects/pokedreamer/main.png",
     "images": [
-      "../assets/images/projects/pokedreamer/main.png"
+      "../assets/images/projects/pokedreamer/main.png",
+      "../assets/images/projects/pokedreamer/Project Overview & Research Highlights.png",
+      "../assets/images/projects/pokedreamer/Research Evolution & Future Roadmap.png"
     ],
-    "markdown": "### Model-Based Reinforcement Learning Research\nExploring latent imagination dynamics in high-dimensional visual environments.\n\n### Technical Features\n* **Recurrent State-Space Models (RSSM)**: Captures discrete transitions to predict future states with reduced drift.\n* **Imagination Rollouts**: Predicts environments 15 frames into the future for latent MPC planners.\n* **Mitigating Compounding Error**: Implements scheduled sampling to stabilize prediction over long horizons.",
+    "markdown": "PokéWorld is an ongoing AI research project exploring the evolution of Model-Based Reinforcement Learning (MBRL) and world models through successive architectural iterations. Using Pokémon Red as a controlled benchmark, the project investigates how learned environment dynamics enable planning, imagination, and decision-making before interacting with the real environment.\n\nThe first iteration implements a continuous latent world model inspired by the original World Models architecture, combining convolutional encoders, variational latent representations, GRU-based dynamics, scheduled sampling, and Model Predictive Control (MPC). Evaluation probes achieved 98.7% Map ID prediction accuracy, 1.23 tile localization error, while scheduled sampling reduced long-horizon rollout drift from 10.4 to 3.47 tiles, demonstrating more stable latent imagination.\n\nThe second iteration transitions to a Dreamer-inspired Recurrent State-Space Model (RSSM) operating at native Game Boy resolution (160×144). The architecture combines residual CNN encoders, deterministic recurrent dynamics, discrete stochastic latent variables, pixel reconstruction, reward prediction, and continuation prediction to improve long-horizon consistency. The current implementation achieves a validation reconstruction loss of 0.1003 after four training epochs.\n\nCurrent work extends the project toward hierarchical reinforcement learning and diffusion-inspired world models, investigating increasingly expressive architectures capable of learning, planning, and evaluating policies within imagined environments before deployment in more complex domains.\n\nRather than reproducing existing papers, PokéWorld serves as a research sandbox for studying the progression of world models from continuous latent dynamics to discrete RSSMs and emerging generative approaches while building reusable infrastructure for experimentation, evaluation, and benchmarking in reinforcement learning.\n\n### Research Overview & Roadmap\n\n![Project Overview & Research Highlights](../assets/images/projects/pokedreamer/Project Overview & Research Highlights.png)\n*Figure 1: Project Overview & Research Highlights — Research showcase of the PokéWorld project, exploring the evolution of model-based reinforcement learning through successive world models. It progresses from continuous latent dynamics (VAE + GRU) to Dreamer-style discrete RSSMs and toward diffusion-based world models. The project highlights architectural milestones, evaluation metrics, and a long-term roadmap for learning environment dynamics through imagination before real-world interaction.*\n\n![Research Evolution & Future Roadmap](../assets/images/projects/pokedreamer/Research Evolution & Future Roadmap.png)\n*Figure 2: Research Evolution & Future Roadmap — A visual overview of the research progression behind PokéWorld, documenting the transition from foundational world models to modern generative architectures. Each iteration builds upon the previous one by improving latent representations, long-horizon prediction, and planning capabilities, with current work focused on diffusion-based world models and scalable neural game engines inspired by recent advances in model-based reinforcement learning.*",
     "tag": "AI Research",
     "highlights": [
-      "Engineered a discrete native-resolution Recurrent State-Space Model (RSSM)",
-      "Implemented a VAE+GRU dynamics baseline with continuous latent MPC planners",
-      "Executed scheduled-sampling ablation studies to evaluate predictive accuracy",
-      "Analyzed and mitigated latent imagination drift for stable RL environments"
+      "Built a Recurrent State-Space Model (RSSM) dynamics baseline operating at native Game Boy resolution (160x144)",
+      "Evaluated continuous latent dynamics models (VAE+GRU) using model predictive control planners",
+      "Achieved 98.7% Map ID prediction accuracy and reduced long-horizon rollout drift from 10.4 to 3.47 tiles",
+      "Investigating hierarchical reinforcement learning and diffusion-inspired world models in a custom research sandbox"
     ],
     "techStack": [
-      { "name": "PyTorch" },
-      { "name": "Python" },
-      { "name": "NumPy" }
+      {
+        "name": "PyTorch"
+      },
+      {
+        "name": "Python"
+      },
+      {
+        "name": "NumPy"
+      }
     ],
     "links": {
       "github_link": "https://github.com/xoTEMPESTox/PokeDreamer",
@@ -76,9 +95,15 @@
       "Developed custom multi-perspective tools (BEV/3rd-Person) for path evaluation"
     ],
     "techStack": [
-      { "name": "Python" },
-      { "name": "Robotics" },
-      { "name": "Simulation" }
+      {
+        "name": "Python"
+      },
+      {
+        "name": "Robotics"
+      },
+      {
+        "name": "Simulation"
+      }
     ],
     "links": {
       "github_link": "https://github.com/xoTEMPESTox/NavDP",
@@ -103,10 +128,18 @@
       "Secured localized deployments utilizing strict 2FA (TOTP) access management flows"
     ],
     "techStack": [
-      { "name": "Python" },
-      { "name": "OpenAI" },
-      { "name": "React" },
-      { "name": "PostgreSQL" }
+      {
+        "name": "Python"
+      },
+      {
+        "name": "OpenAI"
+      },
+      {
+        "name": "React"
+      },
+      {
+        "name": "PostgreSQL"
+      }
     ],
     "links": {
       "github_link": "https://github.com/xoTEMPESTox/Enerzal",
@@ -121,9 +154,9 @@
     "image_url": "../assets/images/projects/tv-plus/main.jpg",
     "images": [
       "../assets/images/projects/tv-plus/main.jpg",
-      "../assets/images/projects/tv-plus/Major Contributor — TradingViewPlus v5.0.5 Release.png"
+      "../assets/images/projects/tv-plus/Major Contributor  -TradingViewPlus v5.0.5 Release.png"
     ],
-    "markdown": "Core maintainer of TradingViewPlus, a widely used open-source TypeScript browser extension that enhances the TradingView platform with advanced trading workflows, customizable hotkeys, UI improvements, and cross-browser compatibility for 300+ active users.\n\nProgressed from community contributor to project maintainer by consistently delivering production-ready features, resolving complex bugs, triaging community issues, reviewing architecture decisions, and coordinating public releases.\n\nMajor contributions include designing a multi-platform adapter architecture enabling broker integrations (including DHAN), refactoring the extension's hotkey system into a unified dynamic suppression framework, improving cross-browser compatibility across Chrome, Firefox and Opera, modernizing the build pipeline from Bash scripts to Node.js tooling, and delivering multiple UI, performance, and stability improvements.\n\nAuthored and merged more than 20 pull requests while resolving 30+ community issues covering feature development, platform compatibility, release engineering, build tooling, documentation, performance optimization, and bug fixes. Contributed significantly to the v5.0.5 release through architecture refactoring, feature enhancements, release preparation, and changelog management.\n\nResponsibilities extended beyond coding to include issue triage, roadmap discussions, release coordination, regression fixes after TradingView platform updates, community support, and maintaining code quality for a production browser extension used daily by active traders.\n\n### Platform Architecture & Contributions\n\n![TradingViewPlus - Production Open Source Browser Extension](../assets/images/projects/tv-plus/main.jpg)\n*Figure 1: TradingViewPlus - Production Open Source Browser Extension — TradingViewPlus is a production TypeScript browser extension used by 300+ active traders across Chrome, Firefox, and Opera. As a core maintainer, I contributed architecture improvements, feature development, cross-platform compatibility, issue triage, and long-term maintenance while helping evolve the extension through multiple production releases.*\n\n![Major Contributor — TradingViewPlus v5.0.5 Release](../assets/images/projects/tv-plus/Major Contributor — TradingViewPlus v5.0.5 Release.png)\n*Figure 2: Major Contributor — TradingViewPlus v5.0.5 Release — Led a significant portion of the v5.0.5 release by delivering major feature refactors, the unified hotkey system, dynamic suppression engine, build system modernization, UI improvements, compatibility fixes, performance optimizations, and release engineering. The release consolidated numerous community issues and architectural improvements into a stable production version.*",
+    "markdown": "Core maintainer of TradingViewPlus, a widely used open-source TypeScript browser extension that enhances the TradingView platform with advanced trading workflows, customizable hotkeys, UI improvements, and cross-browser compatibility for 300+ active users.\n\nProgressed from community contributor to project maintainer by consistently delivering production-ready features, resolving complex bugs, triaging community issues, reviewing architecture decisions, and coordinating public releases.\n\nMajor contributions include designing a multi-platform adapter architecture enabling broker integrations (including DHAN), refactoring the extension's hotkey system into a unified dynamic suppression framework, improving cross-browser compatibility across Chrome, Firefox and Opera, modernizing the build pipeline from Bash scripts to Node.js tooling, and delivering multiple UI, performance, and stability improvements.\n\nAuthored and merged more than 20 pull requests while resolving 30+ community issues covering feature development, platform compatibility, release engineering, build tooling, documentation, performance optimization, and bug fixes. Contributed significantly to the v5.0.5 release through architecture refactoring, feature enhancements, release preparation, and changelog management.\n\nResponsibilities extended beyond coding to include issue triage, roadmap discussions, release coordination, regression fixes after TradingView platform updates, community support, and maintaining code quality for a production browser extension used daily by active traders.\n\n### Platform Architecture & Contributions\n\n![TradingViewPlus - Production Open Source Browser Extension](../assets/images/projects/tv-plus/main.jpg)\n*Figure 1: TradingViewPlus - Production Open Source Browser Extension — TradingViewPlus is a production TypeScript browser extension used by 300+ active traders across Chrome, Firefox, and Opera. As a core maintainer, I contributed architecture improvements, feature development, cross-platform compatibility, issue triage, and long-term maintenance while helping evolve the extension through multiple production releases.*\n\n![Major Contributor — TradingViewPlus v5.0.5 Release](../assets/images/projects/tv-plus/Major Contributor  -TradingViewPlus v5.0.5 Release.png)\n*Figure 2: Major Contributor — TradingViewPlus v5.0.5 Release — Led a significant portion of the v5.0.5 release by delivering major feature refactors, the unified hotkey system, dynamic suppression engine, build system modernization, UI improvements, compatibility fixes, performance optimizations, and release engineering. The release consolidated numerous community issues and architectural improvements into a stable production version.*",
     "tag": "Open Source",
     "highlights": [
       "Designed multi-platform adapter architecture enabling broker integrations (including DHAN)",
@@ -132,9 +165,15 @@
       "Authored and merged 20+ pull requests while resolving 30+ community issues on GitHub"
     ],
     "techStack": [
-      { "name": "TypeScript" },
-      { "name": "JavaScript" },
-      { "name": "Chrome" }
+      {
+        "name": "TypeScript"
+      },
+      {
+        "name": "JavaScript"
+      },
+      {
+        "name": "Chrome"
+      }
     ],
     "links": {
       "github_link": "https://github.com/xoTEMPESTox/TradingviewPlus",
@@ -161,11 +200,20 @@
       "Authored comprehensive deployment guides, operational documentation, and troubleshooting procedures"
     ],
     "techStack": [
-      { "name": "FastAPI" },
-      { "name": "LangChain" },
-      { "name": "Python" }
+      {
+        "name": "FastAPI"
+      },
+      {
+        "name": "LangChain"
+      },
+      {
+        "name": "Python"
+      }
     ],
-    "links": { "github_link": "", "live_link": "" },
+    "links": {
+      "github_link": "",
+      "live_link": ""
+    },
     "privateProject": {
       "title": "🔒 Client Project",
       "description": "Built during internship engagement.\nRepository and production environment are private."
@@ -189,10 +237,18 @@
       "Automated decentralized funding ledgers to drastically improve market transparency"
     ],
     "techStack": [
-      { "name": "Solidity" },
-      { "name": "Ethereum" },
-      { "name": "Node.js" },
-      { "name": "MongoDB" }
+      {
+        "name": "Solidity"
+      },
+      {
+        "name": "Ethereum"
+      },
+      {
+        "name": "Node.js"
+      },
+      {
+        "name": "MongoDB"
+      }
     ],
     "links": {
       "github_link": "https://github.com/xoTEMPESTox/EcoChain",
@@ -217,10 +273,18 @@
       "Designed an automated hardware-reboot architecture to guarantee long-term stability"
     ],
     "techStack": [
-      { "name": "C++" },
-      { "name": "ESP32" },
-      { "name": "Telegram" },
-      { "name": "Arduino" }
+      {
+        "name": "C++"
+      },
+      {
+        "name": "ESP32"
+      },
+      {
+        "name": "Telegram"
+      },
+      {
+        "name": "Arduino"
+      }
     ],
     "links": {
       "github_link": "https://github.com/xoTEMPESTox/WakeBot32",
