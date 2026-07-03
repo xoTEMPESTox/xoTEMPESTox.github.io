@@ -1,6 +1,6 @@
 # Portfolio — priyanshusah.com
 
-A high-performance personal portfolio built with React, Vite, and Tailwind CSS. Features cinematic looping backgrounds, an ambient lo-fi music player, a 3D interactive cube, LinkedIn-powered blog with Gemini LLM processing, and smooth page transitions — all running at 60fps.
+A high-performance personal portfolio built with React, Vite, and Tailwind CSS. Features cinematic looping backgrounds, an ambient lo-fi music player, a 3D interactive cube, LinkedIn-powered blog with Gemini LLM processing, and smooth page transitions all running at 60fps.
 
 ## ✨ Features
 
