@@ -9,7 +9,7 @@ import React, {
 import "../styles/main.css";
 import DetailCard from "../components/DetailedCard";
 import Cube from "../components/Cube";
-import { RotateCcw, X, ZoomIn, ZoomOut } from "lucide-react";
+import { RotateCcw, X, ZoomIn, ZoomOut, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTheme } from "../components/HeaderBackground";
 
 // --- Configuration Constants ---
@@ -230,21 +230,74 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [showOverlays, setShowOverlays] = useState(true);
 
   // Refs for gesture handling
   const startPos = useRef({ x: 0, y: 0 });
   const startPinchDist = useRef(null);
   const startScale = useRef(1);
+  const idleTimeoutRef = useRef(null);
+  const wheelTimeoutRef = useRef(null);
 
   // Constants
-  const minScale = 1;
-  const maxScale = 4;
+  const minScale = 0.5;
+  const maxScale = 2.0;
+
+  const photos = image.images && image.images.length > 0
+    ? image.images
+    : [image.image_url];
+
+  const switchPhoto = (index) => {
+    const newIndex = (index + photos.length) % photos.length;
+    setCurrentPhotoIndex(newIndex);
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+  };
+
+  const resetIdleTimer = useCallback(() => {
+    setShowOverlays(true);
+    if (idleTimeoutRef.current) {
+      clearTimeout(idleTimeoutRef.current);
+    }
+    idleTimeoutRef.current = setTimeout(() => {
+      setShowOverlays(false);
+    }, 1500);
+  }, []);
+
+  useEffect(() => {
+    resetIdleTimer();
+    return () => {
+      if (idleTimeoutRef.current) {
+        clearTimeout(idleTimeoutRef.current);
+      }
+      if (wheelTimeoutRef.current) {
+        clearTimeout(wheelTimeoutRef.current);
+      }
+    };
+  }, [resetIdleTimer, currentPhotoIndex]);
 
   const updateScale = (newScale) => {
-    const clampedScale = Math.min(Math.max(newScale, minScale), maxScale);
+    let targetScale = newScale;
+    
+    // Check direction of scaling relative to current scale
+    const isDecreasing = targetScale < scale;
+    const isIncreasing = targetScale > scale;
+
+    // Apply snap rules:
+    // 1. Zooming out (decreasing) snaps from 1.2 to 1.0
+    if (isDecreasing && targetScale < 1.2 && scale >= 1.2) {
+      targetScale = 1.0;
+    }
+    // 2. Zooming back in (increasing) from a zoomed-out state snaps from 0.8 to 1.0
+    else if (isIncreasing && targetScale > 0.8 && scale <= 0.8) {
+      targetScale = 1.0;
+    }
+
+    const clampedScale = Math.min(Math.max(targetScale, minScale), maxScale);
     setScale(clampedScale);
 
-    // If returning to 1, recenter
+    // If returning to 1 or below 1.05, recenter position
     if (clampedScale <= 1.05) {
       setPosition({ x: 0, y: 0 });
     }
@@ -255,7 +308,7 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
     if (scale > 1.5) {
       updateScale(1);
     } else {
-      updateScale(2.5);
+      updateScale(2.0);
     }
   };
 
@@ -264,6 +317,15 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
     e.stopPropagation();
     const delta = -e.deltaY * 0.002;
     updateScale(scale + delta);
+
+    if (wheelTimeoutRef.current) {
+      clearTimeout(wheelTimeoutRef.current);
+    }
+    wheelTimeoutRef.current = setTimeout(() => {
+      if (scale < 1.0 || (scale > 1.0 && scale < 1.2)) {
+        updateScale(1.0);
+      }
+    }, 150);
   };
 
   const handleMouseDown = (e) => {
@@ -281,8 +343,16 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
     setPosition({ x: newX, y: newY });
   };
 
-  const handleMouseUp = () => {
+  const handleRelease = () => {
     setIsDragging(false);
+    startPinchDist.current = null;
+    if (scale < 1.0 || (scale > 1.0 && scale < 1.2)) {
+      updateScale(1.0);
+    }
+  };
+
+  const handleMouseUp = () => {
+    handleRelease();
   };
 
   // --- TOUCH EVENTS (Pinch & Pan) ---
@@ -306,13 +376,6 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
   };
 
   const handleTouchMove = (e) => {
-    // Prevent default to stop scrolling background while interacting
-    if (scale > 1 || e.touches.length === 2) {
-      // Only prevent default if we are actively interacting with the image logic
-      // otherwise standard scrolling might be desired (though this is a modal)
-      // e.preventDefault();
-    }
-
     if (e.touches.length === 2 && startPinchDist.current) {
       // Pinch Move
       const dist = Math.hypot(
@@ -330,14 +393,14 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
   };
 
   const handleTouchEnd = () => {
-    setIsDragging(false);
-    startPinchDist.current = null;
+    handleRelease();
   };
 
   return (
     <div
       className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/95 backdrop-blur-xl animate-in fade-in duration-300"
       onClick={onClose}
+      onMouseMove={resetIdleTimer}
     >
       <div
         className="relative flex flex-col items-center justify-center max-w-[95vw] max-h-[60vh] animate-in zoom-in-95 duration-300 ease-out"
@@ -346,7 +409,7 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
         {/* The Image - Scaled to 80% screen height */}
         <div className="relative group">
           <img
-            src={image.image_url}
+            src={photos[currentPhotoIndex]}
             alt={image.title}
             className="md:h-[60vh] h-auto w-auto max-w-full object-contain rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-white/10 touch-none"
             style={{
@@ -369,7 +432,66 @@ const FullscreenZoomableImage = ({ image, onClose }) => {
             onDoubleClick={handleDoubleClick}
             draggable={false}
           />
+
+          {/* Left Arrow Button */}
+          {photos.length > 1 && scale === 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                switchPhoto(currentPhotoIndex - 1);
+              }}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-12 h-12 bg-black/40 hover:bg-black/60 border border-white/20 hover:border-white/40 text-white rounded-full backdrop-blur-md transition-all duration-300 shadow-lg hover:scale-105 active:scale-95 ${
+                showOverlays ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none"
+              }`}
+            >
+              <ChevronLeft size={24} />
+            </button>
+          )}
+
+          {/* Right Arrow Button */}
+          {photos.length > 1 && scale === 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                switchPhoto(currentPhotoIndex + 1);
+              }}
+              className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-12 h-12 bg-black/40 hover:bg-black/60 border border-white/20 hover:border-white/40 text-white rounded-full backdrop-blur-md transition-all duration-300 shadow-lg hover:scale-105 active:scale-95 ${
+                showOverlays ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4 pointer-events-none"
+              }`}
+            >
+              <ChevronRight size={24} />
+            </button>
+          )}
+
+          {/* Bottom Thumbnail Carousel Overlay */}
+          {photos.length > 1 && scale === 1 && (
+            <div
+              className={`absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-3 px-4 py-2 bg-black/50 backdrop-blur-md border border-white/10 rounded-2xl transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.5)] ${
+                showOverlays ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {photos.map((photo, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => switchPhoto(idx)}
+                  className={`relative w-16 h-12 rounded-lg overflow-hidden border-2 transition-all duration-200 hover:scale-105 active:scale-95 ${
+                    idx === currentPhotoIndex
+                      ? "border-blue-500 ring-2 ring-blue-500/30 scale-105 shadow-md"
+                      : "border-white/20 hover:border-white/50 opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  <img
+                    src={photo}
+                    alt={`Thumbnail ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
+
         <button
           onClick={onClose}
           className="fixed top-6 right-6 z-[10010] flex items-center gap-2 text-white/50 hover:text-white transition-colors group/btn"
