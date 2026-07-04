@@ -21,7 +21,7 @@ const experienceData = [
   {
     image: "../assets/images/journey/liferythem.jpg",
     title: "Full-Stack AI Engineer Intern",
-    subtitle: "Liferythm Healthcare",
+    subtitle: "Liferythem Healthcare",
     description:
       "Building an end-to-end healthcare AI platform spanning AI Receptionists, Clinical Documentation, patient triage, Follow-Up automation, Medical LLMs, LangGraph workflows, FastAPI microservices, React Native, and Bluetooth-enabled medical device integrations.",
     date: "Jul 2025 - Present",

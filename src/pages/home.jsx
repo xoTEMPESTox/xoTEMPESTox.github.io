@@ -398,12 +398,12 @@ const Home = () => {
                 <p
                   ref={containerRef}
                   class="home__info__desc my-6"
-                  data-roles='["AI Engineer","Full-Stack Engineer","Building AI @ Liferythm"]'
+                  data-roles='["AI Engineer","Full-Stack Engineer","Building AI @ Liferythem"]'
                 >
                   <span class="typed-text__fallback">
                     AI Engineer
                     <br></br> Full-Stack Engineer
-                    <br></br> Building AI @ Liferythm
+                    <br></br> Building AI @ Liferythem
                   </span>
                 </p>
  
