@@ -13,7 +13,7 @@ const navItems = [
   { to: "/socials", label: "Socials", icon: "linkicon-" },
 ];
 
-const FooterNavbar = ({ onNavigate }) => {
+const FooterNavbar = ({ onNavigate, shouldHide }) => {
   const listRef = useRef(null);
   const { theme } = useTheme();
 
@@ -82,7 +82,7 @@ useEffect(() => {
         bottom: "20px", // Spacing from bottom
 
         // This handles both Centering (-50% X) AND Hiding (200% Y)
-        transform: isHome
+        transform: (isHome || shouldHide)
           ? "translate(-50%, 200%)" // Move DOWN off-screen
           : "translate(-50%, 0)", // Move UP to normal position
 

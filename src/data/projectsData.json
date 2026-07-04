@@ -39,7 +39,7 @@
     },
     "privateProject": {
       "title": "🔒 Proprietary Healthcare System",
-      "description": "Built under an internship agreement. Source code and production deployment are private. Architecture diagrams and technical documentation are shared instead."
+      "description": "Built under employment. Source code is not publicly available."
     }
   },
   {
@@ -161,7 +161,7 @@
       "live_link": ""
     },
     "privateProject": {
-      "title": "🔒 Client Project",
+      "title": "🔒 Proprietary Project",
       "description": "Built during internship engagement.\nRepository and production environment are private."
     }
   },

@@ -517,9 +517,9 @@ const Cube = React.memo(
                   <div className="h-14 flex items-center justify-center px-1">
                     <span className={`font-bold uppercase tracking-wider whitespace-nowrap transition-colors ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>
                       {/* Mobile text */}
-                      <span className="text-[10px] min-[1265px]:hidden">🔒 CLIENT WORK</span>
+                      <span className="text-[9px] min-[1265px]:hidden">🔒 PROPRIETARY PROJECT</span>
                       {/* Desktop text */}
-                      <span className="hidden min-[1265px]:inline text-xs">🔒 PRIVATE CLIENT WORK</span>
+                      <span className="hidden min-[1265px]:inline text-[10px]">🔒 PROPRIETARY PROJECT</span>
                     </span>
                   </div>
                 </div>

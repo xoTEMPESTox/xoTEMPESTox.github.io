@@ -146,6 +146,7 @@ function App() {
   const [isMuted, setIsMuted] = useState(true);
   const { theme } = useTheme();
   const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const [isDetailViewOpen, setIsDetailViewOpen] = useState(false);
 
   const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -160,7 +161,7 @@ function App() {
   const location = useLocation();
   const shouldHidePlayer =
     location.pathname === "/socials" || location.pathname === "/";
-  const shouldHideUI = shouldHidePlayer || isScrollingDown;
+  const shouldHideUI = shouldHidePlayer || isScrollingDown || isDetailViewOpen;
   const socials = location.pathname === "/socials";
   const journey = location.pathname === "/journey";
   const skills = location.pathname === "/skills";
@@ -681,12 +682,12 @@ function App() {
               >
                 <Suspense fallback={null}>
                   <AnimatedOutlet
-                    context={{ startAudioOnInteraction, setIsScrollingDown }}
+                    context={{ startAudioOnInteraction, setIsScrollingDown, setIsDetailViewOpen }}
                   />
                 </Suspense>
               </div>
               {socials && <SocialBar />}
-              <FooterNavbar onNavigate={startAudioOnInteraction} />
+              <FooterNavbar onNavigate={startAudioOnInteraction} shouldHide={isDetailViewOpen} />
             </>
           )}
         </div>

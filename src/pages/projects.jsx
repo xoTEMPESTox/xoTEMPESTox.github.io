@@ -10,6 +10,7 @@ import "../styles/main.css";
 import DetailCard from "../components/DetailedCard";
 import Cube from "../components/Cube";
 import { RotateCcw, X, ZoomIn, ZoomOut, ChevronLeft, ChevronRight } from "lucide-react";
+import { useOutletContext } from "react-router-dom";
 import { useTheme } from "../components/HeaderBackground";
 import FullscreenZoomableImage from "../components/FullscreenZoomableImage";
 import { createPortal } from "react-dom";
@@ -32,6 +33,9 @@ import rawPortfolioData from "../data/projectsData.json";
 import legacyPortfolioData from "../data/legacyProjectsData.json";
 
 const Projects = () => {
+  const context = useOutletContext();
+  const setIsDetailViewOpen = context?.setIsDetailViewOpen;
+
   const [selectedProject, setSelectedProject] = useState(() => {
     if (typeof window !== "undefined") {
       const hash = window.location.hash.replace("#", "");
@@ -43,6 +47,18 @@ const Projects = () => {
     }
     return null;
   });
+
+  useEffect(() => {
+    if (setIsDetailViewOpen) {
+      setIsDetailViewOpen(selectedProject !== null);
+    }
+    return () => {
+      if (setIsDetailViewOpen) {
+        setIsDetailViewOpen(false);
+      }
+    };
+  }, [selectedProject, setIsDetailViewOpen]);
+
   const [fullscreenImage, setFullscreenImage] = useState(null);
   const { theme } = useTheme();
 

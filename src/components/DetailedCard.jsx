@@ -440,7 +440,7 @@ const DetailCard = ({ project, onClose }) => {
                   theme === "dark" ? "text-zinc-300" : "text-zinc-700"
                 }`}
               >
-                {project.privateProject?.title || "🔒 Private Client Project"}
+                {project.privateProject?.title || "🔒 Proprietary Project"}
               </div>
               <div
                 className={`text-[13px] whitespace-pre-line ${
