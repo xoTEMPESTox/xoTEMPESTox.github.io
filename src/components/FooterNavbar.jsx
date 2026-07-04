@@ -86,7 +86,7 @@ useEffect(() => {
           ? "translate(-50%, 200%)" // Move DOWN off-screen
           : "translate(-50%, 0)", // Move UP to normal position
 
-        transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)", // Smooth animation
+        transition: `transform ${location.pathname === "/journey" ? "1s" : "0.625s"} cubic-bezier(0.4, 0, 0.2, 1)`, // Smooth animation
       }}
     >
       <div className="media-object flex justify-evenly items-center w-full relative z-10 p-0 m-0">

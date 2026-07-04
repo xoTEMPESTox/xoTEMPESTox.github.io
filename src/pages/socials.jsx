@@ -11,7 +11,7 @@ import PostList from "../components/PostList";
 import DetailView from "../components/DetailView";
 import "../styles/main.css";
 import { useTheme } from "../components/HeaderBackground";
-import { NavLink } from "react-router-dom";
+import { NavLink, useOutletContext } from "react-router-dom";
 import FullscreenZoomableImage from "../components/FullscreenZoomableImage";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import ReactDOM from "react-dom";
@@ -40,7 +40,22 @@ const getLikedPostsFromCookie = () => {
 };
 
 const Socials = () => {
+  const context = useOutletContext();
+  const setIsBlogDetailOpen = context?.setIsBlogDetailOpen;
+
   const [currentPage, setCurrentPage] = useState("list"); // 'list' or 'detail'
+
+  useEffect(() => {
+    if (setIsBlogDetailOpen) {
+      setIsBlogDetailOpen(currentPage === "detail");
+    }
+    return () => {
+      if (setIsBlogDetailOpen) {
+        setIsBlogDetailOpen(false);
+      }
+    };
+  }, [currentPage, setIsBlogDetailOpen]);
+
   const [activeTab, setActiveTab] = useState("blogs"); // 'blogs' or 'linkedin'
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [search, setSearch] = useState("");
@@ -174,13 +189,19 @@ const Socials = () => {
   const handlePostClick = useCallback((postId) => {
     setSelectedPostId(postId);
     setCurrentPage("detail");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const container = document.querySelector(".blog-scroll-container");
+    if (container) {
+      container.scrollTop = 0;
+    }
   }, []);
 
   const handleBack = useCallback(() => {
     setCurrentPage("list");
     setSelectedPostId(null);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const container = document.querySelector(".blog-scroll-container");
+    if (container) {
+      container.scrollTop = 0;
+    }
   }, []);
 
   // Find selected post
@@ -205,11 +226,12 @@ const Socials = () => {
   return (
     <div className="page-section" data-theme={theme}>
       <div
-        className={`max-w-[95%] md:max-w-[85%] lg:max-w-[95rem] mx-auto p-6 md:p-12 rounded-[2.5rem] transition-all duration-500 border ${theme === "dark"
-          ? "bg-zinc-950/70 backdrop-blur-sm border-zinc-800 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_20px_rgba(255,255,255,0.02)]"
-          : "bg-white/60 backdrop-blur-sm border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.05),0_0_20px_rgba(0,0,0,0.02)]"
+        className={`max-w-[95%] md:max-w-[85%] lg:max-w-[95rem] mx-auto p-6 md:p-12 rounded-[2.5rem] transition-all duration-500 border h-[calc(100vh-16rem)] flex flex-col overflow-hidden ${theme === "dark"
+          ? "bg-zinc-950/70 backdrop-blur-sm border-zinc-800 shadow-[0_0_20px_rgba(255,255,255,0.02)]"
+          : "bg-white/60 backdrop-blur-sm border-slate-200 shadow-[0_0_20px_rgba(0,0,0,0.02)]"
           }`}
       >
+        <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide blog-scroll-container">
         {/* Toggle Switch - Only show on list page */}
         {/* {currentPage === "list" && (
           <div className="flex justify-center mb-8">
@@ -368,8 +390,16 @@ const Socials = () => {
             />,
             document.body
           )}
+        </div>
       </div>
       <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
         .sk-header-button { background-color: #FFFF00 !important}
         @keyframes pulse-slow {
           0%, 100% { opacity: 1; transform: scale(1); }

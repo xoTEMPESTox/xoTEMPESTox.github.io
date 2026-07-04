@@ -147,6 +147,9 @@ function App() {
   const { theme } = useTheme();
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const [isDetailViewOpen, setIsDetailViewOpen] = useState(false);
+  const [isBlogDetailOpen, setIsBlogDetailOpen] = useState(false);
+  const [isNavbarScrollHidden, setIsNavbarScrollHidden] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
 
   const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -177,6 +180,85 @@ function App() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Centered scroll detection for hiding/showing navbar
+  useEffect(() => {
+    if (loading) return;
+
+    const isJourney = location.pathname === "/journey";
+    const isBlogActive = location.pathname === "/socials" && isBlogDetailOpen;
+
+    if (!isJourney && !isBlogActive) {
+      setIsNavbarScrollHidden(false);
+      return;
+    }
+
+    const scrollContainer = isBlogActive 
+      ? (document.querySelector(".blog-scroll-container") || window)
+      : (document.querySelector(".page-overlay") || window);
+    let lastScrollTop = 0;
+    let accumulativeScrollUp = 0;
+    const threshold = 12; // pixels of scroll up required to show UI
+
+    const handleScroll = () => {
+      const scrollTop =
+        scrollContainer === window ? window.scrollY : scrollContainer.scrollTop;
+      const scrollHeight =
+        scrollContainer === window
+          ? document.documentElement.scrollHeight
+          : scrollContainer.scrollHeight;
+      const clientHeight =
+        scrollContainer === window
+          ? window.innerHeight
+          : scrollContainer.clientHeight;
+
+      // 1. Force visible if near the top
+      if (scrollTop < 50) {
+        setIsNavbarScrollHidden(false);
+        accumulativeScrollUp = 0;
+        lastScrollTop = scrollTop;
+        return;
+      }
+
+      // 2. Force visible if near the bottom (end of scroll)
+      const bottomThreshold = isJourney ? 350 : 100;
+      if (scrollTop + clientHeight >= scrollHeight - bottomThreshold) {
+        setIsNavbarScrollHidden(false);
+        accumulativeScrollUp = 0;
+        lastScrollTop = scrollTop;
+        return;
+      }
+
+      const diff = lastScrollTop - scrollTop;
+      if (diff > 0) {
+        // Scrolling UP
+        accumulativeScrollUp += diff;
+        if (accumulativeScrollUp >= threshold) {
+          setIsNavbarScrollHidden(false);
+        }
+      } else if (diff < 0) {
+        // Scrolling DOWN
+        accumulativeScrollUp = 0;
+        setIsNavbarScrollHidden(true);
+      }
+
+      lastScrollTop = scrollTop;
+    };
+
+    // Reset state initially
+    setIsNavbarScrollHidden(false);
+
+    scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      scrollContainer.removeEventListener("scroll", handleScroll);
+    };
+  }, [location.pathname, isBlogDetailOpen, loading]);
+
+  useEffect(() => {
+    if (location.pathname !== "/journey") {
+      setIsFooterVisible(false);
+    }
+  }, [location.pathname]);
 
   // Preload all dynamic route chunks in the background once the loading screen is dismissed
   useEffect(() => {
@@ -678,16 +760,17 @@ function App() {
                   minHeight: getMinHeight(),
                   zIndex: 10,
                   top: topContentCutOff ? "4rem" : socials ? "8rem" : "0rem",
+                  overflow: socials ? "hidden" : undefined,
                 }}
               >
                 <Suspense fallback={null}>
                   <AnimatedOutlet
-                    context={{ startAudioOnInteraction, setIsScrollingDown, setIsDetailViewOpen }}
+                    context={{ startAudioOnInteraction, setIsScrollingDown, setIsDetailViewOpen, setIsBlogDetailOpen, setIsFooterVisible }}
                   />
                 </Suspense>
               </div>
               {socials && <SocialBar />}
-              <FooterNavbar onNavigate={startAudioOnInteraction} shouldHide={isDetailViewOpen} />
+              <FooterNavbar onNavigate={startAudioOnInteraction} shouldHide={(isDetailViewOpen || isNavbarScrollHidden) && !isFooterVisible} />
             </>
           )}
         </div>

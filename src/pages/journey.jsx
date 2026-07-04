@@ -87,7 +87,7 @@ const Journey = () => {
   const [isMobile, setIsMobile] = useState(false);
   const { theme } = useTheme();
 
-  const { setIsScrollingDown } = useOutletContext();
+  const { setIsScrollingDown, setIsFooterVisible } = useOutletContext();
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Dynamic Line Heights to end exactly at the center of the last card node
@@ -101,6 +101,8 @@ const Journey = () => {
   // Active heights of the drawing progress lines
   const [eduActiveHeight, setEduActiveHeight] = useState("0px");
   const [expActiveHeight, setExpActiveHeight] = useState("0px");
+  const [eduActiveTop, setEduActiveTop] = useState("0px");
+  const [expActiveTop, setExpActiveTop] = useState("0px");
 
   // Synchronized height for side-by-side cards in Row 1 on Desktop
   const [firstRowHeight, setFirstRowHeight] = useState("auto");
@@ -219,19 +221,58 @@ const Journey = () => {
         setActiveItemId(closestId);
       }
 
-      // 2. Continuous height measurement of background timelines (keeps lines updated with page resizing/scaling)
+      // 2. Continuous height measurement of background timelines and active progress lines
       if (eduRef.current) {
         const cards = eduRef.current.querySelectorAll(".relative.flex.flex-row");
         if (cards.length > 0) {
+          const firstCard = cards[0];
           const lastCard = cards[cards.length - 1];
-          setEduLineHeight(`${lastCard.offsetTop + lastCard.offsetHeight / 2}px`);
+          const firstCardCenter = firstCard.offsetTop + firstCard.offsetHeight / 2;
+          
+          // If only 1 card, extend the timeline path to the bottom of the card
+          const lastCardCenter = cards.length === 1 
+            ? firstCard.offsetTop + firstCard.offsetHeight
+            : lastCard.offsetTop + lastCard.offsetHeight / 2;
+          
+          setEduLineHeight(`${lastCardCenter - firstCardCenter}px`);
+          setEduActiveTop(`${firstCardCenter}px`);
+
+          const containerRect = eduRef.current.getBoundingClientRect();
+          const relativeTriggerY = triggerY - containerRect.top;
+
+          if (relativeTriggerY < firstCardCenter) {
+            setEduActiveHeight("0px");
+          } else {
+            const activeH = Math.min(lastCardCenter - firstCardCenter, relativeTriggerY - firstCardCenter);
+            setEduActiveHeight(`${activeH}px`);
+          }
         }
       }
+
       if (expRef.current) {
         const cards = expRef.current.querySelectorAll(".relative.flex.flex-row");
         if (cards.length > 0) {
+          const firstCard = cards[0];
           const lastCard = cards[cards.length - 1];
-          setExpLineHeight(`${lastCard.offsetTop + lastCard.offsetHeight / 2}px`);
+          const firstCardCenter = firstCard.offsetTop + firstCard.offsetHeight / 2;
+          
+          // If only 1 card, extend the timeline path to the bottom of the card
+          const lastCardCenter = cards.length === 1 
+            ? firstCard.offsetTop + firstCard.offsetHeight
+            : lastCard.offsetTop + lastCard.offsetHeight / 2;
+          
+          setExpLineHeight(`${lastCardCenter - firstCardCenter}px`);
+          setExpActiveTop(`${firstCardCenter}px`);
+
+          const containerRect = expRef.current.getBoundingClientRect();
+          const relativeTriggerY = triggerY - containerRect.top;
+
+          if (relativeTriggerY < firstCardCenter) {
+            setExpActiveHeight("0px");
+          } else {
+            const activeH = Math.min(lastCardCenter - firstCardCenter, relativeTriggerY - firstCardCenter);
+            setExpActiveHeight(`${activeH}px`);
+          }
         }
       }
     };
@@ -290,33 +331,7 @@ const Journey = () => {
     }
   }, [activeItemId, isScrolled]);
 
-  // Calculate drawing progress line heights directly from node center coordinates.
-  // Triggers recalculations whenever firstRowHeight changes to handle layout shifts cleanly.
-  useEffect(() => {
-    // 1. Education Height calculation
-    if (eduRef.current && maxEduIndex >= 0) {
-      const cards = eduRef.current.querySelectorAll("[data-timeline-id]");
-      if (cards.length > maxEduIndex) {
-        const activeCard = cards[maxEduIndex];
-        const center = activeCard.offsetTop + activeCard.offsetHeight / 2;
-        setEduActiveHeight(`${center}px`);
-      }
-    } else {
-      setEduActiveHeight("0px");
-    }
-
-    // 2. Experience Height calculation
-    if (expRef.current && maxExpIndex >= 0) {
-      const cards = expRef.current.querySelectorAll("[data-timeline-id]");
-      if (cards.length > maxExpIndex) {
-        const activeCard = cards[maxExpIndex];
-        const center = activeCard.offsetTop + activeCard.offsetHeight / 2;
-        setExpActiveHeight(`${center}px`);
-      }
-    } else {
-      setExpActiveHeight("0px");
-    }
-  }, [maxEduIndex, maxExpIndex, firstRowHeight, isMobile]);
+  // Discarded step-based progress height calculations in favor of fluid pixel-based scroll matching
 
   const [footerVisible, setFooterVisible] = useState(false);
   const footerRef = useRef(null);
@@ -324,7 +339,11 @@ const Journey = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setFooterVisible(entry.isIntersecting);
+        const visible = entry.isIntersecting;
+        setFooterVisible(visible);
+        if (setIsFooterVisible) {
+          setIsFooterVisible(visible);
+        }
       },
       {
         threshold: 0.1,
@@ -333,8 +352,13 @@ const Journey = () => {
     );
 
     if (footerRef.current) observer.observe(footerRef.current);
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      observer.disconnect();
+      if (setIsFooterVisible) {
+        setIsFooterVisible(false);
+      }
+    };
+  }, [setIsFooterVisible]);
 
   const navigate = useNavigate();
 
@@ -467,13 +491,17 @@ const Journey = () => {
             >
               {/* Background Path Line */}
               <div 
-                className="absolute left-0 top-0 w-[2px] bg-white/[0.05] z-0"
-                style={{ height: eduLineHeight }}
+                className="absolute left-0 w-[2px] bg-white/[0.05] z-0"
+                style={{
+                  top: eduActiveTop,
+                  height: eduLineHeight,
+                }}
               ></div>
               {/* Drawing Progress Line */}
               <div
-                className="absolute left-0 top-0 w-[2px] bg-gradient-to-b from-blue-400 to-cyan-400 shadow-[0_0_20px_#3b82f6] transition-all duration-500 ease-out z-[2]"
+                className="absolute left-0 w-[2px] bg-gradient-to-b from-blue-400 to-cyan-400 shadow-[0_0_20px_#3b82f6] z-[2]"
                 style={{
+                  top: eduActiveTop,
                   height: eduActiveHeight,
                 }}
               ></div>
@@ -498,13 +526,17 @@ const Journey = () => {
             >
               {/* Background Path Line */}
               <div 
-                className="absolute right-0 top-0 w-[2px] bg-white/[0.05] z-0"
-                style={{ height: expLineHeight }}
+                className="absolute right-0 w-[2px] bg-white/[0.05] z-0"
+                style={{
+                  top: expActiveTop,
+                  height: expLineHeight,
+                }}
               ></div>
               {/* Drawing Progress Line */}
               <div
-                className="absolute right-0 top-0 w-[2px] bg-gradient-to-b from-purple-400 to-fuchsia-400 shadow-[0_0_20px_#a855f7] transition-all duration-500 ease-out z-[2]"
+                className="absolute right-0 w-[2px] bg-gradient-to-b from-purple-400 to-fuchsia-400 shadow-[0_0_20px_#a855f7] z-[2]"
                 style={{
+                  top: expActiveTop,
                   height: expActiveHeight,
                 }}
               ></div>
