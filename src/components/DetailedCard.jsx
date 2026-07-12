@@ -296,28 +296,19 @@ const DetailCard = ({ project, onClose }) => {
       >
         {/* FIXED HEADER */}
         <header
-          className={`p-6 pb-4 border-b flex justify-between items-start transition-colors flex-shrink-0 ${
+          className={`p-6 pb-1 flex justify-between items-start transition-colors flex-shrink-0 z-10 ${
             theme === "dark"
-              ? "border-zinc-800/50 bg-gradient-to-b from-zinc-900/20 to-transparent"
-              : "border-zinc-200 bg-zinc-50/50"
+              ? "bg-gradient-to-b from-zinc-900/20 to-transparent"
+              : "bg-zinc-50/50"
           }`}
         >
-          <div>
-            <h1
-              className={`text-2xl font-bold tracking-tight mb-1 ${
-                theme === "dark" ? "text-white" : "text-zinc-900"
-              }`}
-            >
-              {project.title}
-            </h1>
-            <p
-              className={`text-[15px] font-medium max-w-3xl ${
-                theme === "dark" ? "text-zinc-400" : "text-zinc-500"
-              }`}
-            >
-              {project.tagline}
-            </p>
-          </div>
+          <h1
+            className={`text-2xl font-bold tracking-tight ${
+              theme === "dark" ? "text-white" : "text-zinc-900"
+            }`}
+          >
+            {project.title}
+          </h1>
           <button
             onClick={onClose}
             className={`transition-all p-2 rounded-xl flex-shrink-0 ${
@@ -334,9 +325,18 @@ const DetailCard = ({ project, onClose }) => {
         <div 
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar"
+          className="flex-1 overflow-y-auto px-6 pb-6 custom-scrollbar"
           style={{ paddingBottom: footerHeight ? `${footerHeight + 24}px` : '24px' }}
         >
+          <div className={`pb-4 mb-8 border-b ${theme === "dark" ? "border-zinc-800/50" : "border-zinc-200"}`}>
+            <p
+              className={`text-[15px] font-medium max-w-3xl ${
+                theme === "dark" ? "text-zinc-400" : "text-zinc-500"
+              }`}
+            >
+              {project.tagline}
+            </p>
+          </div>
           {/* SINGLE COLUMN LAYOUT FOR EXTENDED CONTENT FLOW */}
           <div className="space-y-8">
             {/* 1. SCREENSHOT GALLERY (Centered with max-width limit on desktop) */}
