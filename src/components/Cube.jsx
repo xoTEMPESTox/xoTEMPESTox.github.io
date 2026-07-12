@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Github, ExternalLink } from "lucide-react";
+import { Github, ExternalLink, FileText } from "lucide-react";
 import { useTheme } from "./HeaderBackground";
 
 import { TECH_ICON_MAP } from "../constants/techIcons";
@@ -203,12 +203,8 @@ const TopFaceContent = ({ item, toggleLight, onViewDetails }) => {
               : "bg-black text-white hover:shadow-black/20"
               }`}
           >
-            <span className="relative z-10 text-xl group-hover:text-white transition-colors rounded-full flex items-center gap-2 px-4 py-2">
+            <span className="relative z-10 text-xl group-hover:text-white transition-colors rounded-full flex items-center justify-center px-4 py-2">
               View Details
-              <ExternalLink
-                size={12}
-                className="group-hover:translate-x-0.5 transition-transform"
-              />
             </span>
             <div
               className={`absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-full ${theme === "dark"
@@ -514,14 +510,23 @@ const Cube = React.memo(
                     e.stopPropagation();
                   }}
                 >
-                  <div className="h-14 flex items-center justify-center px-1">
-                    <span className={`font-bold uppercase tracking-wider whitespace-nowrap transition-colors ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>
-                      {/* Mobile text */}
-                      <span className="text-[9px] min-[1265px]:hidden">🔒 PROPRIETARY PROJECT</span>
-                      {/* Desktop text */}
-                      <span className="hidden min-[1265px]:inline text-[10px]">🔒 PROPRIETARY PROJECT</span>
-                    </span>
-                  </div>
+                  {/* Case Study Button: Circular icon button representing the detailed Case Study */}
+                  <a
+                    href={`#${item.id}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onViewDetails(item);
+                    }}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onTouchStart={(e) => e.stopPropagation()}
+                    className={`w-14 h-14 flex items-center justify-center rounded-full transition-all transform hover:scale-110 border cursor-pointer ${theme === "dark"
+                      ? "bg-white hover:bg-zinc-200 text-black border-black/10 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                      : "bg-white hover:bg-zinc-50 text-zinc-900 border-zinc-200 shadow-md"
+                      }`}
+                    style={{ pointerEvents: "auto", textDecoration: "none" }}
+                  >
+                    <FileText size={18} />
+                  </a>
                 </div>
               )}
 

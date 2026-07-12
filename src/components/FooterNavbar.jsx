@@ -8,7 +8,7 @@ const navItems = [
   { to: "/about", label: "About", icon: "help-circledicon-" },
   { to: "/journey", label: "Journey", icon: "chart-baricon-" },
   { to: "/skills", label: "Skills", icon: "toolsicon-" },
-  { to: "/services", label: "Services", icon: "clipboardicon-" },
+  // { to: "/services", label: "Services", icon: "clipboardicon-" }, // Hidden Temporarily For better Focus on FTE Roles and reducing clutter 
   { to: "/projects", label: "Projects", icon: "briefcaseicon-" },
   { to: "/socials", label: "Socials", icon: "linkicon-" },
 ];
@@ -19,15 +19,15 @@ const FooterNavbar = ({ onNavigate, shouldHide }) => {
 
   const [glowPosition, setGlowPosition] = useState({ x: 0, y: 0, opacity: 0 });
 
-    // ... inside your component
-const [isMobile, setIsMobile] = useState(false);
+  // ... inside your component
+  const [isMobile, setIsMobile] = useState(false);
 
-useEffect(() => {
-  const handleResize = () => setIsMobile(window.innerWidth < 768);
-  handleResize(); // Check on mount
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Handle mouse movement to update the grey glow position
   const handleMouseMove = (e) => {
@@ -105,13 +105,11 @@ useEffect(() => {
                 <div className="relative flex items-center justify-center w-12 h-12">
                   {/* 1. Active State Background Gradient */}
                   <div
-                    className={`absolute -inset-2 rounded-full blur-md transition-opacity duration-500 ease-out ${
-                      isActive ? "opacity-100" : "opacity-0"
-                    } ${
-                      theme === "light"
+                    className={`absolute -inset-2 rounded-full blur-md transition-opacity duration-500 ease-out ${isActive ? "opacity-100" : "opacity-0"
+                      } ${theme === "light"
                         ? "bg-gradient-to-r from-blue-400 to-purple-400"
                         : "bg-gradient-to-r from-blue-500/60 to-purple-500/60"
-                    }`}
+                      }`}
                   ></div>
 
                   {/* 2. Content Wrapper (Grid used to stack Icon and Text exactly on top of each other) */}
@@ -123,27 +121,25 @@ useEffect(() => {
                         absolute inset-0 flex items-center justify-center
                         transition-all duration-300 ease-spring
                         transform group-hover:scale-50 group-hover:opacity-0 group-hover:-translate-y-2
-                        ${
-                          isActive
-                            ? theme === "light"
-                              ? "text-blue-600"
-                              : "text-white"
-                            : "text-gray-400 group-hover:text-transparent"
+                        ${isActive
+                          ? theme === "light"
+                            ? "text-blue-600"
+                            : "text-white"
+                          : "text-gray-400 group-hover:text-transparent"
                         }
                       `}
                     >
                       {/* Using Lucide Icons for demo compatibility. 
                              If you use font-icons, replace <IconComponent /> with <span className={item.icon} /> */}
                       <span
-                        className={`demo-icon ${item.icon} block leading-none relative z-10 transition-colors duration-300 ${
-                          isActive
-                            ? theme === "light"
-                              ? "text-black"
-                              : "text-white" // Blue in light, White in dark
-                            : theme === "light"
-                              ? "text-gray-500 group-hover:text-black"
-                              : "text-gray-400 group-hover:text-white"
-                        }`}
+                        className={`demo-icon ${item.icon} block leading-none relative z-10 transition-colors duration-300 ${isActive
+                          ? theme === "light"
+                            ? "text-black"
+                            : "text-white" // Blue in light, White in dark
+                          : theme === "light"
+                            ? "text-gray-500 group-hover:text-black"
+                            : "text-gray-400 group-hover:text-white"
+                          }`}
                       ></span>
                     </span>
 
@@ -169,7 +165,7 @@ useEffect(() => {
       </div>
 
       {/* Grey Cursor Glow Effect */}
-      {!isMobile &&  <div
+      {!isMobile && <div
         className="cursor-glow"
         style={{
           left: `${glowPosition.x}px`,
@@ -182,7 +178,7 @@ useEffect(() => {
         }}
       ></div>
       }
-     
+
     </div>
   );
 };
