@@ -57,6 +57,101 @@ const DetailCard = ({ project, onClose }) => {
   const [showFullscreen, setShowFullscreen] = useState(false);
   const mainImgRef = useRef(null);
 
+  // --- Footer Overlay State & Logic ---
+  const [showFooter, setShowFooter] = useState(true);
+  const [footerHeight, setFooterHeight] = useState(0);
+  const footerRef = useRef(null);
+  const scrollContainerRef = useRef(null);
+  const lastScrollY = useRef(0);
+  const hideTimerRef = useRef(null);
+  const lastInteractionTime = useRef(0);
+
+  const resetHideTimer = useCallback(() => {
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current);
+    }
+    
+    const isPublic = project?.links?.github_link || project?.links?.live_link;
+    const isMobile = window.innerWidth < 768;
+    
+    let timerDuration = 5000;
+    if (isPublic) {
+      timerDuration = isMobile ? 5000 : 7000;
+    } else {
+      timerDuration = isMobile ? 3000 : 5000;
+    }
+    
+    hideTimerRef.current = setTimeout(() => {
+      setShowFooter(false);
+    }, timerDuration);
+  }, [project]);
+
+  // Initialize timer on mount and cleanup
+  useEffect(() => {
+    resetHideTimer();
+    return () => {
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    };
+  }, [resetHideTimer]);
+
+  // Measure footer height dynamically
+  useEffect(() => {
+    if (footerRef.current) {
+      setFooterHeight(footerRef.current.offsetHeight);
+    }
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        setFooterHeight(entry.target.offsetHeight);
+      }
+    });
+    if (footerRef.current) resizeObserver.observe(footerRef.current);
+    return () => resizeObserver.disconnect();
+  }, [project.id]);
+
+  const handleScroll = (e) => {
+    const currentScrollY = e.target.scrollTop;
+    const scrollHeight = e.target.scrollHeight;
+    const clientHeight = e.target.clientHeight;
+    
+    // FIX: Handle browser overscroll/bounce at the top
+    if (currentScrollY <= 0) {
+      setShowFooter(true);
+      resetHideTimer();
+      lastScrollY.current = currentScrollY <= 0 ? 0 : currentScrollY;
+      return;
+    }
+
+    // Check if we hit the absolute bottom (with small threshold for sub-pixel rounding)
+    const isAtBottom = currentScrollY + clientHeight >= scrollHeight - 5;
+    
+    if (currentScrollY > lastScrollY.current) {
+      // Scrolling down
+      if (!isAtBottom) {
+        setShowFooter(false);
+        if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      } else {
+        setShowFooter(true);
+        resetHideTimer();
+      }
+    } else if (currentScrollY < lastScrollY.current) {
+      // Scrolling up
+      setShowFooter(true);
+      resetHideTimer();
+    }
+    
+    lastScrollY.current = currentScrollY;
+  };
+  
+  const handleInteraction = () => {
+    if (showFooter) {
+      const now = Date.now();
+      if (now - lastInteractionTime.current > 200) {
+        resetHideTimer();
+        lastInteractionTime.current = now;
+      }
+    }
+  };
+
   const [imgStyle, setImgStyle] = useState({
     maxWidth: "100%",
     maxHeight: "42vh",
@@ -187,12 +282,17 @@ const DetailCard = ({ project, onClose }) => {
       onClick={onClose}
     >
       <div
-        className={`w-full max-w-5xl h-[85vh] border rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-300 transition-colors ${
+        className={`relative w-full max-w-5xl h-[85vh] border rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-300 transition-colors ${
           theme === "dark"
             ? "bg-zinc-950 border-zinc-800 text-zinc-200"
             : "bg-white border-zinc-200 text-zinc-800"
         }`}
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleInteraction();
+        }}
+        onMouseMove={handleInteraction}
+        onTouchStart={handleInteraction}
       >
         {/* FIXED HEADER */}
         <header
@@ -231,7 +331,12 @@ const DetailCard = ({ project, onClose }) => {
         </header>
 
         {/* SCROLLABLE BODY */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar"
+          style={{ paddingBottom: footerHeight ? `${footerHeight + 24}px` : '24px' }}
+        >
           {/* SINGLE COLUMN LAYOUT FOR EXTENDED CONTENT FLOW */}
           <div className="space-y-8">
             {/* 1. SCREENSHOT GALLERY (Centered with max-width limit on desktop) */}
@@ -396,11 +501,15 @@ const DetailCard = ({ project, onClose }) => {
 
         {/* FIXED FOOTER */}
         <footer
-          className={`p-6 border-t flex gap-4 transition-colors flex-shrink-0 ${
+          ref={footerRef}
+          className={`absolute bottom-0 left-0 right-0 p-6 border-t flex gap-4 transition-transform duration-[625ms] ease-[cubic-bezier(0.4,0,0.2,1)] z-20 backdrop-blur-md ${
             theme === "dark"
-              ? "border-zinc-800/50 bg-zinc-950/60"
-              : "border-zinc-200 bg-zinc-50/60"
+              ? "border-zinc-800/50 bg-zinc-950/80"
+              : "border-zinc-200 bg-zinc-50/80"
           }`}
+          style={{
+            transform: showFooter ? "translateY(0)" : "translateY(120%)",
+          }}
         >
           {project.links.github_link || project.links.live_link ? (
             <>
