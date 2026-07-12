@@ -102,7 +102,6 @@ const Projects = () => {
     return initialIndex;
   });
 
-  const [isDragging, setIsDragging] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(true);
 
   const containerRef = useRef(null);
@@ -232,10 +231,12 @@ const Projects = () => {
   const handleDragStart = (clientX) => {
     stopAutoSlide();
     draggingRef.current = true;
-    setIsDragging(true);
     startXRef.current = clientX;
     setIsTransitioning(false);
     currentTranslateRef.current = getTranslation(activeIndex);
+    if (wrapperRef.current) {
+      wrapperRef.current.style.pointerEvents = "none";
+    }
   };
 
   const handleDragMove = (clientX) => {
@@ -249,7 +250,10 @@ const Projects = () => {
   const handleDragEnd = (clientX) => {
     if (!draggingRef.current) return;
     draggingRef.current = false;
-    setIsDragging(false);
+    
+    if (wrapperRef.current) {
+      wrapperRef.current.style.pointerEvents = "auto";
+    }
 
     const delta = clientX - startXRef.current;
 
@@ -364,7 +368,6 @@ const Projects = () => {
                   <Cube
                     item={item}
                     onViewDetails={setSelectedProject}
-                    isDragging={isDragging}
                     isScrolling={isTransitioning}
                     width={cubeWidth}
                     height={cubeWidth}
@@ -395,6 +398,74 @@ const Projects = () => {
       />
 
       <style>{`
+        @keyframes rotate {
+          100% {
+            transform: rotate(1turn);
+          }
+        }
+
+        .rainbow-border {
+          position: relative;
+          isolation: isolate;
+        }
+
+        .rainbow-border::before {
+          content: '';
+          position: absolute;
+          z-index: -1;
+          inset: -6px;
+          background-repeat: no-repeat;
+          background-size: 50% 50%, 50% 50%;
+          background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+          background-image: ${
+            theme === "dark"
+              ? "linear-gradient(#6366f1, #6366f1), linear-gradient(#8b5cf6, #8b5cf6), linear-gradient(#06b6d4, #06b6d4), linear-gradient(#4f46e5, #4f46e5)"
+              : "linear-gradient(#3b82f6, #3b82f6), linear-gradient(#8b5cf6, #8b5cf6), linear-gradient(#06b6d4, #06b6d4), linear-gradient(#4f46e5, #4f46e5)"
+          };
+          border-radius: calc(2rem + 6px);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          pointer-events: none;
+        }
+
+        .rainbow-border-active::before {
+          animation: rotate 2s ease-out 1 forwards;
+          opacity: 1;
+        }
+
+        .shutter-overlay {
+          box-shadow: 
+            inset 0 0 0 transparent, 
+            inset 0 0 0 transparent, 
+            inset 0 0 0 transparent, 
+            inset 0 0 0 transparent;
+          transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+          pointer-events: none;
+          opacity: 0;
+        }
+
+        /* Trigger shutter on hover (when isHovered is true) */
+        .shutter-active .shutter-overlay {
+          box-shadow: 
+            inset -${cubeWidth}px -${cubeWidth}px 0 ${theme === "dark" ? "#000" : "#1e293b"}, 
+            inset ${cubeWidth}px -${cubeWidth}px 0 ${theme === "dark" ? "#4f46e5" : "#3b82f6"}, 
+            inset -${cubeWidth}px ${cubeWidth}px 0 ${theme === "dark" ? "#0891b2" : "#06b6d4"}, 
+            inset ${cubeWidth}px ${cubeWidth}px 0 ${theme === "dark" ? "#7c3aed" : "#8b5cf6"};
+          opacity: 1;
+        }
+
+        .shutter-content {
+          opacity: 0;
+          transform: scale(0.9) translateY(10px);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .shutter-active .shutter-content {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+          transition-delay: 0.15s;
+        }
+
         .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
         .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
       `}</style>

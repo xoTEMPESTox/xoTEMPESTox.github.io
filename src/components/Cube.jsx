@@ -236,7 +236,6 @@ const Cube = React.memo(
   ({
     item,
     onViewDetails,
-    isDragging,
     isScrolling,
     width,
     height,
@@ -297,7 +296,7 @@ const Cube = React.memo(
     const translateZ = width / 2;
 
     // Optimize: Disable pointer events during scroll/drag to prevent expensive hover calcs
-    const isInteracting = isDragging || isScrolling;
+    const isInteracting = isScrolling;
 
     return (
       <>
@@ -321,76 +320,6 @@ const Cube = React.memo(
               pointerEvents: "none",
             }}
           >
-            {/* Shutter Animation Styles */}
-            <style>{`
-            @keyframes rotate {
-              100% {
-                transform: rotate(1turn);
-              }
-            }
-
-            .rainbow-border {
-              position: relative;
-              isolation: isolate;
-            }
-
-            .rainbow-border::before {
-              content: '';
-              position: absolute;
-              z-index: -1;
-              inset: -6px;
-              background-repeat: no-repeat;
-              background-size: 50% 50%, 50% 50%;
-              background-position: 0 0, 100% 0, 100% 100%, 0 100%;
-              background-image: ${theme === "dark"
-                ? "linear-gradient(#6366f1, #6366f1), linear-gradient(#8b5cf6, #8b5cf6), linear-gradient(#06b6d4, #06b6d4), linear-gradient(#4f46e5, #4f46e5)"
-                : "linear-gradient(#3b82f6, #3b82f6), linear-gradient(#8b5cf6, #8b5cf6), linear-gradient(#06b6d4, #06b6d4), linear-gradient(#4f46e5, #4f46e5)"
-              };
-              border-radius: calc(2rem + 6px);
-              opacity: 0;
-              transition: opacity 0.3s ease;
-              pointer-events: none;
-            }
-
-            .rainbow-border-active::before {
-             animation: rotate 2s ease-out 1 forwards;
-              opacity: 1;
-            }
-
-            .shutter-overlay {
-              box-shadow: 
-                inset 0 0 0 transparent, 
-                inset 0 0 0 transparent, 
-                inset 0 0 0 transparent, 
-                inset 0 0 0 transparent;
-              transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-              pointer-events: none;
-              opacity: 0;
-            }
-
-            /* Trigger shutter on hover (when isHovered is true) */
-            .shutter-active .shutter-overlay {
-              box-shadow: 
-                inset -${width}px -${width}px 0 ${theme === "dark" ? "#000" : "#1e293b"}, 
-                inset ${width}px -${width}px 0 ${theme === "dark" ? "#4f46e5" : "#3b82f6"}, 
-                inset -${width}px ${width}px 0 ${theme === "dark" ? "#0891b2" : "#06b6d4"}, 
-                inset ${width}px ${width}px 0 ${theme === "dark" ? "#7c3aed" : "#8b5cf6"};
-              opacity: 1;
-            }
-
-            .shutter-content {
-              opacity: 0;
-              transform: scale(0.9) translateY(10px);
-              transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            .shutter-active .shutter-content {
-              opacity: 1;
-              transform: scale(1) translateY(0);
-              transition-delay: 0.15s;
-            }
-          `}</style>
-
             {/* FRONT FACE (Links) */}
             <div
               className={`rainbow-border h-[100%] ${isHovered ? "rainbow-border-active" : ""} absolute inset-0 border-2 rounded-4xl flex items-end justify-between gap-4 backface-hidden backdrop-blur-sm transition-colors duration-300 ${theme === "dark"
@@ -539,27 +468,29 @@ const Cube = React.memo(
             </div>
 
             {/* TOP FACE (3D Animation Version) */}
-            <div
-              className="absolute inset-0 backface-hidden"
-              style={{
-                transform: `rotateX(90deg) translateZ(${translateZ}px)`,
-                // Hide this face once the 2D overlay takes over to prevent double-rendering/z-fighting
-                visibility:
-                  isLightOn && !interactionReady ? "visible" : "hidden",
-                pointerEvents: "none", // This version is purely for animation
-                backfaceVisibility: "hidden",
-              }}
-            >
-              <TopFaceContent
-                item={item}
-                toggleLight={toggleLight}
-                onViewDetails={onViewDetails}
-              />
-            </div>
+            {isVisible && (
+              <div
+                className="absolute inset-0 backface-hidden"
+                style={{
+                  transform: `rotateX(90deg) translateZ(${translateZ}px)`,
+                  // Hide this face once the 2D overlay takes over to prevent double-rendering/z-fighting
+                  visibility:
+                    isLightOn && !interactionReady ? "visible" : "hidden",
+                  pointerEvents: "none", // This version is purely for animation
+                  backfaceVisibility: "hidden",
+                }}
+              >
+                <TopFaceContent
+                  item={item}
+                  toggleLight={toggleLight}
+                  onViewDetails={onViewDetails}
+                />
+              </div>
+            )}
           </div>
 
           {/* 2D INTERACTION OVERLAY (Stable Click Target) */}
-          {interactionReady && (
+          {interactionReady && isVisible && (
             <div
               className="absolute inset-0 z-50 animate-in fade-in duration-200"
               style={{ pointerEvents: "auto" }}
